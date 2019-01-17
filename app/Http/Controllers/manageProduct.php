@@ -37,6 +37,7 @@ class manageProduct extends Controller
         $prodType =  r_product_type::all();
         $taxProf =  r_tax_table_profile::all();
         $prodInfo = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')->get();
+        (Auth::user()->role=='admin')?'':$prodInfo=$prodInfo->where('AFF_ID',Auth::user()->AFF_ID);
 
         return view('pages.products.table-product',compact('prodType','prodInfo','taxProf','aff'));
     }
@@ -297,7 +298,7 @@ class manageProduct extends Controller
     }
     public function ProductVar(Request $request){
 
-        try{
+//        try{
             $lastID= array();
             for($i=0; $i < count($request->get('prodvarname'));$i++){
                 if($request->prodVarID[$i] == 0) {
@@ -308,6 +309,8 @@ class manageProduct extends Controller
                         $inv->INV_QTY = $request->inv_qty[$i];
                         $inv->INV_TYPE = 'CAPITAL';
                         $inv->PROD_ID = $request->prodID;
+                        $inv->PRODV_ID = $prodVar->PRODV_ID;
+                        $inv->save();
                     }
                 }
                 else if($request->prodVarID[$i] != 0) {
@@ -328,17 +331,15 @@ class manageProduct extends Controller
                     $prodVar->PRODV_IMG ='uploads/' . $imageName;
                 }
                 $prodVar->save();
-                $inv->PRODV_ID = $prodVar->PRODV_ID;
-                $inv->save();
                 array_push($lastID,$prodVar->PRODV_ID);
                 array_push($lastID,$request->prodVarID[$i]);
             }
             t_product_variance::whereNotIn('PRODV_ID',$lastID)->Where('PROD_ID','=',$request->prodID)->delete();
             return redirect()->back()->with('success', 'Successfully product variance record is/are updated!');
-        }catch (\Exception $e){
-//            return redirect()->back()->with('error',$e->getCode());
-            return $e->getMessage().$e->getLine().count($request->get('prodVarID'));
-        }
+//        }catch (\Exception $e){
+////            return redirect()->back()->with('error',$e->getCode());
+//            return $e->getMessage().$e->getLine().count($request->get('prodVarID'));
+//        }
 
     }
     public function showProductVar($id){

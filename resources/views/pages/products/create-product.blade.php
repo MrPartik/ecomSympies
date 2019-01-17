@@ -200,7 +200,7 @@
 
         $('select[name=affiliate]').on('change',function(){
 
-            $('input[name="prodcode"]').val('{{date('Y')}}-'+$('select[name=affiliate] option:selected').text().substring(0,3).toUpperCase()+'-'+padDigits($(this).val(),5)+'-{{DB::Table('R_PRODUCT_INFOS')
+                $('input[name="prodcode"]').val('{{date('Y')}}-'+$('select[name=affiliate] option:selected').text().substring(0,3).toUpperCase()+'-'+padDigits($(this).val(),5)+'-{{DB::Table('R_PRODUCT_INFOS')
             ->get()->count()+1}}');
         });
 

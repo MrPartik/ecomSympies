@@ -103,13 +103,15 @@
                                         {{--{{ ($item->PROD_APPROVED_AT=='')?'':(new DateTime($item->PROD_APPROVED_AT))->format('D M d, Y | h:i A') }}--}}
                                         <div class="btn-group">
                                             @if($item->PROD_DISPLAY_STATUS==1)
-                                                @if(is_null($item->PROD_IS_APPROVED))
-                                                    <a href="#approve" data-toggle="modal" class="btn btn-success" id="app" vals="{{$item->PROD_ID}}"><i class="fa fa-thumbs-up"></i></a>
-                                                    <a href="#disapprove" data-toggle="modal" class="btn btn-danger" id="disap" vals="{{$item->PROD_ID}}" ><i class="fa fa-thumbs-down"></i></a>
-                                                @elseif($item->PROD_IS_APPROVED==0)
-                                                    <a href="#approve" data-toggle="modal" class="btn btn-success" id="app"  vals="{{$item->PROD_ID}}"><i class="fa fa-thumbs-up"></i></a>
-                                                @elseif($item->PROD_IS_APPROVED==1)
-                                                    <a href="#disapprove" data-toggle="modal"  class="btn btn-danger" id="disap" vals="{{$item->PROD_ID}}"><i class="fa fa-thumbs-down"></i></a>
+                                                @if(Auth::user()->role=='admin')
+                                                    @if(is_null($item->PROD_IS_APPROVED))
+                                                        <a href="#approve" data-toggle="modal" class="btn btn-success" id="app" vals="{{$item->PROD_ID}}"><i class="fa fa-thumbs-up"></i></a>
+                                                        <a href="#disapprove" data-toggle="modal" class="btn btn-danger" id="disap" vals="{{$item->PROD_ID}}" ><i class="fa fa-thumbs-down"></i></a>
+                                                    @elseif($item->PROD_IS_APPROVED==0)
+                                                        <a href="#approve" data-toggle="modal" class="btn btn-success" id="app"  vals="{{$item->PROD_ID}}"><i class="fa fa-thumbs-up"></i></a>
+                                                    @elseif($item->PROD_IS_APPROVED==1)
+                                                        <a href="#disapprove" data-toggle="modal"  class="btn btn-danger" id="disap" vals="{{$item->PROD_ID}}"><i class="fa fa-thumbs-down"></i></a>
+                                                    @endif
                                                 @endif
                                                 <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown">
                                                     More
@@ -250,28 +252,6 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {{--<tr>--}}
-                                {{--<td class="hidden"><input  name="prodVarID[]" value="0" class="hidden"></td>--}}
-                                {{--<td><input type="text" placeholder="Product Variance Name" name="prodvarname[]" class="form-control" required></td>--}}
-                                {{--<td><div class="input-group">--}}
-                                {{--<input type="number" placeholder="0" name="addprice[]" class="form-control" value=0 required>--}}
-                                {{--<div class="input-group-addon">--}}
-                                {{--<i class="fa fa-money"></i>--}}
-                                {{--</div>--}}
-                                {{--</div>--}}
-                                {{--</td>--}}
-                                {{--<td><input class="form-control" name=prodvarimg[] type="file"></td>--}}
-                                {{--<td><textarea class="form-control" name=prodvardesc[] style="resize:vertical; width:100%;height:36px" placeholder="Product Description" required></textarea></td>--}}
-                                {{--<td>--}}
-                                {{--<div class="input-group">--}}
-                                {{--<input type="number" placeholder="0" name="prod_qty[]" class="form-control" required >--}}
-                                {{--<div class="input-group-addon">--}}
-                                {{--#--}}
-                                {{--</div>--}}
-                                {{--</div>--}}
-                                {{--</td>--}}
-                                {{--<td><a class="btn btn-danger" onclick="if($('#prodvartable tbody tr').length>1)$(this).closest('tr').remove()"><i class="fa fa-minus"></i></a></td>--}}
-                                {{--</tr>--}}
                                 </tbody>
                                 <tfoot>
                                 <tr>
@@ -394,12 +374,9 @@
                             '                </td>\n' +
                             '                <td><input  class="form-control" name=prodvarimg[] type="file"></td>\n' +
                             '                <td><textarea class="form-control" name=prodvardesc[] style="resize:vertical; width:100%;height:36px" placeholder="Product Description" required>'+$data.data[index].PRODV_DESC+'</textarea></td>\n' +
-                            '            <td><div class="input-group">\n' +
-                            '                <input value="'+$data.data[index].PRODV_QTY+'"  type="number" placeholder="0" name="inv_qty[]" class="form-control" required>\n' +
-                            '            <div class="input-group-addon">\n' +
-                            '                #\n' +
-                            '                </div>\n' +
-                            '                </div>\n' +
+                            '            <td><div class="input-group"><center>\n' +
+                            '                '+$data.data[index].PRODV_QTY+'\n' +
+                            '                </center></div>\n' +
                             '                </td>\n' +
                             '            <td><a class="btn btn-danger" onclick="if($(\'#prodvartable tbody tr\').length>1)$(this).closest(\'tr\').remove()"><i class="fa fa-minus text-white"></i></a></td>\n' +
                             '            </tr>'

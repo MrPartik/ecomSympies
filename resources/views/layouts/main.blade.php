@@ -67,7 +67,7 @@
                                 <i class="fab fa-facebook-messenger text-primary media-object-icon"></i>
                             </div>
                             <div class="media-body">
-                                <h6 class="media-heading">John Smith</h6>
+                                <h6 class="media-heading">{{Auth::user()->name}}</h6>
                                 <p>Quisque pulvinar tellus sit amet sem scelerisque tincidunt.</p>
                                 <div class="text-muted f-s-11">25 minutes ago</div>
                             </div>
@@ -81,8 +81,8 @@
             </li>
             <li class="dropdown navbar-user">
                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="../assets/img/user/user-13.jpg" alt="" />
-                    <span class="d-none d-md-inline">John Patrick Loyola</span> <b class="caret"></b>
+                    <img src="{{ Avatar::create(Auth::user()->name)->toBase64() }}" alt="" />
+                    <span class="d-none d-md-inline">{{Auth::user()->name}}</span> <b class="caret"></b>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a href="javascript:;" class="dropdown-item">Edit Profile</a>
@@ -90,7 +90,13 @@
                     <a href="javascript:;" class="dropdown-item">Calendar</a>
                     <a href="javascript:;" class="dropdown-item">Setting</a>
                     <div class="dropdown-divider"></div>
-                    <a href="javascript:;" class="dropdown-item">Log Out</a>
+                    <a href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();" class="dropdown-item">Sign out</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                          style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
                 </div>
             </li>
         </ul>
@@ -108,11 +114,11 @@
                     <a href="javascript:;" data-toggle="nav-profile">
                         <div class="cover with-shadow"></div>
                         <div class="image">
-                            <img src="../assets/img/user/user-13.jpg" alt="" />
+                            <img src="{{ Avatar::create(Auth::user()->name)->toBase64() }}" alt="" />
                         </div>
                         <div class="info">
                             <b class="caret pull-right"></b>
-                            John Patrick Loyola
+                            {{Auth::user()->name}}
                             <small>Front end developer</small>
                         </div>
                     </a>
@@ -130,8 +136,8 @@
             <ul class="nav">
                 <li class="nav-header">Navigation</li>
 
-                <li class="{{Request::is('admin/dashboard')?'active':''}}">
-                    <a href="{{url('admin/dashboard')}}">
+                <li class="{{Request::is('dashboard')?'active':''}}">
+                    <a href="{{url('dashboard')}}">
                         <i class="fa fa-th-large"></i>
                         <span>Dashboard </span>
                     </a>
@@ -162,6 +168,20 @@
                         <span>Manage Tax </span>
                     </a>
                 </li>
+
+                <li class="has-sub {{(Request::is('users')||Request::is('affiliates'))?'active':''}}">
+                    <a href="javascript:;">
+                        <b class="caret"></b>
+                        <i class="fa fa-users"></i>
+                        <span>Manage Users</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="{{Request::is('affiliates')?'active':''}}"><a href="{{url('affiliates')}}">Affiliate's List</a></li>
+                        <li class="{{Request::is('users')?'active':''}}"><a href="{{url('users')}}">User's List</a></li>
+
+                    </ul>
+                </li>
+
 
                 <!-- begin sidebar minify button -->
                 <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>

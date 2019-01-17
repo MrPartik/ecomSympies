@@ -3,8 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
-class checkAuth
+class Authenticate
 {
     /**
      * Handle an incoming request.
@@ -15,7 +16,10 @@ class checkAuth
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        if (Auth::user())
+            return $next($request);
+        else
+            return redirect('/login');
 
     }
 }
