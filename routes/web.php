@@ -27,12 +27,13 @@ Route::group(['middleware' => ['authenticate']], function() {
 
     Route::get('/product/category/create/{type}','manageProductCategory@create');
     Route::post('/tax/actDeact','manageTax@actDeact');
-    Route::resource('/product/list', 'manageProduct');
-    Route::resource('/product/category', 'manageProductCategory');
-    Route::resource('/tax', 'manageTax');
-    Route::resource('/dashboard', 'manageDashboard');
-    Route::resource('/users', 'manageUsers');
-    Route::resource('/affiliates', 'manageAffiliates');
+
+    Route::resource('/product/list', 'manageProduct',['names'=>['index'=>'prodList','create'=>'prodList','edit'=>'prodList']]);
+    Route::resource('/product/category', 'manageProductCategory',['names'=>['index'=>'prodCat','create'=>'prodCat','edit'=>'prodCat']]);
+    Route::resource('/tax', 'manageTax',['names'=>['index'=>'tax','create'=>'tax','edit'=>'tax']]);
+    Route::resource('/dashboard', 'manageDashboard',['names'=>['index'=>'dashboard','create'=>'dashboard','edit'=>'dashboard']]);
+    Route::resource('/users', 'manageUsers',['names'=>['index'=>'user','create'=>'user','edit'=>'user']]);
+    Route::resource('/affiliates', 'manageAffiliates',['names'=>['index'=>'affiliates','create'=>'affiliates','edit'=>'affiliates']]);
 
 
 
