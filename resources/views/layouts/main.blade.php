@@ -105,93 +105,15 @@
     <!-- end #header -->
 
     <!-- begin #sidebar -->
-    <div id="sidebar" class="sidebar">
-        <!-- begin sidebar scrollbar -->
-        <div data-scrollbar="true" data-height="100%">
-            <!-- begin sidebar user -->
-            <ul class="nav">
-                <li class="nav-profile">
-                    <a href="javascript:;" data-toggle="nav-profile">
-                        <div class="cover with-shadow"></div>
-                        <div class="image">
-                            <img src="{{ Avatar::create(Auth::user()->name)->toBase64() }}" alt="" />
-                        </div>
-                        <div class="info">
-                            <b class="caret pull-right"></b>
-                            {{Auth::user()->name}}
-                            <small>Front end developer</small>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <ul class="nav nav-profile">
-                        <li><a href="javascript:;"><i class="fa fa-cog"></i> Settings</a></li>
-                        <li><a href="javascript:;"><i class="fa fa-pencil-alt"></i> Send Feedback</a></li>
-                        <li><a href="javascript:;"><i class="fa fa-question-circle"></i> Helps</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <!-- end sidebar user -->
-            <!-- begin sidebar nav -->
-            <ul class="nav">
-                <li class="nav-header">Navigation</li>
-
-                <li class="{{Request::is('dashboard')?'active':''}}">
-                    <a href="{{url('dashboard')}}">
-                        <i class="fa fa-th-large"></i>
-                        <span>Dashboard </span>
-                    </a>
-                </li>
-                {{--<li>--}}
-                    {{--<a href="bootstrap_4.html">--}}
-                        {{--<div class="icon-img">--}}
-                            {{--<img src="../assets/img/logo/logo-bs4.png" alt="" />--}}
-                        {{--</div>--}}
-                        {{--<span>Bootstrap 4 <span class="label label-theme m-l-5">NEW</span></span>--}}
-                    {{--</a>--}}
-                {{--</li>--}}
-                <li class="has-sub {{(Request::is('product/list')||Request::is('product/category'))?'active':''}}">
-                    <a href="javascript:;">
-                        <b class="caret"></b>
-                        <i class="fa fa-gem"></i>
-                        <span>Manage Products</span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li class="{{Request::is('product/list')?'active':''}}"><a href="{{url('product/list')}}">Product List</a></li>
-                        <li class="{{Request::is('product/category')?'active':''}}"><a href="{{url('product/category')}}">Product Category</a></li>
-
-                    </ul>
-                </li>
-                <li class="{{Request::is('tax')?'active':''}}">
-                    <a href="{{url('tax')}}">
-                        <i class="fa fa-gem"></i>
-                        <span>Manage Tax </span>
-                    </a>
-                </li>
-
-                <li class="has-sub {{(Request::is('users')||Request::is('affiliates'))?'active':''}}">
-                    <a href="javascript:;">
-                        <b class="caret"></b>
-                        <i class="fa fa-users"></i>
-                        <span>Manage Users</span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li class="{{Request::is('affiliates')?'active':''}}"><a href="{{url('affiliates')}}">Affiliate's List</a></li>
-                        <li class="{{Request::is('users')?'active':''}}"><a href="{{url('users')}}">User's List</a></li>
-
-                    </ul>
-                </li>
+    @if(Auth::user()->role=='admin')
+        @include('layouts.sidenav.admin')
+    @elseif(Auth::user()->role=='member')
+        @include('layouts.sidenav.member')
+    @endif
 
 
-                <!-- begin sidebar minify button -->
-                <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
-                <!-- end sidebar minify button -->
-            </ul>
-            <!-- end sidebar nav -->
-        </div>
-        <!-- end sidebar scrollbar -->
-    </div>
-    <div class="sidebar-bg"></div>
+
+
     <!-- end #sidebar -->
 
     <!-- begin #content -->

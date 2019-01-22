@@ -7,7 +7,7 @@
     <ol class="breadcrumb pull-right">
         <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
         <li class="breadcrumb-item"><a href="javascript:;">Manage Products</a></li>
-        <li class="breadcrumb-item active">List</li>
+        <li class="breadcrumb-item active">create</li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
@@ -52,26 +52,6 @@
                             {{ csrf_field() }}
                             <div class="row">
 
-                                <div class="col-md-6">
-                                    <label>Product Name</label>
-                                    <div class="input-group m-b-10">
-                                        <div class="input-group-prepend"><span class="input-group-text">*</span></div>
-                                        <input class="form-control" name=prodname placeholder="Product Name" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label>Product Category</label>
-                                    <select class="form-control productType" name="prodtype" style="width: 100%;" required>
-                                        <option selected="selected" value="" disabled>Please Select Product Category</option>
-                                        @foreach($prodType->where('PRODT_PARENT',null)->where('PRODT_DISPLAY_STATUS',1) as $item)
-                                            <optgroup label="{{$item->PRODT_TITLE}}">
-                                                @foreach($prodType->where('PRODT_PARENT',$item->PRODT_ID)->where('PRODT_DISPLAY_STATUS',1) as $item1)
-                                                    <option value="{{$item1->PRODT_ID}}">{{$item1->PRODT_TITLE}}</option>
-                                                @endforeach
-                                            </optgroup>
-                                        @endforeach
-                                    </select>
-                                </div>
                                 <div class="col-md-3">
                                     <label>Product Code</label>
                                     <div class="input-group m-b-10">
@@ -79,7 +59,32 @@
                                         <input class="form-control" name=prodcode readonly="readonly" required>
                                     </div>
                                 </div>
+                                <div class="col-md-9">
+                                    <label>Product Name</label>
+                                    <div class="input-group m-b-10">
+                                        <div class="input-group-prepend"><span class="input-group-text">*</span></div>
+                                        <input class="form-control" name=prodname placeholder="Product Name" required>
+                                    </div>
+                                </div>
 
+
+                                @if(Auth::user()->role=='admin')
+                                    <div class="col-md-3">
+                                        <label>Product Tax</label>
+                                        <select class="form-control productTax" name="prodtax" style="width: 100%;" required>
+                                            <option selected="selected" value="" disabled>Please Select Product Tax</option>
+                                            <optgroup label="Percentage">
+                                                @foreach($taxProf->where('TAXP_TYPE',0) as $item)
+                                                    <option value="{{$item->TAXP_ID}}">{{$item->TAXP_NAME}} - {{$item->TAXP_RATE}}</option>
+                                                @endforeach
+                                            </optgroup>
+                                            <optgroup label="Fixed">
+                                                @foreach($taxProf->where('TAXP_TYPE',1) as $item)
+                                                    <option value="{{$item->TAXP_ID}}">{{$item->TAXP_NAME}} - {{$item->TAXP_RATE}}</option>
+                                                @endforeach
+                                            </optgroup>
+                                        </select>
+                                    </div>
                                 <div class="col-md-3">
                                     <label>Product Base Price</label>
                                     <div class="input-group m-b-10">
@@ -105,6 +110,9 @@
                                         <div class="input-group-append"><span class="input-group-text">%</span></div>
                                     </div>
                                 </div>
+                                @endif
+
+
                                 <div class="col-md-6">
                                     <label>Affiliate</label>
                                     <select class="form-control " name="affiliate" style="width: 100%;" required>
@@ -113,24 +121,21 @@
                                             <option value={{$item->AFF_ID}} >{{$item->AFF_NAME}}</option>
                                         @endforeach
                                     </select>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label>Product Tax</label>
-                                    <select class="form-control productTax" name="prodtax" style="width: 100%;" required>
-                                        <option selected="selected" value="" disabled>Please Select Product Tax</option>
-                                        <optgroup label="Percentage">
-                                            @foreach($taxProf->where('TAXP_TYPE',0) as $item)
-                                                <option value="{{$item->TAXP_ID}}">{{$item->TAXP_NAME}} - {{$item->TAXP_RATE}}</option>
-                                            @endforeach
-                                        </optgroup>
-                                        <optgroup label="Fixed">
-                                            @foreach($taxProf->where('TAXP_TYPE',1) as $item)
-                                                <option value="{{$item->TAXP_ID}}">{{$item->TAXP_NAME}} - {{$item->TAXP_RATE}}</option>
-                                            @endforeach
-                                        </optgroup>
+                                </div><div class="col-md-6">
+                                    <label>Product Category</label>
+                                    <select class="form-control productType" name="prodtype" style="width: 100%;" required>
+                                        <option selected="selected" value="" disabled>Please Select Product Category</option>
+                                        @foreach($prodType->where('PRODT_PARENT',null)->where('PRODT_DISPLAY_STATUS',1) as $item)
+                                            <optgroup label="{{$item->PRODT_TITLE}}">
+                                                @foreach($prodType->where('PRODT_PARENT',$item->PRODT_ID)->where('PRODT_DISPLAY_STATUS',1) as $item1)
+                                                    <option value="{{$item1->PRODT_ID}}">{{$item1->PRODT_TITLE}}</option>
+                                                @endforeach
+                                            </optgroup>
+                                        @endforeach
                                     </select>
                                 </div>
+
+
 
 
                                 <div class="col-md-6">
@@ -199,7 +204,6 @@
         $('select').select2();
 
         $('select[name=affiliate]').on('change',function(){
-
                 $('input[name="prodcode"]').val('{{date('Y')}}-'+$('select[name=affiliate] option:selected').text().substring(0,3).toUpperCase()+'-'+padDigits($(this).val(),5)+'-{{DB::Table('R_PRODUCT_INFOS')
             ->get()->count()+1}}');
         });

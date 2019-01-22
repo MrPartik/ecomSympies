@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title','Create User')
+@section('title','Create Affiliate`s Profile')
 
 @section('content')
     <!-- begin breadcrumb -->

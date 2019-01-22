@@ -84,7 +84,7 @@ class manageAffiliates extends Controller
 
         $aff = r_affiliate_info::where('AFF_ID',$id)->first();
 
-        return view('pages.users.update -affiliates',compact('aff','id'));
+        return view('pages.users.update-affiliates',compact('aff','id'));
     }
 
     /**

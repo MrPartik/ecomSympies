@@ -31,7 +31,7 @@ class RProductInfos extends Migration
             $table->integer('PROD_CRITICAL')->default(100);
             $table->double("PROD_BASE_PRICE",10,2);
             $table->string("PROD_SALES_TAX",20)->default('Exclusive');
-            $table->text("PROD_AVAILABILITY");
+            $table->text("PROD_AVAILABILITY")->nullable();
             $table->boolean("PROD_IS_APPROVED")->nullable();
             $table->dateTime("PROD_APPROVED_AT")->nullable();
             $table->boolean("PROD_DISPLAY_STATUS")->default(1);

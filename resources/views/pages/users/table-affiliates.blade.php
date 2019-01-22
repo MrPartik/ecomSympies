@@ -102,11 +102,11 @@
         <div class="modal modal-message fade" id="hasUser{{$item->AFF_ID }}" >
             <div class="modal-dialog"  >
                 <div class="modal-content">
-                    <div class="modal-header" style="margin-left: 100px;width: 1200px;">
+                    <div class="modal-header" style="margin-left: 0;width: 100%;">
                         <h4 class="modal-title">User/s who can access the <span id="affiliatename"></span></h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     </div>
-                    <div class="modal-body" style="margin-left: 100px;width: 1200px;">
+                    <div class="modal-body" style="margin-left: 0;width: 100%;">
                         <div class="col-lg-12">
                             <table id="data-table-buttons" class="table table-striped table-bordered">
                                 <thead>

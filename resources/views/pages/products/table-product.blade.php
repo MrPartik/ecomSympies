@@ -227,11 +227,11 @@
     <div class="modal modal-message fade" id="productVariance" >
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header" style="margin-left: 100px;width: 1200px;">
+                <div class="modal-header" style="margin-left: 0;width: 100%;">
                     <h4 class="modal-title">You are about to add product variance</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
-                <div class="modal-body" style="margin-left: 100px;width: 1200px;">
+                <div class="modal-body" style="margin-left: 0;width: 100%;">
                     <form id="productVarianceForm" method="post" action="{{url('/product/ProductVar')}}" enctype="multipart/form-data">
                         {{csrf_field()}}
                         <input id="varProdID" name="prodID" value="1" style="display: none;">

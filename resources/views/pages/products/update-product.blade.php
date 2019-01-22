@@ -7,7 +7,7 @@
     <ol class="breadcrumb pull-right">
         <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
         <li class="breadcrumb-item"><a href="javascript:;">Manage Products</a></li>
-        <li class="breadcrumb-item active">List</li>
+        <li class="breadcrumb-item active">update</li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
