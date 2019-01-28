@@ -57,8 +57,7 @@
                                         <label>Name</label>
                                         <div class="input-group m-b-10">
                                             <div class="input-group-prepend"><span class="input-group-text">*</span></div>
-                                            <input class="form-control" name=affname placeholder="Name" required onkeyup="$('input[name=code]').val(($(this).val())?$(this).val().substring(0,3).toUpperCase()+'-'+'{{date('Y')}}'+'-'+'{{DB::Table('users')
-            ->get()->count()+1}}':'')">
+                                            <input class="form-control" name=affname placeholder="Name" required onkeyup="$('input[name=code]').val(($(this).val())?$(this).val().substring(0,3).toUpperCase()+'-'+'{{date('Y')}}'+'-'+'{{DB::Table('users')->get()->count()+1}}':'')">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
