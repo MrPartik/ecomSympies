@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\r_product_info;
+use App\r_affiliate_info;   
+use App\r_product_type;
+
 
 class frontProductsController extends Controller
 {
@@ -13,7 +17,12 @@ class frontProductsController extends Controller
      */
     public function index()
     {
-        return view('pages.frontend-shop.list-front-products');
+        $Allprod = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')->where('PROD_IS_APPROVED','1')->where('PROD_DISPLAY_STATUS',1  )->get();
+        $aff = r_affiliate_info::all();
+        $cat = r_product_type::with('rProductType')->get();
+        
+        
+        return view('pages.frontend-shop.list-front-products',compact('Allprod','aff','cat'));
     }
 
     /**
