@@ -9,7 +9,7 @@
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 	<meta content="" name="description" />
 	<meta content="" name="author" />
-	
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 	<!-- ================== BEGIN BASE CSS STYLE ================== -->
 	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
 	<link href="{{asset('assets/plugins/bootstrap3/css/bootstrap.min.css')}}" rel="stylesheet" />
@@ -399,6 +399,18 @@
 	    $(document).ready(function() {
 	        App.init();
 	    });
+
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        const moneyFormat = num => {
+            const n = String(num),
+                p = n.indexOf('.')
+            return n.replace(
+                /\d(?=(?:\d{3})+(?:\.|$))/g,
+                (m, i) => p < 0 || i < p ? `${m},` : m
+            )
+        }
 	</script>
+
+    @yield('extrajs')
 </body>
 </html>

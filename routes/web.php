@@ -40,6 +40,8 @@ Route::group(['middleware' => ['authenticate']], function() {
 });
 
 Route::resource('/','frontProductsController');
+Route::get('/getProd/Affiliates/{id}','frontProductsController@getProdAffiliates');
+Route::get('/getProd/Category/{id}','frontProductsController@getProdCategory');
 
 
 Route::get('/home', 'HomeController@index')->name('home');

@@ -17,7 +17,10 @@ class frontProductsController extends Controller
      */
     public function index()
     {
-        $Allprod = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')->where('PROD_IS_APPROVED','1')->where('PROD_DISPLAY_STATUS',1  )->get();
+
+        $Allprod = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')
+            ->where('PROD_IS_APPROVED','1')
+            ->where('PROD_DISPLAY_STATUS',1)->get();
         $aff = r_affiliate_info::all();
         $cat = r_product_type::with('rProductType')->get();
         
@@ -89,5 +92,27 @@ class frontProductsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function getProdAffiliates($id){
+        $Allprod = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')
+            ->where('PROD_IS_APPROVED','1')
+            ->where('PROD_DISPLAY_STATUS',1)
+            ->where('AFF_ID',$id)
+            ->get()->take(9);
+
+        return json_encode($Allprod);
+    }
+
+
+    public function getProdCategory($id){
+        $Allprod = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')
+            ->where('PROD_IS_APPROVED','1')
+            ->where('PROD_DISPLAY_STATUS',1)
+            ->where('PRODT_PARENT',$id)
+            ->get()->take(9);
+
+        return json_encode($Allprod);
     }
 }
