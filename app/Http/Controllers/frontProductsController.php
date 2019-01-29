@@ -118,6 +118,6 @@ class frontProductsController extends Controller
             ->where('PRODT_PARENT','<>',null)
             ->get();
 
-        return json_encode($Allprod);
+        return json_encode($prod);
     }
 }
