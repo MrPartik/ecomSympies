@@ -127,7 +127,7 @@
                         <ul class="category-list">
                             <li class="list-header">All Affiliates</li>
                             @foreach($aff as $item)
-                                <li>
+                                <li style="padding-left: 5%;">
                                     <a href="javascript:;" id="btn_getProdAff" value="{{$item->AFF_ID}}">
                                         {{$item->AFF_NAME}}
                                     </a>
@@ -224,8 +224,8 @@
                             <li class="list-header">All Categories</li>
                             
                         @foreach($cat->where('PRODT_PARENT','<>',null) as $item)
-                            <li title="{{$item->rProductType->PRODT_TITLE}}" >
-                                <a href="javascript:;"  id="btn_getProdCat" value="{{$item->PRODT_PARENT}}">
+                            <li style="padding-left: 5%;" title="{{$item->rProductType->PRODT_TITLE}}" >
+                                <a href="javascript:;"  id="btn_getProdCat" value="{{$item->PRODT_ID}}">
                                     {{$item->PRODT_TITLE}}
                                 </a>
                             </li>
@@ -416,7 +416,6 @@
                     ,data: {_token:CSRF_TOKEN }
                     ,dataType:'json'
                     ,success:function($data){
-                        console.log($data);
                         $.each($($btn).closest('li').closest('ul'),function(){
                             $(this).find('li').css('background','#ffffff');
                         });
@@ -443,6 +442,8 @@
                                 "</div> </div>"+$end;
                             $i++;
                         });
+                        if($data=='')
+                            $datas = "<center style='padding: 13%;color:lightgray'> Nothing to show</center>";
                         $($btn).closest('li').closest('ul').closest('div').closest('.category-container').find('.category-detail').find('.category-item').html($datas);
 
                     }
@@ -466,14 +467,13 @@
                     ,data: {_token:CSRF_TOKEN }
                     ,dataType:'json'
                     ,success:function($data){
-                        console.log($data);
                         $.each($($btn).closest('li').closest('ul'),function(){
                             $(this).find('li').css('background','#ffffff');
                         });
                         $($btn).closest('li').css('background','#8080805e');
                         $($btn).closest('li').closest('ul').closest('div').closest('.category-container').find('.category-detail').find('.category-item').html(" ");
                         var $i=1;
-                        $datas = "";
+                        $datas = "<div >";
                         $.each($data,function(id,val){
                             $start="";
                             $end="";
@@ -493,6 +493,8 @@
                                 "</div> </div>"+$end;
                             $i++;
                         });
+                        if($data=='')
+                            $datas = "<center style='padding: 13%;color:lightgray'> Nothing to show</center>";
                         $($btn).closest('li').closest('ul').closest('div').closest('.category-container').find('.category-detail').find('.category-item').html($datas);
 
                     }

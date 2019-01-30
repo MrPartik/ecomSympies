@@ -107,17 +107,23 @@ class frontProductsController extends Controller
 
 
     public function getProdCategory($id){
+
         $Allprod = r_product_info::with('rProductType','rAffiliateInfo','rTaxTableProfile')
             ->where('PROD_IS_APPROVED','1')
             ->where('PROD_DISPLAY_STATUS',1)
             ->where('PRODT_ID',$id)
-            ->get(['PRODT_ID'])->take(9);
+            ->get(array('PRODT_ID'))->take(9);
 
         $prod = r_product_type::with('rProductType')
             ->whereIn('PRODT_ID',$Allprod)
             ->where('PRODT_PARENT','<>',null)
             ->get();
 
-        return json_encode($prod);
+        $getProd =  r_product_info::with('rProductType','rAffiliateInfo','rTaxTableProfile')
+            ->whereIn('PRODT_ID',$prod)
+            ->get()->take(9);
+
+
+        return json_encode($getProd);
     }
 }
