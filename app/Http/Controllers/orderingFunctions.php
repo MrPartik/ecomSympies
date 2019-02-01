@@ -23,6 +23,6 @@ class orderingFunctions extends Controller
         $t_invoice = new t_invoice();
         $t_payment = new t_payment();
         $t_shipment_orderitem = new t_shipment_orderitem();
-        $t_shipment = new t_shipment(); 
+        $t_shipment = new t_shipment();     
     }
 }
