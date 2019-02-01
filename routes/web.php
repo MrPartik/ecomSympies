@@ -43,5 +43,18 @@ Route::resource('/','frontProductsController');
 Route::get('/getProd/Affiliates/{id}','frontProductsController@getProdAffiliates');
 Route::get('/getProd/Category/{id}','frontProductsController@getProdCategory');
 
+Route::get('/getSympiesAccount/{id}',function($id){
+    
+    $account = Array(
+        "ID" => 3,
+        "NAME" => "John Patrick Loyola",
+        "CONTACT_NO" => "0930975810",
+        "HOME_ADDRESS" => "111 St. Anthony St. Repu. Ave. Brgy. Holy Spirit Quezon City, 1127",
+        "EMAIL" => "loyolapat04@gmail.com",
+    );
 
-Route::get('/home', 'HomeController@index')->name('home');
+    $get = Session::get('sympiesAccount');
+    Session::put('sympiesAccount', $account);
+});
+
+Route::post('/makeOrder','orderingFunctions@makeOrder');

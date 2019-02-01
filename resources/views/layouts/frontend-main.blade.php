@@ -1,3 +1,6 @@
+@php 
+    $account = Session::get('sympiesAccount');
+@endphp
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if !IE]><!-->
@@ -48,8 +51,8 @@
                         <li><a href="#">Order Tracker</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Career</a></li>
-                        <li><a href="#">Our Forum</a></li>
+                        <!-- <li><a href="#">Career</a></li>
+                        <li><a href="#">Our Forum</a></li> -->
                         <li><a href="#">Newsletter</a></li>
                         <li><a href="#"><i class="fa fa-facebook f-s-14"></i></a></li>
                         <li><a href="#"><i class="fa fa-twitter f-s-14"></i></a></li>
@@ -211,7 +214,7 @@
                     <!-- BEGIN header-nav -->
                     <div class="header-nav">
                         <ul class="nav pull-right">
-                            <li class="dropdown dropdown-hover">
+                            <!-- <li class="dropdown dropdown-hover">
                                 <a href="#" class="header-cart" data-toggle="dropdown">
                                     <i class="fa fa-shopping-bag"></i>
                                     <span class="total">2</span>
@@ -268,12 +271,19 @@
                                     </div>
                                 </div>
                             </li>
-                            <li class="divider"></li>
+                            <li class="divider"></li> -->
                             <li>
-                                <a href="my_account.html">
+                                <a href="javascript:;">
                                     <img src="../assets/img/user/user-1.jpg" class="user-img" alt="" /> 
-                                    <span class="hidden-md hidden-sm hidden-xs">Login / Register</span>
+                                    <span class="hidden-md hidden-sm hidden-xs">
+                                      {{(!is_null($account))?$account['NAME']:'Not Logged In'}}
+                                      
+                                    </span>
                                 </a>
+                            </li>
+                            <li class="divider"></li> 
+                            <li>
+                                <a target = "_blank" href="{{url('login')}}">Affiliate</a>
                             </li>
                         </ul>
                     </div>
@@ -318,16 +328,24 @@
                     <div class="col-md-3">
                         <h4 class="footer-header">LATEST PRODUCT</h4>
                         <ul class="list-unstyled list-product">
+                            @foreach($Allprod->sortby('created_at')->take(3) as $item)
                             <li>
-                                <div class="image">
-                                    <img src="../assets/img/product/product-iphone-6s.jpg" alt="" />
+                                <div class="image" style="overflow:hidden">
+                                    <img src="{{($item->PROD_IMG==null||!file_exists($item->PROD_IMG))?asset('uPackage.png'):asset($item->PROD_IMG)}}" alt="" />
                                 </div>
                                 <div class="info">
-                                    <h4 class="info-title">Iphone 6s</h4>
-                                    <div class="price">$1200.00</div>
+                                    <h4 class="info-title">{{$item->PROD_NAME}}</h4>
+                                    <div class="price">
+                                        @php
+                                            $total=($item->PROD_IS_APPROVED==1)?(($item->PROD_REBATE/100)* $item->PROD_BASE_PRICE)
+                                            +(($item->rTaxTableProfile->TAXP_TYPE==0)?($item->rTaxTableProfile->TAXP_RATE/100)* $item->PROD_BASE_PRICE:($item->rTaxTableProfile->TAXP_RATE)+ $item->PROD_BASE_PRICE)
+                                            +(($item->PROD_MARKUP/100)* $item->PROD_BASE_PRICE)+$item->PROD_BASE_PRICE:'NAN';
+                                            echo number_format($total,2)
+                                        @endphp
+                                        </div>
                                 </div>
                             </li>
-                             
+                            @endforeach
                         </ul>
                     </div>
                     <!-- END col-3 -->
