@@ -121,7 +121,8 @@
                                             <option value={{$item->AFF_ID}} >{{$item->AFF_NAME}}</option>
                                         @endforeach
                                     </select>
-                                </div><div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
                                     <label>Product Category</label>
                                     <select class="form-control productType" name="prodtype" style="width: 100%;" required>
                                         <option selected="selected" value="" disabled>Please Select Product Category</option>
@@ -134,9 +135,6 @@
                                         @endforeach
                                     </select>
                                 </div>
-
-
-
 
                                 <div class="col-md-6">
                                     <label>Availablabiliy</label>

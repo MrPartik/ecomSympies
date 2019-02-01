@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title','Manage Users')
+@section('title','Manage Affiliates')
 
 @section('content')
     <!-- begin breadcrumb -->
@@ -31,7 +31,7 @@
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     </div>
-                    <h4 class="panel-title">Manage Users</h4>
+                    <h4 class="panel-title">Manage Affiliates</h4>
                 </div>
                 <!-- end panel-heading -->
                 <!-- begin alert -->

@@ -115,7 +115,7 @@
             <div class="container">
                 <!-- BEGIN section-title -->
                 <h4 class="section-title clearfix">
-                    <a href="#" class="pull-right">SHOW ALL</a>
+                    {{--<a href="#" class="pull-right">SHOW ALL</a>--}}
                     Affiliates
                     <small>Shop and get gifts for your friends and your family!</small>
                 </h4>
@@ -126,6 +126,11 @@
                     <div class="category-sidebar">
                         <ul class="category-list">
                             <li class="list-header">All Affiliates</li>
+                            <li style="padding-left: 5%; background: rgba(128, 128, 128, 0.37)">
+                                <a href="javascript:;"  id="btn_getProdCat" value="0">
+                                    Show All
+                                </a>
+                            </li>
                             @foreach($aff as $item)
                                 <li style="padding-left: 5%;">
                                     <a href="javascript:;" id="btn_getProdAff" value="{{$item->AFF_ID}}">
@@ -211,7 +216,7 @@
             <div class="container">
                 <!-- BEGIN section-title -->
                 <h4 class="section-title clearfix">
-                    <a href="#" class="pull-right">SHOW ALL</a>
+                    {{--<a href="#" class="pull-right">SHOW ALL</a>--}}
                     Categories
                     <small>Shop and get gifts for your friends and your family!</small>
                 </h4>
@@ -222,13 +227,18 @@
                     <div class="category-sidebar">
                         <ul class="category-list">
                             <li class="list-header">All Categories</li>
-                            
-                        @foreach($cat->where('PRODT_PARENT','<>',null) as $item)
-                            <li style="padding-left: 5%;" title="{{$item->rProductType->PRODT_TITLE}}" >
-                                <a href="javascript:;"  id="btn_getProdCat" value="{{$item->PRODT_ID}}">
-                                    {{$item->PRODT_TITLE}}
+                            <li style="padding-left: 5%; background: rgba(128, 128, 128, 0.37)">
+                                <a href="javascript:;"  id="btn_getProdCat" value="0">
+                                    Show All
                                 </a>
                             </li>
+                        @foreach($cat->where('PRODT_PARENT','<>',null) as $item)
+
+                                <li style="padding-left: 5%;" title="{{$item->rProductType->PRODT_TITLE}}" >
+                                    <a href="javascript:;"  id="btn_getProdCat" value="{{$item->PRODT_ID}}">
+                                        {{$item->PRODT_TITLE}}
+                                    </a>
+                                </li>
                         @endforeach
                         </ul>
                     </div>

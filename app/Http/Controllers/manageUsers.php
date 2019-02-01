@@ -50,7 +50,7 @@ class manageUsers extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
-        $user->AFF_ID = $request->input('affiliates');
+        $user->AFF_ID = $request->input('affiliate');
         $user->save();
 
         return redirect()->back()->with('success','User record was inserted successfully');

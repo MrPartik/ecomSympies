@@ -57,37 +57,31 @@
                                         <label>Name</label>
                                         <div class="input-group m-b-10">
                                             <div class="input-group-prepend"><span class="input-group-text">*</span></div>
-                                            <input class="form-control" name=affname placeholder="Name" required onkeyup="$('input[name=code]').val(($(this).val())?$(this).val().substring(0,3).toUpperCase()+'-'+'{{date('Y')}}'+'-'+'{{DB::Table('users')
-            ->get()->count()+1}}':'')">
+                                            <input class="form-control" name=name placeholder="Name" required >
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <label>Code</label>
+                                        <label>Email</label>
                                         <div class="input-group m-b-10">
                                             <div class="input-group-prepend"><span class="input-group-text">*</span></div>
-                                            <input class="form-control" name=code type="text" placeholder="Code" required>
+                                            <input class="form-control" name=email type="text" placeholder="Email" required>
                                         </div>
                                     </div>
-
-
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Payment Mode</label>
-                                            <textarea class="form-control" name=paymentmode style="resize:vertical; width:100%;height:107px" placeholder="Description" required></textarea>
-
+                                    <div class="col-md-6">
+                                        <label>Password</label>
+                                        <div class="input-group m-b-10">
+                                            <div class="input-group-prepend"><span class="input-group-text">*</span></div>
+                                            <input class="form-control" name=password type="password" placeholder="Password" required>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Payment Instruction (how affiliate receives payments from sympies)</label>
-                                            <textarea class="form-control" name=paymentinst style="resize:vertical; width:100%;height:107px" placeholder="Payment Instruction" required></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Description</label>
-                                            <textarea class="form-control" name=desc style="resize:vertical; width:100%;height:107px" placeholder="Affiliate Description" required></textarea>
-                                        </div>
+                                    <div class="col-md-6">
+                                        <label>Affiliate</label>
+                                        <select class="form-control " name="affiliate" style="width: 100%;" required>
+                                            <option selected="selected" value=""  disabled>Please Select Affiliate</option>
+                                            @foreach($aff as $item)
+                                                <option value={{$item->AFF_ID}} >{{$item->AFF_NAME}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <!-- /.row -->
                                     <div class="col-md-12" >

@@ -94,13 +94,19 @@ class frontProductsController extends Controller
         //
     }
 
-
     public function getProdAffiliates($id){
-        $Allprod = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')
+
+        if($id!=0)
+            $Allprod = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')
             ->where('PROD_IS_APPROVED','1')
             ->where('PROD_DISPLAY_STATUS',1)
             ->where('AFF_ID',$id)
             ->get()->take(9);
+        else
+            $Allprod = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')
+                ->where('PROD_IS_APPROVED','1')
+                ->where('PROD_DISPLAY_STATUS',1)
+                ->get()->take(9);
 
         return json_encode($Allprod);
     }
@@ -108,11 +114,18 @@ class frontProductsController extends Controller
 
     public function getProdCategory($id){
 
-        $Allprod = r_product_info::with('rProductType','rAffiliateInfo','rTaxTableProfile')
+        if($id!=0)
+            $Allprod = r_product_info::with('rProductType','rAffiliateInfo','rTaxTableProfile')
             ->where('PROD_IS_APPROVED','1')
             ->where('PROD_DISPLAY_STATUS',1)
             ->where('PRODT_ID',$id)
             ->get(array('PRODT_ID'))->take(9);
+        else
+            $Allprod = r_product_info::with('rProductType','rAffiliateInfo','rTaxTableProfile')
+                ->where('PROD_IS_APPROVED','1')
+                ->where('PROD_DISPLAY_STATUS',1)
+                ->get(array('PRODT_ID'))->take(9);
+
 
         $prod = r_product_type::with('rProductType')
             ->whereIn('PRODT_ID',$Allprod)
