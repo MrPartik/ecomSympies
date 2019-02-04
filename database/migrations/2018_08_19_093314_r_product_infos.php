@@ -28,6 +28,7 @@ class RProductInfos extends Migration
             $table->string("PROD_CODE",20)->unique();
             $table->string("PROD_NAME",100);
             $table->integer('PROD_QTY')->default(500);
+            $table->integer('PROD_DISCOUNT')->default(0);
             $table->integer('PROD_CRITICAL')->default(100);
             $table->double("PROD_BASE_PRICE",10,2);
             $table->string("PROD_SALES_TAX",20)->default('Exclusive');
@@ -35,7 +36,7 @@ class RProductInfos extends Migration
             $table->boolean("PROD_IS_APPROVED")->nullable();
             $table->dateTime("PROD_APPROVED_AT")->nullable();
             $table->boolean("PROD_DISPLAY_STATUS")->default(1);
-            $table->timestamps();
+            $table->timestamps(                                                                                                                                                                                                                                                                                                                                           );
 
             $table->foreign("PRODT_ID")->references("PRODT_ID")->on("R_PRODUCT_TYPES")
                 ->onUpdate("cascade")

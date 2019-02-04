@@ -136,7 +136,7 @@
                                     </select>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <label>Availablabiliy</label>
                                         <div class="input-group input-daterange  m-b-10">
                                             <input type="text" class="form-control" name="start" placeholder="Date Start" />
@@ -144,6 +144,15 @@
                                             <input type="text" class="form-control" name="end" placeholder="Date End" />
                                         </div>
                                 </div>
+                                <div class="col-md-3">
+                                    <label>Discount</label>
+                                    <div class="input-group m-b-10">
+                                        <div class="input-group-prepend"><span class="input-group-text">*</span></div>
+                                        <input type="number" placeholder="0" name="discount" class="form-control" value="0" required>
+                                        <div class="input-group-append"><span class="input-group-text">%</span></div>
+                                    </div>
+                                </div>
+
 
                                 <div class="col-md-3">
                                     <label>Starting Inventory</label>

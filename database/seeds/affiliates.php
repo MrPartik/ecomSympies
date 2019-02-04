@@ -15,7 +15,7 @@ class affiliates extends Seeder
         r_affiliate_info::truncate();
 
         $aff = new r_affiliate_info();
-        $aff->AFF_CODE="Symp-0001";
+        $aff->AFF_CODE="SYMP-2019-1";
         $aff->AFF_NAME="Sympies";
         $aff->AFF_DESC="Sympies Description";
         $aff->AFF_PAYMENT_INSTRUCTION="Instruction";
@@ -23,7 +23,7 @@ class affiliates extends Seeder
         $aff->save();
 
         $aff = new r_affiliate_info();
-        $aff->AFF_CODE="IslandR-0002";
+        $aff->AFF_CODE="ISL-2019-1";
         $aff->AFF_NAME="Island Rose";
         $aff->AFF_DESC="Island Rose Description";
         $aff->AFF_PAYMENT_INSTRUCTION="Instruction";

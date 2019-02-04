@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $PROD_MARKUP
  * @property string $PROD_CODE
  * @property string $PROD_NAME
+ * @property string $PROD_SKU
  * @property string $PROD_AVAILABILITY
  * @property integer $PROD_QTY
  * @property integer $PROD_CRITICAL
@@ -50,7 +51,7 @@ class r_product_info extends Model
     /**
      * @var array
      */
-    protected $fillable = ['PRODT_ID', 'AFF_ID', 'TAXP_ID', 'PROD_DESC', 'PROD_NOTE', 'PROD_AVAILABILITY','PROD_IMG', 'PROD_REBATE', 'PROD_MARKUP', 'PROD_CODE', 'PROD_NAME', 'PROD_QTY','PROD_CRITICAL','PROD_BASE_PRICE', 'PROD_IS_APPROVED','PROD_APPROVED_AT', 'PROD_DISPLAY_STATUS', 'created_at', 'updated_at'];
+    protected $fillable = ['PRODT_ID', 'AFF_ID', 'TAXP_ID', 'PROD_DESC', 'PROD_NOTE', 'PROD_AVAILABILITY','PROD_IMG', 'PROD_REBATE', 'PROD_MARKUP', 'PROD_CODE', 'PROD_NAME','PROD_SKU', 'PROD_QTY','PROD_CRITICAL','PROD_BASE_PRICE', 'PROD_IS_APPROVED','PROD_APPROVED_AT', 'PROD_DISPLAY_STATUS', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

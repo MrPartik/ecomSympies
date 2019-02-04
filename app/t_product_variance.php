@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $PROD_ID
  * @property int $PRODV_QTY
  * @property string $PRODV_NAME
+ * @property string $PRODV_SKU
  * @property string $PRODV_DESC
  * @property float $PRODV_ADD_PRICE
  * @property string $PRODV_IMG
@@ -35,7 +36,7 @@ class t_product_variance extends Model
     /**
      * @var array
      */
-    protected $fillable = ['PROD_ID', 'PRODV_NAME', 'PRODV_DESC', 'PRODV_QTY','PRODV_ADD_PRICE', 'PRODV_IMG', 'created_at', 'updated_at'];
+    protected $fillable = ['PROD_ID', 'PRODV_NAME','PRODV_SKU', 'PRODV_DESC', 'PRODV_QTY','PRODV_ADD_PRICE', 'PRODV_IMG', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

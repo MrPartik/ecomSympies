@@ -51,17 +51,13 @@ class productInfo extends Seeder
         $prodType->PRODT_PARENT=2;
         $prodType->save();
 
-        $prodType = new r_product_type();
-        $prodType->PRODT_TITLE = "Chocolates";
-        $prodType->PRODT_DESC = "Description";
-        $prodType->PRODT_PARENT=3;
-        $prodType->save();
 
         $prodType = new r_product_type();
-        $prodType->PRODT_TITLE = "Orange Juice";
+        $prodType->PRODT_TITLE = "Fruit Salad";
         $prodType->PRODT_DESC = "Description";
         $prodType->PRODT_PARENT=1;
         $prodType->save();
+
 
 
         r_tax_table_profile::truncate();
@@ -89,7 +85,7 @@ class productInfo extends Seeder
         $prodInfo->PROD_IMG = null;
         $prodInfo->PROD_REBATE = 5;
         $prodInfo->PROD_MARKUP = 5;
-        $prodInfo->PROD_CODE = "PROD-00002-1";
+        $prodInfo->PROD_CODE = "2019-ISL-00002-1";
         $prodInfo->PROD_NAME = "Roses and Chocolates";
         $prodInfo->PROD_BASE_PRICE =500;
         $prodInfo->PROD_IMG=null;
@@ -104,8 +100,8 @@ class productInfo extends Seeder
         $prodInfo->PROD_IMG = null;
         $prodInfo->PROD_REBATE = 5;
         $prodInfo->PROD_MARKUP = 5;
-        $prodInfo->PROD_CODE =  "PROD-00002-2";
-        $prodInfo->PROD_NAME = "Chocolates";
+        $prodInfo->PROD_CODE =  "2019-ISL-00002-2";
+        $prodInfo->PROD_NAME = "Naomi Flowers and Chocolates";
         $prodInfo->PROD_BASE_PRICE =250;
         $prodInfo->PROD_IS_APPROVED =1;
         $prodInfo->PROD_APPROVED_AT='2018-08-15';
@@ -114,13 +110,13 @@ class productInfo extends Seeder
 
 
         $prodInfo = new r_product_info();
-        $prodInfo->AFF_ID = 2;
+        $prodInfo->AFF_ID = 1;
         $prodInfo->TAXP_ID = 1;
         $prodInfo->PROD_DESC = "Product Description";
         $prodInfo->PROD_IMG = null;
         $prodInfo->PROD_REBATE = 5;
         $prodInfo->PROD_MARKUP = 5;
-        $prodInfo->PROD_CODE =  "PROD-00002-3";
+        $prodInfo->PROD_CODE =  "2019-SYM-00001-1";
         $prodInfo->PROD_NAME = "Almond Chocolate";
         $prodInfo->PROD_BASE_PRICE =1000;
         $prodInfo->save();
@@ -133,8 +129,8 @@ class productInfo extends Seeder
         $prodInfo->PROD_IMG = null;
         $prodInfo->PROD_REBATE = 5;
         $prodInfo->PROD_MARKUP = 5;
-        $prodInfo->PROD_CODE =  "PROD-00001-1";
-        $prodInfo->PROD_NAME = "Almond Chocolate";
+        $prodInfo->PROD_CODE =  "2019-SYM-00001-2";
+        $prodInfo->PROD_NAME = "Chestnut Chocolate";
         $prodInfo->PROD_BASE_PRICE =1000;
         $prodInfo->save();
 

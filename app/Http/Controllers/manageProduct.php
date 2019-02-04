@@ -124,6 +124,7 @@ class manageProduct extends Controller
         $prodInfo->PROD_NAME = $request->prodname;
         $prodInfo->PROD_BASE_PRICE = $request->baseprice;
         $prodInfo->PROD_QTY = $request->inv_qty;
+        $prodInfo->PROD_DISCOUNT = $request->discount;
         $prodInfo->PROD_CRITICAL = $request->inv_critical;
         $prodInfo->PRODT_ID = $request->input('prodtype');
 
@@ -229,6 +230,7 @@ class manageProduct extends Controller
         $prodInfo->PROD_NAME = $request->prodname;
         $prodInfo->PROD_BASE_PRICE = $request->baseprice;
         $prodInfo->PROD_QTY = $request->inv_qty;
+        $prodInfo->PROD_DISCOUNT = $request->discount;
         $prodInfo->PROD_CRITICAL = $request->inv_critical;
         $prodInfo->PRODT_ID = $request->input('prodtype');
 
