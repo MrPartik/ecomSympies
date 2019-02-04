@@ -75,4 +75,5 @@ class r_product_info extends Model
     {
         return $this->belongsTo(r_tax_table_profile::class, 'TAXP_ID', 'TAXP_ID');
     }
+ 
 }

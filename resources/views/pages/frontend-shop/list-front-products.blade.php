@@ -127,7 +127,7 @@
                         <ul class="category-list">
                             <li class="list-header">All Affiliates</li>
                             <li style="padding-left: 5%; background: rgba(128, 128, 128, 0.37)">
-                                <a href="javascript:;"  id="btn_getProdCat" value="0">
+                                <a href="javascript:;"  id="btn_getProdAff" value="0">
                                     Show All
                                 </a>
                             </li>
@@ -163,7 +163,7 @@
                             @php $i=1 @endphp
                             @foreach($Allprod->take(9) as $item)
                             <!-- BEGIN item-row -->
-                            @if($i==1 || $i==4 || $i==7 )
+                            @if( $i%3==1)
                             <div class="item-row">
                             @endif 
                                <!-- BEGIN item -->
@@ -192,7 +192,7 @@
                             </div>
                                 <!-- END item --> 
                                 
-                            @if($i==3 || $i==6 || $i==9 || count($Allprod)==$i )
+                            @if($i%3==0 || count($Allprod)==$i )
                             </div>
                             <!-- END item-row -->
                              @endif
@@ -265,7 +265,7 @@
                         @php $i=1 @endphp
                         @foreach($Allprod->take(9) as $item)
                             <!-- BEGIN item-row -->
-                                @if($i==1 || $i==4 || $i==7 )
+                            @if( $i%3==1)
                                     <div class="item-row">
                                     @endif
                                     <!-- BEGIN item -->
@@ -280,15 +280,20 @@
                                                         <span style="color:gray">{{$item->rAffiliateInfo->AFF_NAME}}</span></a>
                                                 </h4>
                                                 <p class="item-desc"  title="{{$item->PROD_DESC}}">{{$item->PROD_DESC}}</p>
-                                                <div class="item-price">{{$total=($item->PROD_IS_APPROVED==1)?(($item->PROD_REBATE/100)* $item->PROD_BASE_PRICE)
-                                                +(($item->rTaxTableProfile->TAXP_TYPE==0)?($item->rTaxTableProfile->TAXP_RATE/100)* $item->PROD_BASE_PRICE:($item->rTaxTableProfile->TAXP_RATE)+ $item->PROD_BASE_PRICE)
-                                                +(($item->PROD_MARKUP/100)* $item->PROD_BASE_PRICE)+$item->PROD_BASE_PRICE:'NAN'}}</div>
+                                                <div class="item-price">
+                                                @php
+                                                    $total=($item->PROD_IS_APPROVED==1)?(($item->PROD_REBATE/100)* $item->PROD_BASE_PRICE)
+                                                    +(($item->rTaxTableProfile->TAXP_TYPE==0)?($item->rTaxTableProfile->TAXP_RATE/100)* $item->PROD_BASE_PRICE:($item->rTaxTableProfile->TAXP_RATE)+ $item->PROD_BASE_PRICE)
+                                                    +(($item->PROD_MARKUP/100)* $item->PROD_BASE_PRICE)+$item->PROD_BASE_PRICE:'NAN';
+                                                    echo number_format($total,2)
+                                                @endphp
+                                                </div>
                                                 <!-- <div class="item-discount-price"></div> -->
                                             </div>
                                         </div>
                                         <!-- END item -->
 
-                                        @if($i==3 || $i==6 || $i==9 || count($Allprod)==$i )
+                                        @if($i%3==0 || count($Allprod)==$i )
                                     </div>
                                     <!-- END item-row -->
                                 @endif
@@ -437,13 +442,14 @@
                             $start="";
                             $end="";
                             $pic="/uPackage.png";
-
-                            if($i==1 || $i==4 || $i==7 )
+                            
+                            if($i%3==1)
                                 $start="<div class='item-row'>";
-                            if($i==3 || $i==6 || $i==9 )
+                            if($i%3==0 || $data.count )
                                 $end="</div>";
                             if(val.PROD_IMG)
                                 $pic=val.PROD_IMG;
+
 
                             $total=(val.PROD_IS_APPROVED==1)?((val.PROD_REBATE/100)* val.PROD_BASE_PRICE)+((val.r_tax_table_profile.TAXP_TYPE==0)?(val.r_tax_table_profile.TAXP_RATE/100)* value.PROD_BASE_PRICE:(val.r_tax_table_profile.TAXP_RATE)+ val.PROD_BASE_PRICE)+((val.PROD_MARKUP/100)* val.PROD_BASE_PRICE)+val.PROD_BASE_PRICE:'NAN';
 
@@ -489,9 +495,9 @@
                             $end="";
                             $pic="/uPackage.png";
 
-                            if($i==1 || $i==4 || $i==7 )
+                            if($i%3==1)
                                 $start="<div class='item-row'>";
-                            if($i==3 || $i==6 || $i==9 )
+                            if($i%3==0 || $data.count )
                                 $end="</div>";
                             if(val.PROD_IMG)
                                 $pic=val.PROD_IMG;
