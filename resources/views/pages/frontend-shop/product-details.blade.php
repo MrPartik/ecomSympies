@@ -107,13 +107,34 @@
                             <div class="product-price">
                                 <div class="price">{{number_format(($discount)?$total-($total*($discount/100)):$total,2)}}</div>
                             </div>
-                            {{--<button class="btn btn-inverse btn-lg" type="submit">ADD TO CART</button>--}}
+                            <form  method="POST" method="POST" id="payment-form" action="{!! URL::to('paypal') !!}" _target="blank">
+                                {{ csrf_field() }}
+                                <input name="ProdName" value="{{$item->PROD_NAME}}" style="display: none">
+                                <input name="prodID" value="{{$item->PROD_ID}}" style="display: none">
+                                {{--<button class="btn btn-inverse btn-lg" type="submit">Pay Paypal</button>--}}
+                                <!-- PayPal Logo -->
+                                    <table border="0" cellpadding="10" cellspacing="0" align="left">
+                                        <tr>
+                                            <td align="center"></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <a  href="javascript:;" onclick="document.getElementById('payment-form').submit();"  title="Pay using paypal"  >
+                                                    <img src="https://www.paypalobjects.com/webstatic/mktg/logo/PP_AcceptanceMarkTray-NoDiscover_243x40.png" alt="Buy now with PayPal" />
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                <!-- PayPal Logo -->
+                            </form>
+                            <center>
                             <div class="form-group">
-                                <div class="col-sm-offset-5 col-sm-7">
+                                <div class="col-sm-6">
                                     <!-- Container for PayPal Mark Checkout -->
                                     <div id="paypalCheckoutContainer"></div>
                                 </div>
                             </div>
+                            </center>
                         </div>
                         <!-- END product-purchase-container -->
                     </div>
@@ -187,74 +208,6 @@
     <!-- END #product -->
 @endsection
 @section('extrajs')
-    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
-
-    <!-- PayPal In-Context Checkout script -->
-    <script type="text/javascript">
-
-        paypal.Button.render({
-
-            // Set your environment
-            env: 'sandbox',
-
-            // Set style of button
-            style: {
-                layout: 'horizontal',   // horizontal | vertical
-                size:   'responsive',    // medium | large | responsive
-                shape:  'pill',      // pill | rect
-                color:  'gold'       // gold | blue | silver | black
-            },
-
-            // Set allowed funding sources
-            funding: {
-                allowed: [
-                    paypal.FUNDING.CARD,
-                    paypal.FUNDING.CREDIT
-                ],
-                disallowed: [ ]
-            },
-
-            // Execute payment on authorize
-            commit: true,
-
-            // Wait for the PayPal button to be clicked
-            payment: function() {
-
-                let postData = {"PROD_ID":{{$id}}};
-
-                return paypal.request.post(
-                    '{{asset('api/createPayment.php')}}',
-                    postData
-                ).then(function(res) {
-                    return res.data.id;
-                });
-            },
-
-            // Wait for the payment to be authorized by the customer
-            onAuthorize: function(data, actions) {
-
-                let postData = {
-                    "pay_id": data.paymentID,
-                    "payer_id": data.payerID
-                };
-
-                // Execute Payment
-                return paypal.request.post(
-                    '{{asset('api/executePayment.php')}}',
-                    postData
-                ).then(function() {
-                    actions.redirect();
-                });
-            },
-
-            // Handle cancelled payment by the customer
-            onCancel: function(data, actions) {
-                actions.redirect();
-            }
-
-        }, '#paypalCheckoutContainer');
-
-    </script>
 
 @endsection
 

@@ -41,13 +41,13 @@
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li class="dropdown dropdown-hover">
-                            <a href="#" data-toggle="dropdown"><img src="../assets/img/flag/flag-english.png" class="flag-img" alt="" /> English <i class="fa fa-angle-down"></i></a>
+                            <a href="#" data-toggle="dropdown"><img src="{{asset('assets/img/flag/flag-english.png')}}" class="flag-img" alt="" /> English <i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#"><img src="../assets/img/flag/flag-english.png" class="flag-img" alt="" /> English</a></li>
-                                <li><a href="#"><img src="../assets/img/flag/flag-german.png" class="flag-img" alt="" /> German</a></li>
-                                <li><a href="#"><img src="../assets/img/flag/flag-spanish.png" class="flag-img" alt="" /> Spanish</a></li>
-                                <li><a href="#"><img src="../assets/img/flag/flag-french.png" class="flag-img" alt="" /> French</a></li>
-                                <li><a href="#"><img src="../assets/img/flag/flag-chinese.png" class="flag-img" alt="" /> Chinese</a></li>
+                                <li><a href="#"><img src="{{asset('assets/img/flag/flag-english.png')}}" class="flag-img" alt="" /> English</a></li>
+                                <li><a href="#"><img src="{{asset('assets/img/flag/flag-german.png')}}" class="flag-img" alt="" /> German</a></li>
+                                <li><a href="#"><img src="{{asset('assets/img/flag/flag-spanish.png')}}" class="flag-img" alt="" /> Spanish</a></li>
+                                <li><a href="#"><img src="{{asset('assets/img/flag/flag-french.png')}}" class="flag-img" alt="" /> French</a></li>
+                                <li><a href="#"><img src="{{asset('assets/img/flag/flag-chinese.png')}}" class="flag-img" alt="" /> Chinese</a></li>
                             </ul>
                         </li>
                         <li><a href="#">Customer Care</a></li>
@@ -277,7 +277,7 @@
                             <li class="divider"></li> -->
                             <li>
                                 <a href="javascript:;">
-                                    <img src="../assets/img/user/user-1.jpg" class="user-img" alt="" />
+                                    <img src="{{asset('assets/img/user/user-1.jpg')}}" class="user-img" alt="" />
                                     <span class="hidden-md hidden-sm hidden-xs">
                                       {{(!is_null($account))?$account['NAME']:'Not Logged In'}}
 
@@ -377,7 +377,7 @@
             <!-- BEGIN container -->
             <div class="container">
                 <div class="payment-method">
-                    <img src="../assets/img/payment/payment-method.png" alt="" />
+                    <img src="{{asset('assets/img/payment/payment-method.png')}}" alt="" />
                 </div>
                 <div class="copyright">
                     Copyright &copy; {{date('Y')}} Sympies . All rights reserved.
@@ -394,11 +394,11 @@
         <a href="javascript:;" data-click="theme-panel-expand" class="theme-collapse-btn"><i class="fa fa-cog"></i></a>
         <div class="theme-panel-content">
             <ul class="theme-list clearfix">
-                <li><a href="javascript:;" class="bg-purple" data-theme="purple" data-theme-file="../assets/css/e-commerce/theme/purple.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Purple">&nbsp;</a></li>
-                <li><a href="javascript:;" class="bg-blue" data-theme="blue" data-theme-file="../assets/css/e-commerce/theme/blue.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Blue">&nbsp;</a></li>
-                <li class="active"><a href="javascript:;" class="bg-green" data-theme-file="../assets/css/e-commerce/theme/default.css" data-theme="default" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Default">&nbsp;</a></li>
-                <li><a href="javascript:;" class="bg-orange" data-theme="orange" data-theme-file="../assets/css/e-commerce/theme/orange.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Orange">&nbsp;</a></li>
-                <li><a href="javascript:;" class="bg-red" data-theme="red" data-theme-file="../assets/css/e-commerce/theme/red.css" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Red">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-purple" data-theme="purple" data-theme-file="{{asset('assets/css/e-commerce/theme/purple.css')}}" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Purple">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-blue" data-theme="blue" data-theme-file="{{asset('assets/css/e-commerce/theme/blue.css')}}" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Blue">&nbsp;</a></li>
+                <li class="active"><a href="javascript:;" class="bg-green" data-theme-file="{{asset('assets/css/e-commerce/theme/default.css')}}" data-theme="default" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Default">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-orange" data-theme="orange" data-theme-file="{{asset('assets/css/e-commerce/theme/orange.css')}}" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Orange">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-red" data-theme="red" data-theme-file="{{asset('assets/css/e-commerce/theme/red.css')}}" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Red">&nbsp;</a></li>
             </ul>
         </div>
     </div>
@@ -408,9 +408,9 @@
 	<script src="{{asset('assets/plugins/jquery/jquery-3.2.1.min.js')}}"></script>
 	<script src="{{asset('assets/plugins/bootstrap3/js/bootstrap.min.js')}}"></script>
 	<!--[if lt IE 9]>
-		<script src="assets/crossbrowserjs/html5shiv.js"></script>
-		<script src="assets/crossbrowserjs/respond.min.js"></script>
-		<script src="assets/crossbrowserjs/excanvas.min.js"></script>
+		<script src="{{asset('assets/crossbrowserjs/html5shiv.js')}}"></script>
+		<script src="{{asset('assets/crossbrowserjs/respond.min.js')}}"></script>
+		<script src="{{asset('assets/crossbrowserjs/excanvas.min.js')}}"></script>
 	<![endif]-->
 	<script src="{{asset('assets/plugins/js-cookie/js.cookie.js')}}"></script>
 	<script src="{{asset('assets/js/e-commerce/apps.min.js')}}"></script>
