@@ -220,7 +220,7 @@
             // Wait for the PayPal button to be clicked
             payment: function() {
 
-                let postData = {"prod_ID":{{$id}}};
+                let postData = {"PROD_ID":{{$id}}};
 
                 return paypal.request.post(
                     '{{asset('api/createPayment.php')}}',

@@ -46,8 +46,7 @@ Route::get('/getProd/Category/{id}','frontProductsController@getProdCategory');
 Route::get('/product/details/{id}','frontProductsController@getProdDetails');
 
 
-
-Route::post();
+Route::post('/checkout/create','prodCheckout@createPayment');
 
 
 Route::get('/getSympiesAccount/{id}',function($id){
