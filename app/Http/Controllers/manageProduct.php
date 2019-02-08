@@ -323,6 +323,7 @@ class manageProduct extends Controller
                 $prodVar->PRODV_NAME = $request->prodvarname[$i];
                 $prodVar->PRODV_DESC = $request->prodvardesc[$i];
                 $prodVar->PRODV_ADD_PRICE = $request->addprice[$i];
+                $prodVar->PRODV_SKU = $request->SKU[$i];
                 if (isset($request->file('prodvarimg')[$i])) {
                     $imageFile = $request->file('prodvarimg')[$i];
                     $imageName = 'PROD_VARIANCE'.$request->prodID.'-'.t_product_variance::all()->count().'.'.$imageFile->getClientOriginalExtension();
@@ -358,6 +359,10 @@ class manageProduct extends Controller
     public function deleteAllProductVar(Request $request){
         t_product_variance::where('PROD_ID',$request->id)->delete();
         redirect()->back()->with('success', 'Successfully all product variance record deleted!');
+    }
+
+    public function updateDiscount(Request $request){
+
     }
 
 

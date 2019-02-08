@@ -152,8 +152,6 @@
                                         <div class="input-group-append"><span class="input-group-text">%</span></div>
                                     </div>
                                 </div>
-
-
                                 <div class="col-md-3">
                                     <label>Starting Inventory</label>
                                     <div class="input-group m-b-10">

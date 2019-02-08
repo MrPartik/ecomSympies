@@ -116,7 +116,7 @@ class productInfo extends Seeder
         $prodInfo->PROD_IMG = null;
         $prodInfo->PROD_REBATE = 5;
         $prodInfo->PROD_MARKUP = 5;
-        $prodInfo->PROD_CODE =  "2019-SYM-00001-1";
+        $prodInfo->PROD_CODE =  "2019-SYM-00001-3";
         $prodInfo->PROD_NAME = "Almond Chocolate";
         $prodInfo->PROD_BASE_PRICE =1000;
         $prodInfo->save();
@@ -129,7 +129,7 @@ class productInfo extends Seeder
         $prodInfo->PROD_IMG = null;
         $prodInfo->PROD_REBATE = 5;
         $prodInfo->PROD_MARKUP = 5;
-        $prodInfo->PROD_CODE =  "2019-SYM-00001-2";
+        $prodInfo->PROD_CODE =  "2019-SYM-00001-4";
         $prodInfo->PROD_NAME = "Chestnut Chocolate";
         $prodInfo->PROD_BASE_PRICE =1000;
         $prodInfo->save();

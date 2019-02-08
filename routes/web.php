@@ -19,6 +19,7 @@ Route::group(['middleware' => ['authenticate']], function() {
     Route::post('/product/appDisapprove','manageProduct@appDisapprove');
     Route::post('/product/ProductVar','manageProduct@ProductVar');
     Route::get('/product/showProductVar/{id}','manageProduct@showProductVar');
+    Route::post('/product/discount','manageProduct@updateDiscount');
     Route::post('/product/deleteAllProductVar','manageProduct@deleteAllProductVar');
     Route::post('/category/actDeact','manageProductCategory@actDeact');
     Route::post('/affiliate/actDeact','manageAffiliates@actDeact');
@@ -32,8 +33,8 @@ Route::group(['middleware' => ['authenticate']], function() {
     Route::resource('/tax', 'manageTax',['names'=>['index'=>'tax','create'=>'tax','edit'=>'tax']]);
     Route::resource('/dashboard', 'manageDashboard',['names'=>['index'=>'dashboard','create'=>'dashboard','edit'=>'dashboard']]);
     Route::resource('/users', 'manageUsers',['names'=>['index'=>'users','create'=>'users','edit'=>'users']]);
-    Route::resource('/affiliates', 'manageAffiliates',['names'=>['index'=>'affiliates','create'=>'affiliates','edit'=>'affiliates']]); 
-    
+    Route::resource('/affiliates', 'manageAffiliates',['names'=>['index'=>'affiliates','create'=>'affiliates','edit'=>'affiliates']]);
+
 
 
 
@@ -42,9 +43,15 @@ Route::group(['middleware' => ['authenticate']], function() {
 Route::resource('/','frontProductsController');
 Route::get('/getProd/Affiliates/{id}','frontProductsController@getProdAffiliates');
 Route::get('/getProd/Category/{id}','frontProductsController@getProdCategory');
+Route::get('/product/details/{id}','frontProductsController@getProdDetails');
+
+
+
+Route::post();
+
 
 Route::get('/getSympiesAccount/{id}',function($id){
-    
+
     $account = Array(
         "ID" => 3,
         "NAME" => "John Patrick Loyola",

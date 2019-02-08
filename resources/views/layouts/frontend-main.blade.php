@@ -1,4 +1,4 @@
-@php 
+@php
     $account = Session::get('sympiesAccount');
 @endphp
 <!DOCTYPE html>
@@ -21,8 +21,11 @@
 	<link href="{{asset('assets/css/e-commerce/style.min.css')}}" rel="stylesheet" />
 	<link href="{{asset('assets/css/e-commerce/style-responsive.min.css')}}" rel="stylesheet" />
 	<link href="{{asset('assets/css/e-commerce/theme/default.css')}}" id="theme" rel="stylesheet" />
+    <link href="{{asset('assets/plugins/jquery-smart-wizard/src/css/smart_wizard.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/plugins/parsley/src/parsley.css')}}" rel="stylesheet" />
+
 	<!-- ================== END BASE CSS STYLE ================== -->
-	
+
 	<!-- ================== BEGIN BASE JS ================== -->
 	<script src="{{asset('assets/plugins/pace/pace.min.js')}}"></script>
 	<!-- ================== END BASE JS ================== -->
@@ -65,7 +68,7 @@
             <!-- END container -->
         </div>
         <!-- END #top-nav -->
-    
+
         <!-- BEGIN #header -->
         <div id="header" class="header">
             <!-- BEGIN container -->
@@ -80,7 +83,7 @@
                             <span class="icon-bar"></span>
                         </button>
                         <div class="header-logo">
-                            <a href="{{url('/')}}"> 
+                            <a href="{{url('/')}}">
                                 <span>Symp</span>ies
                                 <small>e-commerce, 360° of Kindness</small>
                             </a>
@@ -91,7 +94,7 @@
                     <div class="header-nav">
                         <div class=" collapse navbar-collapse" id="navbar-collapse">
                             <ul class="nav">
-                                <li class="active"><a href="{{url('/')}}">Home</a></li> 
+                                <li class="active"><a href="{{url('/')}}">Home</a></li>
                                 {{--<li class="dropdown dropdown-full-width dropdown-hover">--}}
                                     {{--<a href="#" data-toggle="dropdown">--}}
                                         {{--Our Store --}}
@@ -176,8 +179,8 @@
                                 {{--</li>--}}
                                 <!-- <li class="dropdown dropdown-hover">
                                     <a href="#" data-toggle="dropdown">
-                                        Accessories 
-                                        <i class="fa fa-angle-down"></i> 
+                                        Accessories
+                                        <i class="fa fa-angle-down"></i>
                                         <span class="arrow top"></span>
                                     </a>
                                     <ul class="dropdown-menu">
@@ -205,7 +208,7 @@
                                                 </span>
                                             </div>
                                         </form>
-                                    </div> 
+                                    </div>
                                 </li>
                             </ul>
                         </div>
@@ -220,7 +223,7 @@
                                     <span class="total">2</span>
                                     <span class="arrow top"></span>
                                 </a>
-                    
+
                                 <div class="dropdown-menu dropdown-menu-cart p-0">
                                     <div class="cart-header">
                                         <h4 class="cart-title">Shopping Bag (1) </h4>
@@ -274,14 +277,14 @@
                             <li class="divider"></li> -->
                             <li>
                                 <a href="javascript:;">
-                                    <img src="../assets/img/user/user-1.jpg" class="user-img" alt="" /> 
+                                    <img src="../assets/img/user/user-1.jpg" class="user-img" alt="" />
                                     <span class="hidden-md hidden-sm hidden-xs">
                                       {{(!is_null($account))?$account['NAME']:'Not Logged In'}}
-                                      
+
                                     </span>
                                 </a>
                             </li>
-                            <li class="divider"></li> 
+                            <li class="divider"></li>
                             <li>
                                 <a target = "_blank" href="{{url('login')}}">Affiliate</a>
                             </li>
@@ -294,7 +297,7 @@
             <!-- END container -->
         </div>
         <!-- END #header -->
-    
+
         @yield('content')
 
         <!-- BEGIN #footer -->
@@ -305,7 +308,7 @@
                 <div class="row">
                     <!-- BEGIN col-3 -->
                     <div class="col-md-3">
-                        <h4 class="footer-header">ABOUT US</h4> 
+                        <h4 class="footer-header">ABOUT US</h4>
                         <p>  </p>
                     </div>
                     <!-- END col-3 -->
@@ -368,7 +371,7 @@
             <!-- END container -->
         </div>
         <!-- END #footer -->
-    
+
         <!-- BEGIN #footer-copyright -->
         <div id="footer-copyright" class="footer-copyright">
             <!-- BEGIN container -->
@@ -385,7 +388,7 @@
         <!-- END #footer-copyright -->
     </div>
     <!-- END #page-container -->
-    
+
     <!-- begin theme-panel -->
     <div class="theme-panel">
         <a href="javascript:;" data-click="theme-panel-expand" class="theme-collapse-btn"><i class="fa fa-cog"></i></a>
@@ -400,7 +403,7 @@
         </div>
     </div>
     <!-- end theme-panel -->
-	
+
 	<!-- ================== BEGIN BASE JS ================== -->
 	<script src="{{asset('assets/plugins/jquery/jquery-3.2.1.min.js')}}"></script>
 	<script src="{{asset('assets/plugins/bootstrap3/js/bootstrap.min.js')}}"></script>
@@ -411,11 +414,15 @@
 	<![endif]-->
 	<script src="{{asset('assets/plugins/js-cookie/js.cookie.js')}}"></script>
 	<script src="{{asset('assets/js/e-commerce/apps.min.js')}}"></script>
+    <script src="{{asset('assets/plugins/parsley/dist/parsley.js')}}"></script>
+    <script src="{{asset('assets/plugins/jquery-smart-wizard/src/js/jquery.smartWizard.js')}}"></script>
+    <script src="{{asset('assets/js/demo/form-wizards-validation.demo.min.js')}}"></script>
 	<!-- ================== END BASE JS ================== -->
-	
+
 	<script>
 	    $(document).ready(function() {
 	        App.init();
+            FormWizardValidation.init();
 	    });
 
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');

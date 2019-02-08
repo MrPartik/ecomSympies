@@ -32,7 +32,7 @@
                                         @endphp
                                     </span>
                                 </div>
-                                <a href="product_detail.html" class="btn btn-outline btn-lg fadeInRightBig animated">Buy Now</a>
+                                <a href="{{url('product/details/'.$item->PROD_ID)}}" class="btn btn-outline btn-lg fadeInRightBig animated">View</a>
                             </div>
                         </div>
                     </div>
@@ -41,18 +41,18 @@
                     @endforeach
                 </div>
                 <!-- END carousel-inner -->
-                <a class="left carousel-control" href="#main-carousel" data-slide="prev"> 
-                    <i class="fa fa-angle-left"></i> 
+                <a class="left carousel-control" href="#main-carousel" data-slide="prev">
+                    <i class="fa fa-angle-left"></i>
                 </a>
-                <a class="right carousel-control" href="#main-carousel" data-slide="next"> 
-                    <i class="fa fa-angle-right"></i> 
+                <a class="right carousel-control" href="#main-carousel" data-slide="next">
+                    <i class="fa fa-angle-right"></i>
                 </a>
             </div>
             <!-- END carousel -->
         </div>
         <!-- END #slider -->
-     
-    
+
+
         <!-- BEGIN #trending-items -->
         <div id="trending-items" class="section-container bg-silver">
             <!-- BEGIN container -->
@@ -61,41 +61,42 @@
                 <h4 class="section-title clearfix">
                     <!-- <a href="#" class="pull-right m-l-5"><i class="fa fa-angle-right f-s-18"></i></a>
                     <a href="#" class="pull-right"><i class="fa fa-angle-left f-s-18"></i></a> -->
-                    
-                    <a href="#" class="pull-right">SHOW ALL</a> 
+
+                    <a href="#" class="pull-right">SHOW ALL</a>
                     Trending Products
                     <small>Shop and get gifts for your friends and your family!</small>
                 </h4>
                 <!-- END section-title -->
-            
+
                 <!-- BEGIN row -->
                 <div class="row row-space-10">
-                
+
                     @foreach($Allprod->take(6) as $item)
                     <!-- BEGIN col-2 -->
                     <div class="col-md-2 col-sm-4">
                         <!-- BEGIN item -->
                         <div class="item item-thumbnail">
-                            <a href="#" class="item-image">
+                            <a href="{{url('product/details/'.$item->PROD_ID)}}" class="item-image">
                                 <img src="{{($item->PROD_IMG==null||!file_exists($item->PROD_IMG))?asset('uPackage.png'):asset($item->PROD_IMG)}}" alt="" />
-                                    <div class="discount" >0% OFF</div>
+                                    <div class="discount" >{{$discount=$item->PROD_DISCOUNT}}% OFF</div>
                             </a>
                             <div class="item-info">
                                 <h4 class="item-title">
-                                <a href="">{{$item->PROD_NAME}}<br />
+                                <a href="{{url('product/details/'.$item->PROD_ID)}}">{{$item->PROD_NAME}}<br />
                                     <span style="color:gray">{{$item->rAffiliateInfo->AFF_NAME}}</span>
                                 </a>
                                 </h4>
                                 <p class="item-desc" title="{{$item->PROD_DESC}}">{{$item->PROD_DESC}}</p>
+
                                 <div class="item-price">
                                     @php
                                         $total=($item->PROD_IS_APPROVED==1)?(($item->PROD_REBATE/100)* $item->PROD_BASE_PRICE)
                                         +(($item->rTaxTableProfile->TAXP_TYPE==0)?($item->rTaxTableProfile->TAXP_RATE/100)* $item->PROD_BASE_PRICE:($item->rTaxTableProfile->TAXP_RATE)+ $item->PROD_BASE_PRICE)
                                         +(($item->PROD_MARKUP/100)* $item->PROD_BASE_PRICE)+$item->PROD_BASE_PRICE:'NAN';
-                                        echo number_format($total,2)
+                                        echo number_format(($discount)?$total-($total*($discount/100)):$total,2)
                                     @endphp
                                 </div>
-                                <!-- <div class="item-discount-price"></div> -->
+                                 <div class="item-discount-price">{{($discount)?number_format($total,2):''}}</div>
                             </div>
                         </div>
                         <!-- END item -->
@@ -108,7 +109,7 @@
             <!-- END container -->
         </div>
         <!-- END #trending-items -->
-    
+
         <!-- BEGIN #mobile-list -->
         <div id="mobile-list" class="section-container bg-silver p-t-0">
             <!-- BEGIN container -->
@@ -159,22 +160,22 @@
                         <!-- END category-item -->
                         <!-- BEGIN category-item -->
                         <div class="category-item list">
-                            
+
                             @php $i=1 @endphp
                             @foreach($Allprod->take(9) as $item)
                             <!-- BEGIN item-row -->
                             @if( $i%3==1)
                             <div class="item-row">
-                            @endif 
+                            @endif
                                <!-- BEGIN item -->
                             <div class="item item-thumbnail">
-                                <a href="#" class="item-image">
+                                <a href="{{url('product/details/'.$item->PROD_ID)}}" class="item-image">
                                     <img src="{{($item->PROD_IMG==null||!file_exists($item->PROD_IMG))?asset('uPackage.png'):asset($item->PROD_IMG)}}" alt="" />
-                                    <div class="discount" >0% OFF</div>
+                                    <div class="discount" >{{$discount=$item->PROD_DISCOUNT}}% OFF</div>
                                 </a>
                                 <div class="item-info">
                                     <h4 class="item-title">
-                                        <a href="">{{$item->PROD_NAME}}<br />
+                                        <a href="{{url('product/details/'.$item->PROD_ID)}}">{{$item->PROD_NAME}}<br />
                                             <span style="color:gray">{{$item->rAffiliateInfo->AFF_NAME}}</span>
                                         </a>
                                     </h4>
@@ -184,19 +185,19 @@
                                             $total=($item->PROD_IS_APPROVED==1)?(($item->PROD_REBATE/100)* $item->PROD_BASE_PRICE)
                                             +(($item->rTaxTableProfile->TAXP_TYPE==0)?($item->rTaxTableProfile->TAXP_RATE/100)* $item->PROD_BASE_PRICE:($item->rTaxTableProfile->TAXP_RATE)+ $item->PROD_BASE_PRICE)
                                             +(($item->PROD_MARKUP/100)* $item->PROD_BASE_PRICE)+$item->PROD_BASE_PRICE:'NAN';
-                                            echo number_format($total,2)
+                                            echo number_format(($discount)?$total-($total*($discount/100)):$total,2)
                                         @endphp
                                     </div>
-                                    <!-- <div class="item-discount-price"></div> -->
+                                    <div class="item-discount-price">{{($discount)?number_format($total,2):''}}</div>
                                 </div>
                             </div>
-                                <!-- END item --> 
-                                
+                                <!-- END item -->
+
                             @if($i%3==0 || count($Allprod)==$i )
                             </div>
                             <!-- END item-row -->
                              @endif
-                             
+
                              @php $i++ @endphp
                              @endforeach
                         </div>
@@ -209,7 +210,7 @@
             <!-- END container -->
         </div>
         <!-- END #mobile-list -->
-    
+
         <!-- BEGIN #tablet-list -->
         <div id="tablet-list" class="section-container bg-silver p-t-0">
             <!-- BEGIN container -->
@@ -270,25 +271,26 @@
                                     @endif
                                     <!-- BEGIN item -->
                                         <div class="item item-thumbnail">
-                                            <a href="#" class="item-image">
+                                            <a href="{{url('product/details/'.$item->PROD_ID)}}" class="item-image">
                                                 <img src="{{($item->PROD_IMG==null||!file_exists($item->PROD_IMG))?asset('uPackage.png'):asset($item->PROD_IMG)}}" alt="" />
-                                                <div class="discount" >0% OFF</div>
+                                                <div class="discount" >{{$discount=$item->PROD_DISCOUNT}}% OFF</div>
                                             </a>
                                             <div class="item-info">
                                                 <h4 class="item-title">
-                                                    <a href="">{{$item->PROD_NAME}}<br />
+                                                    <a href="{{url('product/details/'.$item->PROD_ID)}}">{{$item->PROD_NAME}}<br />
                                                         <span style="color:gray">{{$item->rAffiliateInfo->AFF_NAME}}</span></a>
                                                 </h4>
                                                 <p class="item-desc"  title="{{$item->PROD_DESC}}">{{$item->PROD_DESC}}</p>
                                                 <div class="item-price">
-                                                @php
-                                                    $total=($item->PROD_IS_APPROVED==1)?(($item->PROD_REBATE/100)* $item->PROD_BASE_PRICE)
-                                                    +(($item->rTaxTableProfile->TAXP_TYPE==0)?($item->rTaxTableProfile->TAXP_RATE/100)* $item->PROD_BASE_PRICE:($item->rTaxTableProfile->TAXP_RATE)+ $item->PROD_BASE_PRICE)
-                                                    +(($item->PROD_MARKUP/100)* $item->PROD_BASE_PRICE)+$item->PROD_BASE_PRICE:'NAN';
-                                                    echo number_format($total,2)
-                                                @endphp
+                                                    @php
+
+                                                        $total=($item->PROD_IS_APPROVED==1)?(($item->PROD_REBATE/100)* $item->PROD_BASE_PRICE)
+                                                            +(($item->rTaxTableProfile->TAXP_TYPE==0)?($item->rTaxTableProfile->TAXP_RATE/100)* $item->PROD_BASE_PRICE:($item->rTaxTableProfile->TAXP_RATE)+ $item->PROD_BASE_PRICE)
+                                                            +(($item->PROD_MARKUP/100)* $item->PROD_BASE_PRICE)+$item->PROD_BASE_PRICE:'NAN';
+                                                            echo ($total!='NAN')?number_format(($discount)?$total-($total*($discount/100)):$total,2):$total
+                                                    @endphp
                                                 </div>
-                                                <!-- <div class="item-discount-price"></div> -->
+                                                <div class="item-discount-price">{{($discount)?number_format($total,2):''}}</div>
                                             </div>
                                         </div>
                                         <!-- END item -->
@@ -311,7 +313,7 @@
             <!-- END container -->
         </div>
         <!-- END #tablet-list -->
-    
+
         <!-- BEGIN #policy -->
         {{--<div id="policy" class="section-container p-t-30 p-b-30">--}}
             {{--<!-- BEGIN container -->--}}
@@ -363,7 +365,7 @@
             {{--<!-- END container -->--}}
         {{--</div>--}}
         <!-- END #policy -->
-    
+
         <!-- BEGIN #subscribe -->
         <div id="subscribe" class="section-container bg-silver p-t-30 p-b-30">
             <!-- BEGIN container -->
@@ -436,13 +438,14 @@
                         });
                         $($btn).closest('li').css('background','#8080805e');
                         $($btn).closest('li').closest('ul').closest('div').closest('.category-container').find('.category-detail').find('.category-item').html(" ");
-                        var $i=1;
+                        $i=1;
                         $datas = "";
                         $.each($data,function(id,val){
                             $start="";
                             $end="";
                             $pic="/uPackage.png";
-                            
+                            $discounts = "";
+                            $price="";
                             if($i%3==1)
                                 $start="<div class='item-row'>";
                             if($i%3==0 || $data.count )
@@ -450,12 +453,19 @@
                             if(val.PROD_IMG)
                                 $pic=val.PROD_IMG;
 
+                            $total=(val.PROD_IS_APPROVED==1)?((val.PROD_REBATE/100)* val.PROD_BASE_PRICE)+((val.r_tax_table_profile.TAXP_TYPE==0)?(val.r_tax_table_profile.TAXP_RATE/100)* val.PROD_BASE_PRICE:(val.r_tax_table_profile.TAXP_RATE)+ val.PROD_BASE_PRICE)+((val.PROD_MARKUP/100)* val.PROD_BASE_PRICE)+val.PROD_BASE_PRICE:'NAN';
 
-                            $total=(val.PROD_IS_APPROVED==1)?((val.PROD_REBATE/100)* val.PROD_BASE_PRICE)+((val.r_tax_table_profile.TAXP_TYPE==0)?(val.r_tax_table_profile.TAXP_RATE/100)* value.PROD_BASE_PRICE:(val.r_tax_table_profile.TAXP_RATE)+ val.PROD_BASE_PRICE)+((val.PROD_MARKUP/100)* val.PROD_BASE_PRICE)+val.PROD_BASE_PRICE:'NAN';
+                            if($discount = val.PROD_DISCOUNT){
+                                $price = moneyFormat(($total-($total*($discount/100))).toFixed(2));
+                                $discounts =moneyFormat($total.toFixed(2));
+                            }else{
+                                $price = moneyFormat($total.toFixed(2));
+                                $discounts = '';
+                            }
 
-                            $datas += $start+"<div class='item item-thumbnail'> <a href='#' class='item-image'> <img src='"+$pic+"' />  <div class='discount' >0% OFF</div> </a> <div class='item-info'> <h4 class='item-title'>  <a href='javascript:;'>"+val.PROD_NAME+"<br /> <span style='color:gray'>"+val.r_affiliate_info.AFF_NAME+"</span></a>" +
-                                "</h4> <p class='item-desc'  title='"+val.PROD_DESC+"'>"+val.PROD_DESC+"</p> <div class='item-price'>"+moneyFormat($total.toFixed(2))+"</div>" +
-                                "</div> </div>"+$end;
+                            $datas += $start+"<div class='item item-thumbnail'> <a href='/product/details/"+val.PROD_ID+"' class='item-image'> <img src='"+$pic+"' />  <div class='discount' >"+$discount+"% OFF</div> </a> <div class='item-info'> <h4 class='item-title'>  <a href='/product/details/"+val.PROD_ID+"'>"+val.PROD_NAME+"<br /> <span style='color:gray'>"+val.r_affiliate_info.AFF_NAME+"</span></a>" +
+                                "</h4> <p class='item-desc'  title='"+val.PROD_DESC+"'>"+val.PROD_DESC+"</p> <div class='item-price'>"+$price+"</div>" +
+                                "<div class='item-discount-price'>"+$discounts+"</div></div> </div>"+$end;
                             $i++;
                         });
                         if($data=='')
@@ -463,7 +473,9 @@
                         $($btn).closest('li').closest('ul').closest('div').closest('.category-container').find('.category-detail').find('.category-item').html($datas);
 
                     }
-                    ,error:function(){
+                    ,error:function($e){
+                        window.location.href=$e;
+                        alert($e);
 
                     }
                 });
@@ -472,7 +484,7 @@
 
 
 
-        {{--btn_getProdAff--}}
+        {{--btn_getProdAff--}}p
         <script>
             $('a[id=btn_getProdCat]').on('click',function(){
                 $btn = $(this);
@@ -494,7 +506,8 @@
                             $start="";
                             $end="";
                             $pic="/uPackage.png";
-
+                            $discounts = "";
+                            $price="";
                             if($i%3==1)
                                 $start="<div class='item-row'>";
                             if($i%3==0 || $data.count )
@@ -502,11 +515,18 @@
                             if(val.PROD_IMG)
                                 $pic=val.PROD_IMG;
 
-                            $total=(val.PROD_IS_APPROVED==1)?((val.PROD_REBATE/100)* val.PROD_BASE_PRICE)+((val.r_tax_table_profile.TAXP_TYPE==0)?(val.r_tax_table_profile.TAXP_RATE/100)* value.PROD_BASE_PRICE:(val.r_tax_table_profile.TAXP_RATE)+ val.PROD_BASE_PRICE)+((val.PROD_MARKUP/100)* val.PROD_BASE_PRICE)+val.PROD_BASE_PRICE:'NAN';
+                            $total=(val.PROD_IS_APPROVED==1)?((val.PROD_REBATE/100)* val.PROD_BASE_PRICE)+((val.r_tax_table_profile.TAXP_TYPE==0)?(val.r_tax_table_profile.TAXP_RATE/100)* val.PROD_BASE_PRICE:(val.r_tax_table_profile.TAXP_RATE)+ val.PROD_BASE_PRICE)+((val.PROD_MARKUP/100)* val.PROD_BASE_PRICE)+val.PROD_BASE_PRICE:'NAN';
 
-                            $datas += $start+"<div class='item item-thumbnail'> <a href='#' class='item-image'> <img src='"+$pic+"' />  <div class='discount' >0% OFF</div> </a> <div class='item-info'> <h4 class='item-title'>  <a href='javascript:;'>"+val.PROD_NAME+"<br /> <span style='color:gray'>"+val.r_affiliate_info.AFF_NAME+"</span></a>" +
-                                "</h4> <p class='item-desc'  title='"+val.PROD_DESC+"'>"+val.PROD_DESC+"</p> <div class='item-price'>"+moneyFormat($total.toFixed(2))+"</div>" +
-                                "</div> </div>"+$end;
+                            if($discount = val.PROD_DISCOUNT){
+                                $price = moneyFormat(($total-($total*($discount/100))).toFixed(2));
+                                $discounts =moneyFormat($total.toFixed(2));
+                            }else{
+                                $price = moneyFormat($total.toFixed(2));
+                                $discounts = '';
+                            }
+                            $datas += $start+"<div class='item item-thumbnail'> <a href='/product/details/"+val.PROD_ID+"' class='item-image'> <img src='"+$pic+"' />  <div class='discount' >"+$discount+"% OFF</div> </a> <div class='item-info'> <h4 class='item-title'>  <a href='/product/details/"+val.PROD_ID+"'>"+val.PROD_NAME+"<br /> <span style='color:gray'>"+val.r_affiliate_info.AFF_NAME+"</span></a>" +
+                                "</h4> <p class='item-desc'  title='"+val.PROD_DESC+"'>"+val.PROD_DESC+"</p> <div class='item-price'>"+$price+"</div>" +
+                                "<div class='item-discount-price'>"+$discounts+"</div></div> </div>"+$end;
                             $i++;
                         });
                         if($data=='')
@@ -514,8 +534,9 @@
                         $($btn).closest('li').closest('ul').closest('div').closest('.category-container').find('.category-detail').find('.category-item').html($datas);
 
                     }
-                    ,error:function(){
-
+                    ,error:function($e){
+                        window.location.href=$e;
+                        alert($e);
                     }
                 });
             });

@@ -48,6 +48,9 @@
 <link href="{{asset('assets/plugins/isotope/isotope.css')}}" rel="stylesheet" />
 <link href="{{asset('assets/plugins/lightbox/css/lightbox.css')}}" rel="stylesheet" />
 <script src="{{asset('assets/plugins/pace/pace.min.js')}}"></script>
+
+<link href="{{asset('assets/plugins/jquery-smart-wizard/src/css/smart_wizard.css')}}" rel="stylesheet" />
+<link href="{{asset('assets/plugins/parsley/src/parsley.css')}}" rel="stylesheet" />
 <!-- ================== END PAGE LEVEL STYLE ================== -->
 
 <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />

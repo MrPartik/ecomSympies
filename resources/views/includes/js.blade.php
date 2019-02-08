@@ -81,6 +81,9 @@
 <script src="{{asset('assets/plugins/isotope/jquery.isotope.min.js')}}"></script>
 <script src="{{asset('assets/plugins/lightbox/js/lightbox.min.js')}}"></script>
 <script src="{{asset('assets/js/demo/gallery.demo.min.js')}}"></script>
+<script src="{{asset('assets/plugins/parsley/dist/parsley.js')}}"></script>
+<script src="{{asset('assets/plugins/jquery-smart-wizard/src/js/jquery.smartWizard.js')}}"></script>
+<script src="{{asset('assets/js/demo/form-wizards-validation.demo.min.js')}}"></script>
 <script>
     function padDigits(number, digits) {
         return Array(Math.max(digits - String(number).length + 1, 0)).join(0) + number;

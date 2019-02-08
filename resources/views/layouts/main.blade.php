@@ -214,7 +214,8 @@
         TableManageButtons.init();
         FormWysihtml5.init();
         FormPlugins.init();
-        Gallery.init();
+        Gallery.init(); 
+        FormWizardValidation.init();
     });
 </script>
 @yield('extrajs')

@@ -81,9 +81,15 @@
                                 <td>
 
                                     Base Price: {{$item->PROD_BASE_PRICE}} <br>
-                                    Selling Price: {{$total=($item->PROD_IS_APPROVED==1)?(($item->PROD_REBATE/100)* $item->PROD_BASE_PRICE)
-                                            +(($item->rTaxTableProfile->TAXP_TYPE==0)?($item->rTaxTableProfile->TAXP_RATE/100)* $item->PROD_BASE_PRICE:($item->rTaxTableProfile->TAXP_RATE)+ $item->PROD_BASE_PRICE)
-                                            +(($item->PROD_MARKUP/100)* $item->PROD_BASE_PRICE)+$item->PROD_BASE_PRICE:'NAN'}}
+                                    Discount (%): {{$discount=$item->PROD_DISCOUNT}}% <br>
+                                    Selling Price:
+                                    @php
+
+                                        $total=($item->PROD_IS_APPROVED==1)?(($item->PROD_REBATE/100)* $item->PROD_BASE_PRICE)
+                                        +(($item->rTaxTableProfile->TAXP_TYPE==0)?($item->rTaxTableProfile->TAXP_RATE/100)* $item->PROD_BASE_PRICE:($item->rTaxTableProfile->TAXP_RATE)+ $item->PROD_BASE_PRICE)
+                                        +(($item->PROD_MARKUP/100)* $item->PROD_BASE_PRICE)+$item->PROD_BASE_PRICE:'NAN';
+                                        echo $total = ($total!='NAN')?number_format(($discount)?$total-($total*($discount/100)):$total,2):$total
+                                    @endphp
                                 </td>
                                 <td>
                                     Available
@@ -120,7 +126,8 @@
                                                 <ul class="dropdown-menu" role="menu">
                                                         <li> <a  id='viewProduct' total="{{$total}}" href="#prodView" data-toggle="modal" vals="{{$item->PROD_ID}}" >View</a></li>
                                                         <li> <a  id='editProduct' href="{{action('manageProduct@edit',$item->PROD_ID)}}" >Edit Product Info</a></li>
-                                                        <li> <a  id='editVariance' href="#productVariance" data-toggle="modal" vals="{{$item->PROD_ID}}" onclick="$('input[id=varProdID]').val({{$item->PROD_ID}});" prod-name="{{$item->PROD_NAME}}" prod-desc="{{$item->PROD_DESC}}" >Product Variance</a></li>
+                                                        <li> <a  id='editVariance' href="#productVariance" data-toggle="modal" vals="{{$item->PROD_ID}}" onclick="$('input[id=varProdID]').val({{$item->PROD_ID}}); $('input[id=varProdCODE]').val('{{$item->PROD_CODE}}');" prod-name="{{$item->PROD_NAME}}" prod-desc="{{$item->PROD_DESC}}" >Product Variance</a></li>
+                                                        <li> <a  id='discount' href="#adddiscount" data-toggle="modal" vals="{{$item->PROD_ID}}" onclick="$('span[id=SellingPrice]').text(moneyFormat(({{$total}}).toFixed(2)))"  >Configure Discount</a></li>
                                                         <li class="divider"></li>
                                                         <li> <a  id=deact href="#"  vals="{{$item->PROD_ID}}"  >Deactivate</a></li>
                                                 </ul>
@@ -214,11 +221,56 @@
                             </div>
                             <div class="pull-right" style="margin-right: 10px;">
                                 <br>
-                                <button type="submit" class="btn btn-success" id="appSave">Save changes</button>
+                                <button type="submit" class="btn btn-success">Save changes</button>
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-message fade" id="adddiscount" >
+        <div class="modal-dialog" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Configure Discount</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <form id="prodDiscountForm" method="post" action="{{url('product/discount')}}" enctype="multipart/form-data">
+                        {{csrf_field()}}
+                        <input id="varProdID" name="prodID" value="0" style="display: none;">
+
+                        <div class="row">
+                            <div class="col-md-12" style="padding-bottom: 20px;">
+                                <strong>Are you sure? you wan to set discount for this product?</strong>
+                                <p>Please provide the following inputs to validate the product in the market.</p>
+                            </div>
+                            <div class="col-md-6" style="background: lightgray;">
+                                <span id="SellingPrice" style="color: gray;font-weight: 1000;font-size: 5em;text-align: justify;"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Discount(Percentage)</label>
+                                    <div class="input-group">
+                                        <input type="number" placeholder="0" name="prodDiscount" class="form-control" required>
+                                        <div class="input-group-addon">
+                                            %
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pull-right" style="margin-right: 10px;">
+                                <br>
+                                <button type="submit" class="btn btn-success" id="appSave">Save changes</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </form>
+
                 </div>
             </div>
         </div>
@@ -235,6 +287,7 @@
                     <form id="productVarianceForm" method="post" action="{{url('/product/ProductVar')}}" enctype="multipart/form-data">
                         {{csrf_field()}}
                         <input id="varProdID" name="prodID" value="1" style="display: none;">
+                        <input id="varProdCODE" name="prodCODE" value="1" style="display: none;">
                         <div class="row" style="padding: 10px;">
                             <div class="col-md-12" style="padding-bottom: 20px;">
                                 <strong id="prodname">Product Name</strong>
@@ -243,11 +296,12 @@
                             <table id="prodvartable" class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
+                                    <th>SKU</th>
                                     <th>Name*</th>
-                                    <th width="20%">Additional Price*</th>
+                                    <th width="10%">Additional Price*</th>
                                     <th width="20%">Image (optional)</th>
                                     <th>Description*</th>
-                                    <th>Stock Qty*</th>
+                                    <th width="10%">Stock Qty*</th>
                                     <th><a id=addVar class="btn btn-success"><i class="fa fa-plus text-white"></i></a></th>
                                 </tr>
                                 </thead>
@@ -255,6 +309,7 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
+                                    <th>SKU</th>
                                     <th>Name</th>
                                     <th>Additional Price</th>
                                     <th>Image (optional)</th>
@@ -311,7 +366,8 @@
             $(this).closest('table').find('tbody').append(
                 '   <tr>\n' +
                 '            <td style="display:none"><input  name="prodVarID[]" value="0" class="hidden"></td>\n' +
-                '                <td><input type="text" placeholder="Product Variance Name" name="prodvarname[]" class="form-control" required></td>\n' +
+                '            <td><input id=SKU name=SKU[] readonly class="form-control"  value="'+$('input[id=varProdCODE]').val()+'"></td>\n' +
+                '            <td><input id=prodvarname type="text" placeholder="Product Variance Name" name="prodvarname[]" class="form-control" required></td>\n' +
                 '            <td><div class="input-group">\n' +
                 '                <input type="number" placeholder="0" name="addprice[]" value=0 class="form-control" required>\n' +
                 '            <div class="input-group-addon">\n' +
@@ -364,7 +420,8 @@
                         $('#prodvartable').find('tbody').append(
                             '   <tr>\n' +
                             '            <td style="display:none"><input  name="prodVarID[]" value="'+$data.data[index].PRODV_ID+'" class="hidden"></td>\n>?' +
-                            '                <td><input value="'+$data.data[index].PRODV_NAME+'" type="text" placeholder="Product Variance Name" name="prodvarname[]" class="form-control" required></td>\n' +
+                            '            <td><input existing =true id=SKU name=SKU[] readonly class="form-control"  value="'+$data.data[index].PRODV_SKU+'"></td>\n' +
+                            '            <td><input id=prodvarname value="'+$data.data[index].PRODV_NAME+'" type="text" placeholder="Product Variance Name" name="prodvarname[]" class="form-control" required></td>\n' +
                             '            <td><div class="input-group">\n' +
                             '                <input value="'+$data.data[index].PRODV_ADD_PRICE+'"  type="number" placeholder="0" name="addprice[]" class="form-control" required >\n' +
                             '            <div class="input-group-addon">\n' +
@@ -387,7 +444,8 @@
                     $('#prodvartable').find('tbody').append(
                         '   <tr>\n' +
                         '            <td style="display:none"><input  name="prodVarID[]" value="0" class="hidden"></td>\n' +
-                        '                <td><input type="text" placeholder="Product Variance Name" name="prodvarname[]" class="form-control" required></td>\n' +
+                        '            <td><input id=SKU name=SKU[] readonly class="form-control"  value="'+$('input[id=varProdCODE]').val()+'"></td>\n' +
+                        '            <td><input id=prodvarname type="text" placeholder="Product Variance Name" name="prodvarname[]" class="form-control" required></td>\n' +
                         '            <td><div class="input-group">\n' +
                         '                <input type="number" placeholder="0" name="addprice[]" class="form-control" required value=0>\n' +
                         '            <div class="input-group-addon">\n' +
@@ -415,7 +473,10 @@
         });
 
 
-
+        $('table[id="prodvartable"]').on('keyup paste','input[id=prodvarname]',function(){
+            if(!$(this).closest('td').closest('tr').find('input[name="SKU[]"]').attr('existing'))
+           $(this).closest('td').closest('tr').find('input[name="SKU[]"]').val($('input[id=varProdCODE]').val()+'-'+$(this).val().substring(0,3).toUpperCase()+Math.random().toString(36).replace('0.', '').substring(0,3));
+        });
         $('#data-table-buttons').DataTable({
             'paging'      : true,
             'lengthChange': true,

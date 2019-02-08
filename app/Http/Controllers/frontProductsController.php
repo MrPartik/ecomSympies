@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\t_product_variance;
 use Illuminate\Http\Request;
 use App\r_product_info;
-use App\r_affiliate_info;   
+use App\r_affiliate_info;
 use App\r_product_type;
 
 
@@ -23,8 +24,8 @@ class frontProductsController extends Controller
             ->where('PROD_DISPLAY_STATUS',1)->get();
         $aff = r_affiliate_info::all();
         $cat = r_product_type::with('rProductType')->get();
-        
-        
+
+
         return view('pages.frontend-shop.list-front-products',compact('Allprod','aff','cat'));
     }
 
@@ -126,8 +127,37 @@ class frontProductsController extends Controller
                 ->where('PROD_DISPLAY_STATUS',1)
                 ->get()->take(9);
 
- 
+
 
         return json_encode($Allprod);
     }
+
+    public function getProdDetails($id){
+
+        $Allprod = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')
+            ->where('PROD_IS_APPROVED','1')
+            ->where('PROD_DISPLAY_STATUS',1)
+            ->get();
+
+
+        $randProd = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')
+            ->where('PROD_IS_APPROVED','1')
+            ->where('PROD_DISPLAY_STATUS',1)
+            ->inRandomOrder()->get();
+
+        $getProd = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')
+            ->where('PROD_IS_APPROVED','1')
+            ->where('PROD_DISPLAY_STATUS',1)
+            ->where('PROD_ID',$id)
+            ->get();
+
+        $getVar = t_product_variance::all()
+            ->where('PROD_ID',$id);
+
+        $aff = r_affiliate_info::all();
+        $cat = r_product_type::with('rProductType')->get();
+
+        return view('pages.frontend-shop.product-details',compact('Allprod','aff','cat','randProd','getProd','getVar','id'));
+    }
+
 }

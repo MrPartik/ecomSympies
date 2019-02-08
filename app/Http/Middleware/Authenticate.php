@@ -21,5 +21,6 @@ class Authenticate
         else
             return redirect('/login');
 
+
     }
 }
