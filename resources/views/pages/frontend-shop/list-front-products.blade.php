@@ -25,12 +25,15 @@
                                 <div class="price m-b-30 fadeInRightBig animated"><small>from</small>
                                     <span>
                                         @php
+                                            $discount=$item->PROD_DISCOUNT;
                                             $total=($item->PROD_IS_APPROVED==1)?(($item->PROD_REBATE/100)* $item->PROD_BASE_PRICE)
                                             +(($item->rTaxTableProfile->TAXP_TYPE==0)?($item->rTaxTableProfile->TAXP_RATE/100)* $item->PROD_BASE_PRICE:($item->rTaxTableProfile->TAXP_RATE)+ $item->PROD_BASE_PRICE)
                                             +(($item->PROD_MARKUP/100)* $item->PROD_BASE_PRICE)+$item->PROD_BASE_PRICE:'NAN';
-                                            echo number_format($total,2)
+                                        echo number_format(($discount)?$total-($total*($discount/100)):$total,2)
                                         @endphp
                                     </span>
+
+                                    {{--<div class="item-discount-price">{{($discount)?number_format($total,2):''}}</div>--}}
                                 </div>
                                 <a href="{{url('product/details/'.$item->PROD_ID)}}" class="btn btn-outline btn-lg fadeInRightBig animated">View</a>
                             </div>
