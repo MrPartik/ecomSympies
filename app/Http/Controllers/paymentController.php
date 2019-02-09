@@ -14,13 +14,14 @@ use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Rest\ApiContext;
+use PayPal\Api\Refund;
 use Redirect;
 use Session;
 use URL;
 use App\r_product_info;
 use App\r_product_type;
 use App\r_tax_table_profile;
-class PaymentController extends Controller
+class paymentController extends Controller
 {
     private $_api_context;
     /**
@@ -42,9 +43,6 @@ class PaymentController extends Controller
 
     public function payWithpaypal(Request $request)
     {
-
-
-
         $getProd = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')
             ->where('PROD_IS_APPROVED','1')
             ->where('PROD_DISPLAY_STATUS',1)
@@ -55,7 +53,7 @@ class PaymentController extends Controller
         +(($getProd->rTaxTableProfile->TAXP_TYPE==0)?($getProd->rTaxTableProfile->TAXP_RATE/100)* $getProd->PROD_BASE_PRICE:($getProd->rTaxTableProfile->TAXP_RATE)+ $getProd->PROD_BASE_PRICE)
         +(($getProd->PROD_MARKUP/100)* $getProd->PROD_BASE_PRICE)+$getProd->PROD_BASE_PRICE:'NAN';
         $discount = $getProd->PROD_DISCOUNT;
-        $total =number_format(($discount)?$totalPrice-($totalPrice*($discount/100)):$totalPrice,2);
+        $total =($discount)?$totalPrice-($totalPrice*($discount/100)):$totalPrice;
 
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
@@ -63,7 +61,9 @@ class PaymentController extends Controller
         $item_1->setName($getProd->PROD_NAME) /** item name **/
         ->setCurrency('PHP')
             ->setQuantity(1)
-            ->setPrice($total); /** unit price **/
+            ->setPrice($total) /** unit price **/
+            ->setSku($getProd->PROD_CODE)
+            ->setDescription($getProd->PROD_DESC);
         $item_list = new ItemList();
         $item_list->setItems(array($item_1));
         $amount = new Amount();
@@ -77,7 +77,7 @@ class PaymentController extends Controller
         $redirect_urls->setReturnUrl(URL::to('status')) /** Specify return URL **/
         ->setCancelUrl(URL::to('status'));
         $payment = new Payment();
-        $payment->setIntent('Sale')
+        $payment->setIntent('authorize')
             ->setPayer($payer)
             ->setRedirectUrls($redirect_urls)
             ->setTransactions(array($transaction));
@@ -108,6 +108,8 @@ class PaymentController extends Controller
         \Session::put('error', 'Unknown error occurred');
         return Redirect::to('/');
     }
+
+
     public function getPaymentStatus()
     {
         /** Get the payment ID before session clear **/
@@ -129,5 +131,10 @@ class PaymentController extends Controller
         }
         \Session::put('error', 'Payment failed');
         return Redirect::to('/');
+    }
+
+    public  function refundTransaction(Request $request){
+
+        $refund = new Refund();
     }
 }

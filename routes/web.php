@@ -51,9 +51,9 @@ Route::post('/checkout/execute','prodCheckout@executePayment');
 
 
 // route for processing payment
-Route::post('paypal', 'PaymentController@payWithpaypal');
+Route::post('paypal', 'paymentController@payWithpaypal');
 // route for check status of the payment
-Route::get('status', 'PaymentController@getPaymentStatus');
+Route::get('status', 'paymentController@getPaymentStatus');
 
 
 Route::get('/getSympiesAccount/{id}',function($id){
