@@ -85,10 +85,11 @@
                                     Selling Price:
                                     @php
 
-                                        $total=($item->PROD_IS_APPROVED==1)?(($item->PROD_REBATE/100)* $item->PROD_BASE_PRICE)
+                                        $woDtotal=($item->PROD_IS_APPROVED==1)?(($item->PROD_REBATE/100)* $item->PROD_BASE_PRICE)
                                         +(($item->rTaxTableProfile->TAXP_TYPE==0)?($item->rTaxTableProfile->TAXP_RATE/100)* $item->PROD_BASE_PRICE:($item->rTaxTableProfile->TAXP_RATE)+ $item->PROD_BASE_PRICE)
                                         +(($item->PROD_MARKUP/100)* $item->PROD_BASE_PRICE)+$item->PROD_BASE_PRICE:'NAN';
-                                        echo $total = ($total!='NAN')?number_format(($discount)?$total-($total*($discount/100)):$total,2):$total
+
+                                        echo $total = ($woDtotal!='NAN')?number_format(($discount)?$woDtotal-($woDtotal*($discount/100)):$woDtotal,2):$woDtotal
                                     @endphp
                                 </td>
                                 <td>
@@ -127,7 +128,7 @@
                                                         <li> <a  id='viewProduct' total="{{$total}}" href="#prodView" data-toggle="modal" vals="{{$item->PROD_ID}}" >View</a></li>
                                                         <li> <a  id='editProduct' href="{{action('manageProduct@edit',$item->PROD_ID)}}" >Edit Product Info</a></li>
                                                         <li> <a  id='editVariance' href="#productVariance" data-toggle="modal" vals="{{$item->PROD_ID}}" onclick="$('input[id=varProdID]').val({{$item->PROD_ID}}); $('input[id=varProdCODE]').val('{{$item->PROD_CODE}}');" prod-name="{{$item->PROD_NAME}}" prod-desc="{{$item->PROD_DESC}}" >Product Variance</a></li>
-                                                        <li> <a  id='discount' href="#adddiscount" data-toggle="modal" vals="{{$item->PROD_ID}}" onclick="$('span[id=SellingPrice]').text(moneyFormat(({{$total}}).toFixed(2)))"  >Configure Discount</a></li>
+                                                        <li> <a  id='discount' href="#adddiscount" data-toggle="modal" vals="{{$item->PROD_ID}}"  woDtotal ='{{$woDtotal}}' discount="{{$item->PROD_DISCOUNT}}">Configure Discount</a></li>
                                                         <li class="divider"></li>
                                                         <li> <a  id=deact href="#"  vals="{{$item->PROD_ID}}"  >Deactivate</a></li>
                                                 </ul>
@@ -255,7 +256,7 @@
                                 <div class="form-group">
                                     <label>Discount(Percentage)</label>
                                     <div class="input-group">
-                                        <input type="number" placeholder="0" name="prodDiscount" class="form-control" required>
+                                        <input type="number" placeholder="0" name="prodDiscount" min="0" max="100" class="form-control" required>
                                         <div class="input-group-addon">
                                             %
                                         </div>
@@ -339,6 +340,20 @@
 
     <script>
 
+
+        $('a[id=discount]').on('click',function(){
+           $woDtotal = parseFloat($(this).attr('woDtotal'));
+           $discount = parseFloat($(this).attr('discount'));
+           $('span[id=SellingPrice]').text(moneyFormat($woDtotal.toFixed(2)));
+           $('input[name=prodDiscount]').trigger('keyup').val($discount);
+           $('span[id=SellingPrice]').text(moneyFormat($woDtotal-($woDtotal*($discount/100)).toFixed(2)));
+
+           $('input[name=prodDiscount]').on('keyup paste change',function(){
+               $('span[id=SellingPrice]').text(moneyFormat($woDtotal-($woDtotal*($(this).val()/100)).toFixed(2)));
+           });
+
+
+        });
         $('select[name=prodtax]').select2({ dropdownParent: $('#approve')});
 
         $("a[id='app']").on('click',function(){
@@ -625,6 +640,13 @@
                     });
                 }
             });
+        });
+
+
+
+        $("a[id=discount]").on('click',function(){
+
+
         });
     </script>
 @endsection

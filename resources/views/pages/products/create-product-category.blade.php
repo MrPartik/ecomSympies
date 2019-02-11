@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title','Product Create')
+@section('title','Product Category Create')
 
 @section('content')
     <!-- begin breadcrumb -->

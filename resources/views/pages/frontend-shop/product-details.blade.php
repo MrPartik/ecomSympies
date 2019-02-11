@@ -51,13 +51,13 @@
 
                                 <li>
                                     <a href="#">
-                                        {{ $cat->where('PRODT_ID',$item->PRODT_ID)->first()->rProductType->PRODT_TITLE}}
+                                        {{ $cat->where('PRODT_ID',$item->PRODT_ID)->first()->rProductType->PRODT_TITLE ?? 'Not set'}}
                                     </a>
                                 </li>
                                 <li>/</li>
                                 <li>
                                     <a href="#">
-                                        {{ $cat->where('PRODT_ID',$item->PRODT_ID)->first()->PRODT_TITLE}}
+                                        {{ $cat->where('PRODT_ID',$item->PRODT_ID)->first()->PRODT_TITLE ?? 'Not set'}}
                                     </a>
                                 </li>
                             </ul>
@@ -173,13 +173,13 @@
                     <div class="col-md-2 col-sm-4">
                         <!-- BEGIN item -->
                         <div class="item item-thumbnail">
-                            <a href="#" class="item-image">
+                            <a href="{{url('product/details/'.$item->PROD_ID)}}" class="item-image">
                                 <img src="{{($item->PROD_IMG==null||!file_exists($item->PROD_IMG))?asset('uPackage.png'):asset($item->PROD_IMG)}}" alt="" />
                                 <div class="discount" >{{$discount=$item->PROD_DISCOUNT}}% OFF</div>
                             </a>
                             <div class="item-info">
                                 <h4 class="item-title">
-                                    <a href="">{{$item->PROD_NAME}}<br />
+                                    <a href="{{url('product/details/'.$item->PROD_ID)}}">{{$item->PROD_NAME}}<br />
                                         <span style="color:gray">{{$item->rAffiliateInfo->AFF_NAME}}</span>
                                     </a>
                                 </h4>

@@ -14,7 +14,7 @@
                     @foreach($Allprod as $item)
                     <!-- BEGIN item -->
                     <div class="item {{($i==1)?'active':''}}">
-                        <img src="../assets/img/slider/slider-2-cover.jpg" class="bg-cover-img" alt="" />
+                        <img src="{{asset('assets/img/slider/slider-2-cover.jpg')}}" class="bg-cover-img" alt="" />
                         <div class="container">
                             <img style="background: #ffffff85;" src="{{($item->PROD_IMG==null||!file_exists($item->PROD_IMG))?asset('uPackage.png'):asset($item->PROD_IMG)}}" class="product-img left bottom fadeInLeft animated" alt="" />
                         </div>

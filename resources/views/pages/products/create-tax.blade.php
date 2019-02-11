@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title','Product Tax')
+@section('title','Tax Profile Create')
 
 @section('content')
     <!-- begin breadcrumb -->
