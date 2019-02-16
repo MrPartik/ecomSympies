@@ -306,7 +306,7 @@ class manageProduct extends Controller
                 if($request->prodVarID[$i] == 0) {
                     $prodVar = new t_product_variance();
                     $inv = new r_inventory_info();
-                    $prodVar->PRODV_QTY = $request->inv_qty[$i];
+                    $prodVar->PRODV_INIT_QTY = $request->inv_qty[$i];
                     if(!trim($request->inv_qty[$i])==""){
                         $inv->INV_QTY = $request->inv_qty[$i];
                         $inv->INV_TYPE = 'CAPITAL';
@@ -363,6 +363,15 @@ class manageProduct extends Controller
 
     public function updateDiscount(Request $request){
 
+        try
+        {
+            $prodDisc = r_product_info::where('PROD_ID',$request->prodID)->first();
+            $prodDisc->PROD_DISCOUNT = $request->prodDiscount;
+            $prodDisc->save();
+            return redirect()->back()->with('success', 'Successfully product discount record is updated!');
+        }catch (\Exception $e){
+            return redirect()->back()->with('error',$e->getCode());
+        }
     }
 
 
