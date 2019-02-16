@@ -70,4 +70,7 @@ Route::get('/getSympiesAccount/{id}',function($id){
     Session::put('sympiesAccount', $account);
 });
 
+
+//ordering process
 Route::post('/makeOrder','orderingFunctions@makeOrder');
+
