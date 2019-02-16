@@ -26,9 +26,7 @@
                                     <span>
                                         @php
                                             $discount=$item->PROD_DISCOUNT;
-                                            $total=($item->PROD_IS_APPROVED==1)?(($item->PROD_REBATE/100)* $item->PROD_BASE_PRICE)
-                                            +(($item->rTaxTableProfile->TAXP_TYPE==0)?($item->rTaxTableProfile->TAXP_RATE/100)* $item->PROD_BASE_PRICE:($item->rTaxTableProfile->TAXP_RATE)+ $item->PROD_BASE_PRICE)
-                                            +(($item->PROD_MARKUP/100)* $item->PROD_BASE_PRICE)+$item->PROD_BASE_PRICE:'NAN';
+                                            $total= Sympies::SellingPrice($item->PROD_IS_APPROVED,$item->PROD_REBATE,$item->PROD_BASE_PRICE,$item->rTaxTableProfile->TAXP_TYPE,$item->rTaxTableProfile->TAXP_RATE,$item->PROD_MARKUP);
                                         echo number_format(($discount)?$total-($total*($discount/100)):$total,2)
                                         @endphp
                                     </span>
@@ -93,9 +91,7 @@
 
                                 <div class="item-price">
                                     @php
-                                        $total=($item->PROD_IS_APPROVED==1)?(($item->PROD_REBATE/100)* $item->PROD_BASE_PRICE)
-                                        +(($item->rTaxTableProfile->TAXP_TYPE==0)?($item->rTaxTableProfile->TAXP_RATE/100)* $item->PROD_BASE_PRICE:($item->rTaxTableProfile->TAXP_RATE)+ $item->PROD_BASE_PRICE)
-                                        +(($item->PROD_MARKUP/100)* $item->PROD_BASE_PRICE)+$item->PROD_BASE_PRICE:'NAN';
+                                        $total= Sympies::SellingPrice($item->PROD_IS_APPROVED,$item->PROD_REBATE,$item->PROD_BASE_PRICE,$item->rTaxTableProfile->TAXP_TYPE,$item->rTaxTableProfile->TAXP_RATE,$item->PROD_MARKUP);
                                         echo number_format(($discount)?$total-($total*($discount/100)):$total,2)
                                     @endphp
                                 </div>
@@ -185,9 +181,7 @@
                                     <p class="item-desc"  title="{{$item->PROD_DESC}}">{{$item->PROD_DESC}}</p>
                                     <div class="item-price">
                                         @php
-                                            $total=($item->PROD_IS_APPROVED==1)?(($item->PROD_REBATE/100)* $item->PROD_BASE_PRICE)
-                                            +(($item->rTaxTableProfile->TAXP_TYPE==0)?($item->rTaxTableProfile->TAXP_RATE/100)* $item->PROD_BASE_PRICE:($item->rTaxTableProfile->TAXP_RATE)+ $item->PROD_BASE_PRICE)
-                                            +(($item->PROD_MARKUP/100)* $item->PROD_BASE_PRICE)+$item->PROD_BASE_PRICE:'NAN';
+                                            $total= Sympies::SellingPrice($item->PROD_IS_APPROVED,$item->PROD_REBATE,$item->PROD_BASE_PRICE,$item->rTaxTableProfile->TAXP_TYPE,$item->rTaxTableProfile->TAXP_RATE,$item->PROD_MARKUP);
                                             echo number_format(($discount)?$total-($total*($discount/100)):$total,2)
                                         @endphp
                                     </div>
@@ -287,9 +281,7 @@
                                                 <div class="item-price">
                                                     @php
 
-                                                        $total=($item->PROD_IS_APPROVED==1)?(($item->PROD_REBATE/100)* $item->PROD_BASE_PRICE)
-                                                            +(($item->rTaxTableProfile->TAXP_TYPE==0)?($item->rTaxTableProfile->TAXP_RATE/100)* $item->PROD_BASE_PRICE:($item->rTaxTableProfile->TAXP_RATE)+ $item->PROD_BASE_PRICE)
-                                                            +(($item->PROD_MARKUP/100)* $item->PROD_BASE_PRICE)+$item->PROD_BASE_PRICE:'NAN';
+                                                        $total= Sympies::SellingPrice($item->PROD_IS_APPROVED,$item->PROD_REBATE,$item->PROD_BASE_PRICE,$item->rTaxTableProfile->TAXP_TYPE,$item->rTaxTableProfile->TAXP_RATE,$item->PROD_MARKUP);
                                                             echo ($total!='NAN')?number_format(($discount)?$total-($total*($discount/100)):$total,2):$total
                                                     @endphp
                                                 </div>

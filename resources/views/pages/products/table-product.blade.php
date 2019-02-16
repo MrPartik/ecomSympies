@@ -85,9 +85,7 @@
                                     Selling Price:
                                     @php
 
-                                        $woDtotal=($item->PROD_IS_APPROVED==1)?(($item->PROD_REBATE/100)* $item->PROD_BASE_PRICE)
-                                        +(($item->rTaxTableProfile->TAXP_TYPE==0)?($item->rTaxTableProfile->TAXP_RATE/100)* $item->PROD_BASE_PRICE:($item->rTaxTableProfile->TAXP_RATE)+ $item->PROD_BASE_PRICE)
-                                        +(($item->PROD_MARKUP/100)* $item->PROD_BASE_PRICE)+$item->PROD_BASE_PRICE:'NAN';
+                                        $woDtotal= Sympies::SellingPrice($item->PROD_IS_APPROVED,$item->PROD_REBATE,$item->PROD_BASE_PRICE,$item->rTaxTableProfile->TAXP_TYPE,$item->rTaxTableProfile->TAXP_RATE,$item->PROD_MARKUP);
 
                                         echo $total = ($woDtotal!='NAN')?number_format(($discount)?$woDtotal-($woDtotal*($discount/100)):$woDtotal,2):$woDtotal
                                     @endphp
@@ -128,7 +126,7 @@
                                                         <li> <a  id='viewProduct' total="{{$total}}" href="#prodView" data-toggle="modal" vals="{{$item->PROD_ID}}" >View</a></li>
                                                         <li> <a  id='editProduct' href="{{action('manageProduct@edit',$item->PROD_ID)}}" >Edit Product Info</a></li>
                                                         <li> <a  id='editVariance' href="#productVariance" data-toggle="modal" vals="{{$item->PROD_ID}}" onclick="$('input[id=varProdID]').val({{$item->PROD_ID}}); $('input[id=varProdCODE]').val('{{$item->PROD_CODE}}');" prod-name="{{$item->PROD_NAME}}" prod-desc="{{$item->PROD_DESC}}" >Product Variance</a></li>
-                                                        <li> <a  id='discount' href="#adddiscount" data-toggle="modal" vals="{{$item->PROD_ID}}"  woDtotal ='{{$woDtotal}}' discount="{{$item->PROD_DISCOUNT}}">Configure Discount</a></li>
+                                                        <li> <a  id='discount' href="#adddiscount" data-toggle="modal" vals="{{$item->PROD_ID}}"  woDtotal ='{{$woDtotal}}' discount="{{$item->PROD_DISCOUNT}}" onclick="$('input[id=DiscountProdID]').val({{$item->PROD_ID}});">Configure Discount</a></li>
                                                         <li class="divider"></li>
                                                         <li> <a  id=deact href="#"  vals="{{$item->PROD_ID}}"  >Deactivate</a></li>
                                                 </ul>
@@ -242,8 +240,7 @@
                 <div class="modal-body">
                     <form id="prodDiscountForm" method="post" action="{{url('product/discount')}}" enctype="multipart/form-data">
                         {{csrf_field()}}
-                        <input id="varProdID" name="prodID" value="0" style="display: none;">
-
+                        <input id="DiscountProdID" name="prodID" value="0" style="display: none;">
                         <div class="row">
                             <div class="col-md-12" style="padding-bottom: 20px;">
                                 <strong>Are you sure? you wan to set discount for this product?</strong>
@@ -447,7 +444,7 @@
                             '                <td><input  class="form-control" name=prodvarimg[] type="file"></td>\n' +
                             '                <td><textarea class="form-control" name=prodvardesc[] style="resize:vertical; width:100%;height:36px" placeholder="Product Description" required>'+$data.data[index].PRODV_DESC+'</textarea></td>\n' +
                             '            <td><div class="input-group"><center>\n' +
-                            '                '+$data.data[index].PRODV_QTY+'\n' +
+                            '                '+$data.data[index].PRODV_INIT_QTY+'\n' +
                             '                </center></div>\n' +
                             '                </td>\n' +
                             '            <td><a class="btn btn-danger" onclick="if($(\'#prodvartable tbody tr\').length>1)$(this).closest(\'tr\').remove()"><i class="fa fa-minus text-white"></i></a></td>\n' +

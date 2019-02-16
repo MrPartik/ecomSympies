@@ -156,7 +156,7 @@
                                     <label>Starting Inventory</label>
                                     <div class="input-group m-b-10">
                                         <div class="input-group-prepend"><span class="input-group-text">*</span></div>
-                                        <input type="number" placeholder="0" name="inv_qty" class="form-control" required value="{{$prodInfo->PROD_QTY}}">
+                                        <input type="number" placeholder="0" name="inv_qty" class="form-control" required value="{{$prodInfo->PROD_INIT_QTY}}">
                                         <div class="input-group-append"><span class="input-group-text">#</span></div>
                                     </div>
                                 </div>

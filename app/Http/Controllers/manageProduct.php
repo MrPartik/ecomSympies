@@ -123,7 +123,7 @@ class manageProduct extends Controller
         $prodInfo->PROD_CODE = $request->prodcode;
         $prodInfo->PROD_NAME = $request->prodname;
         $prodInfo->PROD_BASE_PRICE = $request->baseprice;
-        $prodInfo->PROD_QTY = $request->inv_qty;
+        $prodInfo->PROD_INIT_QTY = $request->inv_qty;
         $prodInfo->PROD_DISCOUNT = $request->discount;
         $prodInfo->PROD_CRITICAL = $request->inv_critical;
         $prodInfo->PRODT_ID = $request->input('prodtype');
@@ -184,7 +184,7 @@ class manageProduct extends Controller
     {
         $prodInfo = r_product_info::with('rAffiliateInfo','rProductType')
             ->get(['PROD_CODE','PROD_ID','PROD_BASE_PRICE','PRODT_ID','PROD_DESC'
-                ,'PROD_IMG','PROD_NAME','PROD_REBATE','TAXP_ID','PROD_MARKUP','PROD_NOTE','PROD_QTY','PROD_CRITICAL'])
+                ,'PROD_IMG','PROD_NAME','PROD_REBATE','TAXP_ID','PROD_MARKUP','PROD_NOTE','PROD_INIT_QTY','PROD_CRITICAL'])
             ->where('PROD_ID',$id)->toArray();
         $image = DB::Select('select PROD_IMG from r_product_infos where PROD_ID ='.$id)[0]->PROD_IMG;
 
@@ -229,7 +229,7 @@ class manageProduct extends Controller
         }
         $prodInfo->PROD_NAME = $request->prodname;
         $prodInfo->PROD_BASE_PRICE = $request->baseprice;
-        $prodInfo->PROD_QTY = $request->inv_qty;
+        $prodInfo->PROD_INIT_QTY = $request->inv_qty;
         $prodInfo->PROD_DISCOUNT = $request->discount;
         $prodInfo->PROD_CRITICAL = $request->inv_critical;
         $prodInfo->PRODT_ID = $request->input('prodtype');
@@ -306,7 +306,7 @@ class manageProduct extends Controller
                 if($request->prodVarID[$i] == 0) {
                     $prodVar = new t_product_variance();
                     $inv = new r_inventory_info();
-                    $prodVar->PRODV_QTY = $request->inv_qty[$i];
+                    $prodVar->PRODV_INIT_QTY = $request->inv_qty[$i];
                     if(!trim($request->inv_qty[$i])==""){
                         $inv->INV_QTY = $request->inv_qty[$i];
                         $inv->INV_TYPE = 'CAPITAL';
@@ -363,6 +363,15 @@ class manageProduct extends Controller
 
     public function updateDiscount(Request $request){
 
+        try
+        {
+            $prodDisc = r_product_info::where('PROD_ID',$request->prodID)->first();
+            $prodDisc->PROD_DISCOUNT = $request->prodDiscount;
+            $prodDisc->save();
+            return redirect()->back()->with('success', 'Successfully product discount record is updated!');
+        }catch (\Exception $e){
+            return redirect()->back()->with('error',$e->getCode());
+        }
     }
 
 

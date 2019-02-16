@@ -111,9 +111,6 @@
         @include('layouts.sidenav.member')
     @endif
 
-
-
-
     <!-- end #sidebar -->
 
     <!-- begin #content -->

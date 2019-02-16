@@ -19,7 +19,7 @@ class TProductVariance extends Migration
             $table->string('PRODV_NAME',100);
             $table->string('PRODV_SKU',100);
             $table->text('PRODV_DESC');
-            $table->integer('PRODV_QTY');
+            $table->integer('PRODV_INIT_QTY');
             $table->double('PRODV_ADD_PRICE',10,2)->default(0.00);
             $table->text('PRODV_IMG')->nullable();
             $table->timestamps();

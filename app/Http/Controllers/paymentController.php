@@ -126,6 +126,7 @@ class paymentController extends Controller
         /**Execute the payment **/
         $result = $payment->execute($execution, $this->_api_context);
         if ($result->getState() == 'approved') {
+
             Session::put('payment_success', 'Payment success');
             return Redirect::to('/');
         }

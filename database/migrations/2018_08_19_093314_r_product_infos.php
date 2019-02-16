@@ -27,7 +27,7 @@ class RProductInfos extends Migration
             $table->double("PROD_MARKUP",10,2)->default(0);
             $table->string("PROD_CODE",20)->unique();
             $table->string("PROD_NAME",100);
-            $table->integer('PROD_QTY')->default(500);
+            $table->integer('PROD_INIT_QTY')->default(500);
             $table->integer('PROD_DISCOUNT')->default(0);
             $table->integer('PROD_CRITICAL')->default(100);
             $table->double("PROD_BASE_PRICE",10,2);
