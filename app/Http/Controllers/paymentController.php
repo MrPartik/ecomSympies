@@ -126,10 +126,10 @@ class paymentController extends Controller
         /**Execute the payment **/
         $result = $payment->execute($execution, $this->_api_context);
         if ($result->getState() == 'approved') {
-            \Session::put('success', 'Payment success');
+            \Session::put('payment_success', 'Payment success');
             return Redirect::to('/');
         }
-        \Session::put('error', 'Payment failed');
+        \Session::put('payment_error', 'Payment failed');
         return Redirect::to('/');
     }
 
