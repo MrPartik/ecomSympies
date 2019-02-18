@@ -97,9 +97,7 @@
                         <!-- BEGIN product-purchase-container -->
                         <div class="product-purchase-container">
                             @php
-                                $total=($item->PROD_IS_APPROVED==1)?(($item->PROD_REBATE/100)* $item->PROD_BASE_PRICE)
-                                +(($item->rTaxTableProfile->TAXP_TYPE==0)?($item->rTaxTableProfile->TAXP_RATE/100)* $item->PROD_BASE_PRICE:($item->rTaxTableProfile->TAXP_RATE)+ $item->PROD_BASE_PRICE)
-                                +(($item->PROD_MARKUP/100)* $item->PROD_BASE_PRICE)+$item->PROD_BASE_PRICE:'NAN';
+                                $total=$item->PROD_MY_PRICE;
                             @endphp
                             <div class="product-discount">
                                 <span class="discount">{{($discount)?number_format($total,2):''}}</span>
@@ -186,7 +184,7 @@
                                 <p class="item-desc" title="{{$item->PROD_DESC}}">{{$item->PROD_DESC}}</p>
                                 <div class="item-price">
                                     @php
-                                        $total=Sympies::SellingPrice($item->PROD_IS_APPROVED,$item->PROD_REBATE,$item->PROD_BASE_PRICE,$item->rTaxTableProfile->TAXP_TYPE,$item->rTaxTableProfile->TAXP_RATE,$item->PROD_MARKUP);;
+                                        $total=$item->PROD_MY_PRICE;
                                         echo number_format(($discount)?$total-($total*($discount/100)):$total,2)
                                     @endphp
                                 </div>

@@ -26,7 +26,7 @@
                                     <span>
                                         @php
                                             $discount=$item->PROD_DISCOUNT;
-                                            $total= Sympies::SellingPrice($item->PROD_IS_APPROVED,$item->PROD_REBATE,$item->PROD_BASE_PRICE,$item->rTaxTableProfile->TAXP_TYPE,$item->rTaxTableProfile->TAXP_RATE,$item->PROD_MARKUP);
+                                            $total= $item->PROD_MY_PRICE;
                                         echo number_format(($discount)?$total-($total*($discount/100)):$total,2)
                                         @endphp
                                     </span>
@@ -91,8 +91,8 @@
 
                                 <div class="item-price">
                                     @php
-                                        $total= Sympies::SellingPrice($item->PROD_IS_APPROVED,$item->PROD_REBATE,$item->PROD_BASE_PRICE,$item->rTaxTableProfile->TAXP_TYPE,$item->rTaxTableProfile->TAXP_RATE,$item->PROD_MARKUP);
-                                        echo number_format(($discount)?$total-($total*($discount/100)):$total,2)
+                                        $total= $item->PROD_MY_PRICE;
+                                         echo number_format(($discount)?$total-($total*($discount/100)):$total,2)
                                     @endphp
                                 </div>
                                  <div class="item-discount-price">{{($discount)?number_format($total,2):''}}</div>
@@ -181,7 +181,7 @@
                                     <p class="item-desc"  title="{{$item->PROD_DESC}}">{{$item->PROD_DESC}}</p>
                                     <div class="item-price">
                                         @php
-                                            $total= Sympies::SellingPrice($item->PROD_IS_APPROVED,$item->PROD_REBATE,$item->PROD_BASE_PRICE,$item->rTaxTableProfile->TAXP_TYPE,$item->rTaxTableProfile->TAXP_RATE,$item->PROD_MARKUP);
+                                            $total= $item->PROD_MY_PRICE;
                                             echo number_format(($discount)?$total-($total*($discount/100)):$total,2)
                                         @endphp
                                     </div>
@@ -280,9 +280,8 @@
                                                 <p class="item-desc"  title="{{$item->PROD_DESC}}">{{$item->PROD_DESC}}</p>
                                                 <div class="item-price">
                                                     @php
-
-                                                        $total= Sympies::SellingPrice($item->PROD_IS_APPROVED,$item->PROD_REBATE,$item->PROD_BASE_PRICE,$item->rTaxTableProfile->TAXP_TYPE,$item->rTaxTableProfile->TAXP_RATE,$item->PROD_MARKUP);
-                                                            echo ($total!='NAN')?number_format(($discount)?$total-($total*($discount/100)):$total,2):$total
+                                                        $total= $item->PROD_MY_PRICE;
+                                                        echo ($total!='NAN')?number_format(($discount)?$total-($total*($discount/100)):$total,2):$total
                                                     @endphp
                                                 </div>
                                                 <div class="item-discount-price">{{($discount)?number_format($total,2):''}}</div>
@@ -448,7 +447,7 @@
                             if(val.PROD_IMG)
                                 $pic=val.PROD_IMG;
 
-                            $total=(val.PROD_IS_APPROVED==1)?((val.PROD_REBATE/100)* val.PROD_BASE_PRICE)+((val.r_tax_table_profile.TAXP_TYPE==0)?(val.r_tax_table_profile.TAXP_RATE/100)* val.PROD_BASE_PRICE:(val.r_tax_table_profile.TAXP_RATE)+ val.PROD_BASE_PRICE)+((val.PROD_MARKUP/100)* val.PROD_BASE_PRICE)+val.PROD_BASE_PRICE:'NAN';
+                            $total=val.PROD_MY_PRICE;
 
                             if($discount = val.PROD_DISCOUNT){
                                 $price = moneyFormat(($total-($total*($discount/100))).toFixed(2));
@@ -510,8 +509,7 @@
                             if(val.PROD_IMG)
                                 $pic=val.PROD_IMG;
 
-                            $total=(val.PROD_IS_APPROVED==1)?((val.PROD_REBATE/100)* val.PROD_BASE_PRICE)+((val.r_tax_table_profile.TAXP_TYPE==0)?(val.r_tax_table_profile.TAXP_RATE/100)* val.PROD_BASE_PRICE:(val.r_tax_table_profile.TAXP_RATE)+ val.PROD_BASE_PRICE)+((val.PROD_MARKUP/100)* val.PROD_BASE_PRICE)+val.PROD_BASE_PRICE:'NAN';
-
+                            $total=val.PROD_MY_PRICE;
                             if($discount = val.PROD_DISCOUNT){
                                 $price = moneyFormat(($total-($total*($discount/100))).toFixed(2));
                                 $discounts =moneyFormat($total.toFixed(2));

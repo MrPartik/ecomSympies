@@ -36,7 +36,7 @@ class manageProduct extends Controller
         $aff = r_affiliate_info::all();
         $prodType =  r_product_type::all();
         $taxProf =  r_tax_table_profile::all();
-        $prodInfo = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')->get();
+        $prodInfo = r_product_info::with('rAffiliateInfo','rProductType')->get();
         (Auth::user()->role=='admin')?'':$prodInfo=$prodInfo->where('AFF_ID',Auth::user()->AFF_ID);
 
         return view('pages.products.table-product',compact('prodType','prodInfo','taxProf','aff'));
@@ -72,9 +72,7 @@ class manageProduct extends Controller
             return redirect()->back()->with('success','Product record rejected!');
         }else if($request->type ==1 ){
 
-            $prodInfo->PROD_MARKUP = $request->prodmarkup;
-            $prodInfo->PROD_REBATE = $request->prodrebate;
-            $prodInfo->TAXP_ID = $request->input('prodtax');
+            $prodInfo->PROD_MY_PRICE = $request->prodmyprice;
             $prodInfo->PROD_IS_APPROVED = 1;
             $prodInfo->PROD_APPROVED_AT = Carbon::now();
             $prodInfo->updated_at = Carbon::now();
@@ -94,7 +92,7 @@ class manageProduct extends Controller
         $aff = r_affiliate_info::all();
         $prodType =  r_product_type::all();
         $taxProf =  r_tax_table_profile::all();
-        $prodInfo = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')->get();
+        $prodInfo = r_product_info::with('rAffiliateInfo','rProductType')->get();
 
         return view('pages.products.create-product',compact('prodType','prodInfo','taxProf','aff'));
     }
@@ -136,10 +134,8 @@ class manageProduct extends Controller
 
         if(Auth::user()->role=="admin"){
             try {
-//                $prodInfo->PROD_MARKUP = (isset($request->markupstat))?'.'.$request->prodmarkup:$request->prodmarkup;
-                $prodInfo->PROD_MARKUP = $request->prodmarkup;
-                $prodInfo->TAXP_ID = $request->input('prodtax');
-                $prodInfo->PROD_REBATE = $request->prodrebate;
+
+                $prodInfo->PROD_MY_PRICE = $request->prodmyprice;
                 $prodInfo->PROD_IS_APPROVED = 1;
                 $prodInfo->PROD_APPROVED_AT = Carbon::now();
                 $prodInfo->save();
@@ -184,7 +180,7 @@ class manageProduct extends Controller
     {
         $prodInfo = r_product_info::with('rAffiliateInfo','rProductType')
             ->get(['PROD_CODE','PROD_ID','PROD_BASE_PRICE','PRODT_ID','PROD_DESC'
-                ,'PROD_IMG','PROD_NAME','PROD_REBATE','TAXP_ID','PROD_MARKUP','PROD_NOTE','PROD_INIT_QTY','PROD_CRITICAL'])
+                ,'PROD_IMG','PROD_NAME','PROD_NOTE','PROD_MY_PRICE','PROD_INIT_QTY','PROD_CRITICAL'])
             ->where('PROD_ID',$id)->toArray();
         $image = DB::Select('select PROD_IMG from r_product_infos where PROD_ID ='.$id)[0]->PROD_IMG;
 
@@ -203,7 +199,7 @@ class manageProduct extends Controller
         $aff = r_affiliate_info::all();
         $prodType =  r_product_type::all();
         $taxProf =  r_tax_table_profile::all();
-        $prodInfo = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')->where('PROD_ID',$id)->get()->first();
+        $prodInfo = r_product_info::with('rAffiliateInfo','rProductType')->where('PROD_ID',$id)->get()->first();
 
         return view('pages.products.update-product',compact('prodInfo','aff','prodType','taxProf','id'));
     }

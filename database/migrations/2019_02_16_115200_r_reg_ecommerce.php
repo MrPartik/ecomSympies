@@ -13,8 +13,15 @@ class RRegEcommerce extends Migration
      */
     public function up()
     {
-        Schema::table('R_REG_ECOMMERCE', function (Blueprint $table) {
-            //
+        Schema::create('R_REG_ECOMMERCE', function (Blueprint $table) {
+            $table->engine = 'INNODB';
+
+            $table->increments("REG_ID");
+            $table->text('REG_ACCRE_CODE')->nullable();
+            $table->text('REG_SERIAL_CODE')->nullable();
+            $table->timestamps();
+
+
         });
     }
 

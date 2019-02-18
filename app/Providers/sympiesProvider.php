@@ -25,12 +25,4 @@ class sympiesProvider extends ServiceProvider
     {
         //
     }
-
-    public static function SellingPrice($approved,$rebate,$base,$taxType,$taxRate,$markup){
-
-        return ($approved==1)?(($rebate/100)* $base)
-            +(($taxType==0)?($taxRate/100)* $base:($taxRate)+ $base)
-            +(($markup/100)* $base)+$base:'NAN';
-
-    }
 }

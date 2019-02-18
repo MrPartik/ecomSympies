@@ -82,30 +82,6 @@
                                 </div>
 
                                 <div class="col-md-3">
-                                    <label>Product Base Price</label>
-                                    <div class="input-group m-b-10">
-                                        <div class="input-group-prepend"><span class="input-group-text">*</span></div>
-                                        <input type="number" placeholder="0" name="baseprice" class="form-control" required value="{{$prodInfo->PROD_BASE_PRICE}}">
-                                        <div class="input-group-append"><span class="input-group-text">#</span></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <label>Product Markup (Sympies)</label>
-                                    <div class="input-group m-b-10">
-                                        {{--<div class="input-group-prepend"><span class="input-group-text"><input name='markupstat' type="checkbox" onchange="($(this).prop('checked'))?$('span[id=markupstat]').text('%'):$('span[id=markupstat]').text('#')" /></span></div>--}}
-                                        <input type="number" placeholder="0" min='0' name="prodmarkup" class="form-control" required value="{{$prodInfo->PROD_MARKUP}}">
-                                        <div class="input-group-append"><span class="input-group-text" id="markupstat">#</span></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <label>Product Rebate* (Affiliate)</label>
-                                    <div class="input-group m-b-10">
-                                        <div class="input-group-prepend"><span class="input-group-text">*</span></div>
-                                        <input type="number" placeholder="0" name="prodrebate" class="form-control" required value="{{$prodInfo->PROD_REBATE}}">
-                                        <div class="input-group-append"><span class="input-group-text">%</span></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
                                     <label>Affiliate</label>
                                     <select class="form-control " name="affiliate" style="width: 100%;" required>
                                         <option selected="selected" value=""  disabled>Please Select Affiliate</option>
@@ -114,22 +90,21 @@
                                         @endforeach
                                     </select>
                                 </div>
-
-                                <div class="col-md-6">
-                                    <label>Product Tax</label>
-                                    <select class="form-control productTax" name="prodtax" style="width: 100%;" required>
-                                        <option selected="selected" value="" disabled>Please Select Product Tax</option>
-                                        <optgroup label="Percentage">
-                                            @foreach($taxProf->where('TAXP_TYPE',0) as $item)
-                                                <option value="{{$item->TAXP_ID}}" {{($item->TAXP_ID==$prodInfo->TAXP_ID)?'selected':''}}>{{$item->TAXP_NAME}} - {{$item->TAXP_RATE}}</option>
-                                            @endforeach
-                                        </optgroup>
-                                        <optgroup label="Fixed">
-                                            @foreach($taxProf->where('TAXP_TYPE',1) as $item)
-                                                <option value="{{$item->TAXP_ID}}" {{($item->TAXP_ID==$prodInfo->TAXP_ID)?'selected':''}}>{{$item->TAXP_NAME}} - {{$item->TAXP_RATE}}</option>
-                                            @endforeach
-                                        </optgroup>
-                                    </select>
+                                <div class="col-md-3">
+                                    <label>Product Base Price (Affiliate)</label>
+                                    <div class="input-group m-b-10">
+                                        <div class="input-group-prepend"><span class="input-group-text">*</span></div>
+                                        <input type="number" placeholder="0" name="baseprice" class="form-control" required value="{{$prodInfo->PROD_BASE_PRICE}}">
+                                        <div class="input-group-append"><span class="input-group-text">#</span></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Product My Price (Sympies)</label>
+                                    <div class="input-group m-b-10">
+                                        <div class="input-group-prepend"><span class="input-group-text">*</span></div>
+                                        <input type="number" placeholder="0" min='0' name="prodmyprice" class="form-control" required value="{{$prodInfo->PROD_MY_PRICE}}">
+                                        <div class="input-group-append"><span class="input-group-text" id="markupstat">#</span></div>
+                                    </div>
                                 </div>
 
 

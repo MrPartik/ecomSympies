@@ -85,7 +85,7 @@
                                     Selling Price:
                                     @php
 
-                                        $woDtotal= Sympies::SellingPrice($item->PROD_IS_APPROVED,$item->PROD_REBATE,$item->PROD_BASE_PRICE,$item->rTaxTableProfile->TAXP_TYPE,$item->rTaxTableProfile->TAXP_RATE,$item->PROD_MARKUP);
+                                        $woDtotal= $item->PROD_MY_PRICE;
 
                                         echo $total = ($woDtotal!='NAN')?number_format(($discount)?$woDtotal-($woDtotal*($discount/100)):$woDtotal,2):$woDtotal
                                     @endphp
@@ -110,7 +110,7 @@
                                             @if($item->PROD_DISPLAY_STATUS==1)
                                                 @if(Auth::user()->role=='admin')
                                                     @if(is_null($item->PROD_IS_APPROVED))
-                                                        <a href="#approve" data-toggle="modal" class="btn btn-success" id="app" vals="{{$item->PROD_ID}}"><i class="fa fa-thumbs-up"></i></a>
+                                                        <a href="#approve" data-toggle="modal" class="btn btn-success" id="app" vals="{{$item->PROD_ID}}" onclick="$('span[id=BasePrice]').text('{{$item->PROD_BASE_PRICE}}');$('input[id=prodmyprice]').val('{{$item->PROD_MY_PRICE}}')"><i class="fa fa-thumbs-up"></i></a>
                                                         <a href="#disapprove" data-toggle="modal" class="btn btn-danger" id="disap" vals="{{$item->PROD_ID}}" ><i class="fa fa-thumbs-down"></i></a>
                                                     @elseif($item->PROD_IS_APPROVED==0)
                                                         <a href="#approve" data-toggle="modal" class="btn btn-success" id="app"  vals="{{$item->PROD_ID}}"><i class="fa fa-thumbs-up"></i></a>
@@ -178,42 +178,17 @@
                                 <strong>Are you sure? you want to approved this product?</strong>
                                 <p>Please provide the following inputs to validate the product in the market.</p>
                             </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>Product Tax</label>
-                                    <select class="form-control productType" name="prodtax" style="width: 100%;" required >
-                                        <option selected value="0" disabled>Please Select Tax Reference</option>
-                                        <optgroup label="Percentage">
-                                            @foreach($taxProf->where('TAXP_TYPE',0) as $item)
-                                                <option value="{{$item->TAXP_ID}}">{{$item->TAXP_NAME}} - {{$item->TAXP_RATE}} % </option>
-                                            @endforeach
-                                        </optgroup>
-                                        <optgroup label="Fixed">
-                                            @foreach($taxProf->where('TAXP_TYPE',1) as $item)
-                                                <option value="{{$item->TAXP_ID}}">{{$item->TAXP_NAME}} - {{$item->TAXP_RATE}}</option>
-                                            @endforeach
-                                        </optgroup>
-                                    </select>
-                                </div>
+
+                            <div class="col-md-6" style="background: lightgray;">
+                                <span id="BasePrice" style="color: gray;font-weight: 1000;font-size: 5em;text-align: justify;"></span>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Product Markup Value</label>
+                                    <label>My Price (Sympies)</label>
                                     <div class="input-group">
-                                        <input type="number" placeholder="0" name="prodmarkup" class="form-control" required>
+                                        <input type="number" placeholder="0" name="prodmyprice" class="form-control" required>
                                         <div class="input-group-addon">
-                                            %
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Product Rebate (Affiliate)</label>
-                                    <div class="input-group">
-                                        <input type="number" placeholder="0" name="prodrebate" class="form-control" required>
-                                        <div class="input-group-addon">
-                                            %
+                                            #
                                         </div>
                                     </div>
                                 </div>
@@ -561,18 +536,16 @@
         $("a[id='app']").on('click',function(){
             $id =$(this).attr('vals');
             $('#approvalForm #prodID').val($(this).attr('vals'));
-            $("select[name='prodtax']").val(0).trigger('change');
-            $("input[name='prodrebate']").val(null);
-            $("input[name='prodmarkup']").val(null);
+            $("input[name='prodmyprice']").val(null);
+            $("span[id='BasePrice']").text(null);
             $.ajax({
-                url: 'product/'+$id
+                url: '/product/list/'+$id
                 ,type: 'get'
                 ,data: {_token:CSRF_TOKEN }
                 ,dataType:'json'
                 ,success:function($data){
-                    $("input[name='prodrebate']").val($data.data[0].PROD_REBATE);
-                    $("select[name='prodtax']").val($data.data[0].TAXP_ID).trigger('change');
-                    $("input[name='prodmarkup']").val($data.data[0].PROD_MARKUP);
+                    $("input[name='prodmyprice']").val($data.data[0].PROD_MY_PRICE);
+                    $("span[id='BasePrice']").text($data.data[0].PROD_BASE_PRICE);
                 }
                 ,error:function(){
 

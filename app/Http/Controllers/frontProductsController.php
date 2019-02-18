@@ -19,7 +19,7 @@ class frontProductsController extends Controller
     public function index()
     {
 
-        $Allprod = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')
+        $Allprod = r_product_info::with('rAffiliateInfo','rProductType')
             ->where('PROD_IS_APPROVED','1')
             ->where('PROD_DISPLAY_STATUS',1)->get();
         $aff = r_affiliate_info::all();
@@ -98,13 +98,13 @@ class frontProductsController extends Controller
     public function getProdAffiliates($id){
 
         if($id!=0)
-            $Allprod = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')
+            $Allprod = r_product_info::with('rAffiliateInfo','rProductType')
             ->where('PROD_IS_APPROVED','1')
             ->where('PROD_DISPLAY_STATUS',1)
             ->where('AFF_ID',$id)
             ->get()->take(9);
         else
-            $Allprod = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')
+            $Allprod = r_product_info::with('rAffiliateInfo','rProductType')
                 ->where('PROD_IS_APPROVED','1')
                 ->where('PROD_DISPLAY_STATUS',1)
                 ->get()->take(9);
@@ -116,13 +116,13 @@ class frontProductsController extends Controller
     public function getProdCategory($id){
 
         if($id!=0)
-            $Allprod = r_product_info::with('rProductType','rAffiliateInfo','rTaxTableProfile')
+            $Allprod = r_product_info::with('rProductType','rAffiliateInfo')
             ->where('PROD_IS_APPROVED','1')
             ->where('PROD_DISPLAY_STATUS',1)
             ->where('PRODT_ID',$id)
             ->get()->take(9);
         else
-            $Allprod = r_product_info::with('rProductType','rAffiliateInfo','rTaxTableProfile')
+            $Allprod = r_product_info::with('rProductType','rAffiliateInfo')
                 ->where('PROD_IS_APPROVED','1')
                 ->where('PROD_DISPLAY_STATUS',1)
                 ->get()->take(9);
@@ -134,18 +134,18 @@ class frontProductsController extends Controller
 
     public function getProdDetails($id){
 
-        $Allprod = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')
+        $Allprod = r_product_info::with('rAffiliateInfo','rProductType')
             ->where('PROD_IS_APPROVED','1')
             ->where('PROD_DISPLAY_STATUS',1)
             ->get();
 
 
-        $randProd = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')
+        $randProd = r_product_info::with('rAffiliateInfo','rProductType')
             ->where('PROD_IS_APPROVED','1')
             ->where('PROD_DISPLAY_STATUS',1)
             ->inRandomOrder()->get();
 
-        $getProd = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')
+        $getProd = r_product_info::with('rAffiliateInfo','rProductType')
             ->where('PROD_IS_APPROVED','1')
             ->where('PROD_DISPLAY_STATUS',1)
             ->where('PROD_ID',$id)

@@ -19,19 +19,16 @@ class RProductInfos extends Migration
             $table->increments("PROD_ID");
             $table->unsignedInteger("PRODT_ID")->nullable();
             $table->unsignedInteger("AFF_ID");
-            $table->unsignedInteger("TAXP_ID")->nullable();
             $table->text("PROD_DESC")->nullable();
             $table->text("PROD_NOTE")->nullable();
             $table->text("PROD_IMG")->nullable();
-            $table->double("PROD_REBATE",10,2)->default(0);
-            $table->double("PROD_MARKUP",10,2)->default(0);
             $table->string("PROD_CODE",20)->unique();
             $table->string("PROD_NAME",100);
             $table->integer('PROD_INIT_QTY')->default(500);
             $table->integer('PROD_DISCOUNT')->default(0);
             $table->integer('PROD_CRITICAL')->default(100);
             $table->double("PROD_BASE_PRICE",10,2);
-            $table->string("PROD_SALES_TAX",20)->default('Exclusive');
+            $table->double("PROD_MY_PRICE",10,2);
             $table->text("PROD_AVAILABILITY")->nullable();
             $table->boolean("PROD_IS_APPROVED")->nullable();
             $table->dateTime("PROD_APPROVED_AT")->nullable();
@@ -44,10 +41,6 @@ class RProductInfos extends Migration
             $table->foreign("AFF_ID")->references("AFF_ID")->on("R_AFFILIATE_INFOS")
                 ->onUpdate("cascade")
                 ->onDelete("no action");
-            $table->foreign("TAXP_ID")->references("TAXP_ID")->on("R_TAX_TABLE_PROFILES")
-                ->onUpdate("cascade")
-                ->onDelete("No Action");
-
 
         });
     }

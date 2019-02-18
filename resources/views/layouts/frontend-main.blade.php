@@ -340,9 +340,7 @@
                                     <h4 class="info-title">{{$item->PROD_NAME}}</h4>
                                     <div class="price">
                                         @php
-                                            $total=($item->PROD_IS_APPROVED==1)?(($item->PROD_REBATE/100)* $item->PROD_BASE_PRICE)
-                                            +(($item->rTaxTableProfile->TAXP_TYPE==0)?($item->rTaxTableProfile->TAXP_RATE/100)* $item->PROD_BASE_PRICE:($item->rTaxTableProfile->TAXP_RATE)+ $item->PROD_BASE_PRICE)
-                                            +(($item->PROD_MARKUP/100)* $item->PROD_BASE_PRICE)+$item->PROD_BASE_PRICE:'NAN';
+                                            $total = $item->PROD_MY_PRICE;
                                             echo number_format($total,2)
                                         @endphp
                                         </div>
