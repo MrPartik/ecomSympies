@@ -1,17 +1,17 @@
 @extends('layouts.main')
 
-@section('title','Product Tax')
+@section('title','Currencies')
 
 @section('content')
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
         <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
-        <li class="breadcrumb-item"><a href="javascript:;">Manage Tax</a></li>
+        <li class="breadcrumb-item"><a href="javascript:;">Currencies</a></li>
         <li class="breadcrumb-item active">List</li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">Manage Tax <small>...</small></h1>
+    <h1 class="page-header">Manage Currencies <small>...</small></h1>
     <!-- end page-header -->
 
     <!-- begin row -->
@@ -27,11 +27,11 @@
                 <div class="panel-heading">
                     <div class="panel-heading-btn">
 
-                        <a href="{{action('manageTax@create')}}" class="btn btn-xs btn-success"><i class="fa fa-plus-square"></i> Add item </a>
+                        <a href="{{action('manageCurrency@create')}}" class="btn btn-xs btn-success"><i class="fa fa-plus-square"></i> Add item </a>
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     </div>
-                    <h4 class="panel-title">Manage Tax</h4>
+                    <h4 class="panel-title">Manage Currencies</h4>
                 </div>
                 <!-- end panel-heading -->
 
@@ -53,39 +53,34 @@
                         <thead>
                         <tr>
                             <th style="width: 30%">Info</th>
-                            <th>Type</th>
                             <th>Rate</th>
+                            <th>Tax</th>
                             <th>Date Issued</th>
                             <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($tax as $item)
+                        @foreach($curr as $item)
                             <tr>
-                                {{--<td>{{ $affInfo->where('AFF_ID', $item->AFF_ID)->first()->AFF_NAME }}</td>--}}
-                                <td><strong>{{ $item->TAXP_NAME }}</strong><br><small>{{ $item->TAXP_DESC }}</small> </td>
-                                <td>@if($item->TAXP_TYPE ==0 )Percent @else Fixed @endif </td>
-                                <td>{{ $item->TAXP_RATE  }}</td>
+                                <td><strong>{{ $item->CURR_COUNTRY }}</strong><label>({{$item->CURR_ACC}})</label>
+                                    <br><small>{{ $item->CURR_SYMBOL }}</small></td>
+                                <td>{{$item->CURR_RATE}}</td>
+                                <td>{{ $item->rTaxTableProfile->TAXP_RATE  }}</td>
                                 <td>{{ (new DateTime($item->created_at))->format('D M d, Y | h:i A') }}</td>
                                 <td>
                                     <center>
-                                        @if($item->TAXP_DISPLAY_STATUS==1)
-                                            <a class="btn btn-info" id='editTax'data-toggle="modal" vals="{{$item->TAXP_ID}}" href="#taxreferencesetup"><i class="fas fa-pencil-alt text-white"></i></a>
-                                            <a id=deact  vals="{{$item->TAXP_ID}}" class="btn btn-danger" data-toggle="modal" data-target="#deactivate"><i class="fa fa-ban text-white"></i></a>
-                                        @else
-                                            <a id=act  vals="{{$item->TAXP_ID}}" class="btn btn-success" data-toggle="modal" data-target="#activate"><i class="fas fa-undo text-white"></i></a>
-                                        @endif
+
                                     </center>
                                 </td>
                             </tr>
                         @endforeach
                         </tbody>
                         <tfoot>
-                        <th style="width: 30%">Info</th>
-                        <th>Type</th>
-                        <th>Rate</th>
-                        <th>Date Issued</th>
-                        <th>Action</th>
+                            <th style="width: 30%">Info</th>
+                            <th>Rate</th>
+                            <th>Tax</th>
+                            <th>Date Issued</th>
+                            <th>Action</th>
                         </tfoot>
                     </table>
                 </div>
@@ -200,31 +195,6 @@
             ],
         });
 
-
-        $("a[id='editTax']").on('click',function () {
-            $('.modal-title').html('Editing Tax Reference');
-            document.querySelector('#taxModal').reset();
-            $id = $(this).attr('vals');
-            $.ajax({
-                url: 'tax/'+$id
-                ,type: 'get'
-                ,data: {_token:CSRF_TOKEN }
-                ,dataType:'json'
-                ,success:function($data){
-
-                    $("input[name='taxname']").val($data.data[0].TAXP_NAME);
-                    $("textarea[name='taxdesc']").val($data.data[0].TAXP_DESC);
-                    $("select[name='taxtype']").val($data.data[0].TAXP_TYPE).trigger('change');
-                    $("input[name='taxrate']").val($data.data[0].TAXP_RATE);
-                    $('#taxModal').attr('action','{{url('tax')}}/'+$data.data[0].TAXP_ID);
-                    $("input[name='_method']").attr('value','PATCH');
-                }
-                ,error:function(){
-
-                }
-            });
-
-        });
 
 
         $("a[id='deact']").on('click',function(){

@@ -38,8 +38,14 @@
             <li class="has-sub {{(Route::is('prodList')||Route::is('prodCat'))?'active':''}}">
                 <a href="javascript:;">
                     <b class="caret"></b>
-                    <i class="fa fa-gem"></i>
-                    <span>Manage Products</span>
+                    <i class="fa fa-shopping-cart"></i>
+                    <span>Products</span>
+                    @php
+                        $prod = \App\r_product_info::all()->where('PROD_DISPLAY_STATUS',1);
+                    @endphp
+                    <span class="label m-l-5 label-success" title="approved">{{$prod->where('PROD_IS_APPROVED','1')->count()}}</span>
+                    <span class="label m-l-5 label-warning" title="pending">{{$prod->where('PROD_APPROVED_AT','')->count()}}</span>
+                    <span class="label m-l-5 label-danger" title="rejected">{{$prod->where('PROD_IS_APPROVED','0')->count()}}</span>
                 </a>
                 <ul class="sub-menu">
                     <li class="{{Route::is('prodList')?'active':''}}"><a href="{{url('product/list')}}">Product List</a></li>
@@ -47,23 +53,17 @@
 
                 </ul>
             </li>
-            <li class="{{Route::is('tax')?'active':''}}">
-                <a href="{{url('tax')}}">
-                    <i class="fa fa-gem"></i>
-                    <span>Manage Tax </span>
-                </a>
-            </li>
-
-            <li class="has-sub {{(Request::is('pending')||Request::is('sales-vat')||Request::is('sales'))?'active':'' }}">
+            <li class="has-sub {{(Request::is('order-cancel')||Request::is('order-pending')||Request::is('order-complete')||Request::is('order-refund'))?'active':'' }}">
                 <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="fa fa-truck"></i>
                     <span>Orders</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="{{Request::is('sales')?'active':''}}"><a href="{{url('sales')}}">Sales</a></li>
-                    <li class="{{Request::is('sales-markup')?'active':''}}"><a href="{{url('sales-markup')}}">Markup Sales</a></li>
-                    <li class="{{Request::is('sales-vat')?'active':''}}"><a href="{{url('sales-vat')}}">VAT Sales</a></li>
+                    <li class="{{Request::is('order-cancel')?'active':''}}"><a href="{{url('order-cancel')}}">Cancellation Requests</a></li>
+                    <li class="{{Request::is('order-pending')?'active':''}}"><a href="{{url('order-pending')}}">Pending</a></li>
+                    <li class="{{Request::is('order-complete')?'active':''}}"><a href="{{url('order-complete')}}">Completed</a></li>
+                    <li class="{{Request::is('order-refund')?'active':''}}"><a href="{{url('order-refund')}}">Refund Requests</a></li>
                 </ul>
             </li>
 
@@ -71,7 +71,7 @@
             <li class="has-sub {{(Request::is('sales-markup')||Request::is('sales-vat')||Request::is('sales'))?'active':'' }}">
                 <a href="javascript:;">
                     <b class="caret"></b>
-                    <i class="fa fa-users"></i>
+                    <i class="fa fa-money-bill-alt"></i>
                     <span>Sales</span>
                 </a>
                 <ul class="sub-menu">
@@ -86,11 +86,25 @@
                 <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="fa fa-users"></i>
-                    <span>Manage Users</span>
+                    <span>Users</span>
                 </a>
                 <ul class="sub-menu">
                     <li class="{{Route::is('affiliates')?'active':''}}"><a href="{{url('affiliates')}}">Affiliate's List</a></li>
                     <li class="{{Route::is('users')?'active':''}}"><a href="{{url('users')}}">User's List</a></li>
+
+                </ul>
+            </li>
+
+            <li class="has-sub {{(Route::is('tax')||Route::is('currency'))?'active':''}}">
+                <a href="javascript:;">
+                    <b class="caret"></b>
+                    <i class="fa fa-cogs"></i>
+                    <span>Configurations</span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="{{Route::is('tax')?'active':''}}"><a href="{{url('tax')}}">Tax & Fees</a></li>
+                    <li class="{{Route::is('currency')?'active':''}}"><a href="{{url('currency')}}">Currencies</a></li>
+                    <li class="{{Route::is('compliance')?'active':''}}"><a href="{{url('compliance')}}">Compliance</a></li>
 
                 </ul>
             </li>

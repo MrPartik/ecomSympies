@@ -34,6 +34,8 @@
                     <h4 class="panel-title">Manage Products</h4>
                 </div>
                 <!-- end panel-heading -->
+
+                <div class="panel-body bg-black text-white">...</div>
                 <!-- begin alert -->
 
                 @if(session('success') || session('error') )

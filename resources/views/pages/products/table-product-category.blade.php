@@ -42,6 +42,8 @@
                     <h4 class="panel-title">Manage Product Categories</h4>
                 </div>
                 <!-- end panel-heading -->
+
+                <div class="panel-body bg-black text-white">...</div>
                 <!-- end alert -->
                 <!-- begin panel-body -->
                 <div class="panel-body">

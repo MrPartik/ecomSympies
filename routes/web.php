@@ -22,6 +22,7 @@ Route::group(['middleware' => ['authenticate']], function() {
         Route::resource('/affiliates', 'manageAffiliates',['names'=>['index'=>'affiliates','create'=>'affiliates','edit'=>'affiliates']]);
         Route::get('/product/category/create/{type}','manageProductCategory@create')->name('prodCat');
         Route::post('/tax/actDeact','manageTax@actDeact');
+        Route::resource('/currency','manageCurrency',['names'=>['index'=>'currency','create'=>'currency','edit'=>'currency']]);
 
     });
 

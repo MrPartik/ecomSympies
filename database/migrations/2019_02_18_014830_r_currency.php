@@ -21,6 +21,7 @@ class RCurrency extends Migration
             $table->string("CURR_NAME");
             $table->string("CURR_COUNTRY");
             $table->string("CURR_SYMBOL");
+            $table->string("CURR_ACC");
             $table->double("CURR_RATE",10,2);
             $table->timestamps();
 
