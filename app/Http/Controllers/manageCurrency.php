@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\r_currencies;
 use App\r_tax_table_profile;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class manageCurrency extends Controller
 {
@@ -67,7 +68,7 @@ class manageCurrency extends Controller
     public function show($id)
     {
         $curr = r_currencies::with('rTaxTableProfile')->where('CURR_ID',$id)->get();
-        return json_encode($curr);
+        return new JsonResource($curr);
     }
 
     /**
@@ -90,7 +91,22 @@ class manageCurrency extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try{
+            $curr = r_currencies::where('CURR_ID',$id)->first();
+            $curr->CURR_COUNTRY = $request->country;
+            $curr->CURR_ACR = $request->acronym;
+            $curr->CURR_NAME = $request->name;
+            $curr->CURR_RATE = $request->rate;
+            $curr->CURR_SYMBOL = $request->symbol;
+            $curr->TAXP_ID = $request->input('tax');
+            $curr->save();
+            return redirect()->back()->with('success', 'Successfully record is updated!');
+        }
+        catch (Exception $e){
+            return redirect()->back()->with('error',$e->getCode());
+        }
+
+
     }
 
     /**

@@ -111,7 +111,7 @@
 
                     <form method="post" id="setupModal" action="{{url('currency')}}"  enctype="multipart/form-data">
                         {{csrf_field()}}
-                        <input type="hidden" name="_method" value="POST" />
+                        <input type="hidden" name="_method" value="PATCH" />
                         <div class="row">
                             <div class="col-md-12" style="padding-bottom: 20px;">
                                 <strong>Are you sure? you want to edit this record?</strong>
@@ -194,6 +194,8 @@
 
     <script>
 
+        $('select').select2({ dropdownParent: $('#editSetup')});
+
         $('#data-table-buttons').DataTable({
             'paging'      : true,
             'lengthChange': true,
@@ -239,16 +241,19 @@
             $id = $(this).attr('data-value');
 
             $.ajax({
-                type:'get   '
+                type:'get'
                 ,url: '/currency/'+$id
-                ,datatype: 'json'
+                ,dataType:'json'
+                ,data: {_token:CSRF_TOKEN }
                 ,success: function($data){
-                    $('input[name=name]').val($fata.CURR_NAME);
-                    $('input[name=country]').val($fata.CURR_COUNTRY);
-                    $('input[name=acronym]').val($fata.CURR_ACR);
-                    $('input[name=symbol]').val($fata.CURR_SYMBOL);
-                    $('input[name=rate]').val($fata.CURR_RATE);
-                    $('select[name=tax]').val($fata.TAXP_ID).trigger('change');
+
+                    $('input[name=name]').val($data.data[0].CURR_NAME);
+                    $('input[name=country]').val($data.data[0].CURR_COUNTRY);
+                    $('input[name=acronym]').val($data.data[0].CURR_ACR);
+                    $('input[name=symbol]').val($data.data[0].CURR_SYMBOL);
+                    $('input[name=rate]').val($data.data[0].CURR_RATE);
+                    $('select[name=tax]').val($data.data[0].TAXP_ID).trigger('change');
+                    $('#setupModal').attr('action','{{url('currency')}}/'+$data.data[0].CURR_ID);
                 }
                 ,error: function(){
 
