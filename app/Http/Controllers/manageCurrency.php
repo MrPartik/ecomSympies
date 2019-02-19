@@ -15,9 +15,10 @@ class manageCurrency extends Controller
      */
     public function index()
     {
-        $curr = r_currencies::with('rTaxTableProfile');
+        $taxProf = r_tax_table_profile::all();
+        $curr = r_currencies::with('rTaxTableProfile')->get();
 
-        return view('pages.configuration.table-currencies',compact('curr'));
+        return view('pages.configuration.table-currencies',compact('curr','taxProf'));
     }
 
     /**
@@ -27,9 +28,9 @@ class manageCurrency extends Controller
      */
     public function create()
     {
-        $tax = r_tax_table_profile::all();
+        $taxProf = r_tax_table_profile::all();
 
-        return view('pages.configuration.create-currencies',compact('tax'));
+        return view('pages.configuration.create-currencies',compact('taxProf'));
     }
 
     /**
@@ -40,7 +41,21 @@ class manageCurrency extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            $curr = new r_currencies();
+            $curr->CURR_COUNTRY = $request->country;
+            $curr->CURR_ACR = $request->acronym;
+            $curr->CURR_NAME = $request->name;
+            $curr->CURR_RATE = $request->rate;
+            $curr->CURR_SYMBOL = $request->symbol;
+            $curr->TAXP_ID = $request->input('tax');
+            $curr->save();
+            return redirect()->back()->with('success', 'Successfully record is inserted!');
+        }
+        catch (Exception $e){
+            return redirect()->back()->with('error',$e->getCode());
+        }
+
     }
 
     /**
@@ -51,7 +66,8 @@ class manageCurrency extends Controller
      */
     public function show($id)
     {
-        //
+        $curr = r_currencies::with('rTaxTableProfile')->where('CURR_ID',$id)->get();
+        return json_encode($curr);
     }
 
     /**

@@ -34,6 +34,19 @@
                     <h4 class="panel-title">Create Currencies</h4>
                 </div>
                 <!-- end panel-heading -->
+
+
+                <div class="panel-body bg-black text-white">
+                    <div class="row">
+                        <div class="col-md-12" >Base currency for conversion </div>
+                        <div class="col-md-6">
+                            <span style="font-weight: bolder;font-size: 3em;text-align: justify;">United States of America</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span style="font-weight: bolder;font-size: 3em;text-align: justify;">$ 51.02 dollar</span>
+                        </div>
+                    </div>
+                </div>
                 <!-- begin alert -->
 
                 @if(session('success') || session('error') )
@@ -53,39 +66,62 @@
                             <input type="hidden" name="_method" value="POST" />
                             <div class="row">
 
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <label>Country</label>
                                         <div class="input-group m-b-10">
                                             <div class="input-group-prepend"><span class="input-group-text">*</span></div>
-                                            <input class="form-control" name=taxname placeholder="Name" required>
+                                            <input class="form-control" name=country placeholder="Philippines" required>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label>Rate</label>
+                                    <div class="col-md-3">
+                                        <label>Acronym</label>
                                         <div class="input-group m-b-10">
                                             <div class="input-group-prepend"><span class="input-group-text">*</span></div>
-                                            <input class="form-control" name=taxrate type="number" placeholder="Rate" required>
-                                            <div class="input-group-append"><span class="input-group-text">#</span></div>
+                                            <input class="form-control" name=acronym type="text" placeholder="PHP" required>
                                         </div>
                                     </div>
+                                <div class="col-md-3">
+                                    <label>Symbol</label>
+                                    <div class="input-group m-b-10">
+                                        <div class="input-group-prepend"><span class="input-group-text">*</span></div>
+                                        <input class="form-control" name=symbol type="text" placeholder="₱" required>
+                                    </div>
+                                </div>
 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Type</label>
-                                            <select class="form-control " name="taxtype" style="width: 100%;" required>
-                                                <option selected="selected"  disabled>Please Select Type</option>
-                                                <option value=0 >Percentage</option>
-                                                <option value=1 >Fixed</option>
+                                <div class="col-md-3">
+                                    <label>Currency Name</label>
+                                    <div class="input-group m-b-10">
+                                        <div class="input-group-prepend"><span class="input-group-text">*</span></div>
+                                        <input class="form-control" name=name type="text" placeholder="Peso" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Currency Rate</label>
+                                    <div class="input-group m-b-10">
+                                        <div class="input-group-prepend"><span class="input-group-text">*</span></div>
+                                        <input class="form-control" name=rate type="text" placeholder="Rate" required>
+                                        <div class="input-group-append"><span class="input-group-text">#</span></div>
+                                    </div>
+                                </div>
 
-                                            </select>
-                                        </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Product Tax</label>
+                                        <select class="form-control productType" name="tax" style="width: 100%;" required >
+                                            <option selected value="0" disabled>Please Select Tax Reference</option>
+                                            <optgroup label="Percentage">
+                                                @foreach($taxProf->where('TAXP_TYPE',0) as $item)
+                                                    <option value="{{$item->TAXP_ID}}">{{$item->TAXP_NAME}} - {{$item->TAXP_RATE}} % </option>
+                                                @endforeach
+                                            </optgroup>
+                                            <optgroup label="Fixed">
+                                                @foreach($taxProf->where('TAXP_TYPE',1) as $item)
+                                                    <option value="{{$item->TAXP_ID}}">{{$item->TAXP_NAME}} - {{$item->TAXP_RATE}}</option>
+                                                @endforeach
+                                            </optgroup>
+                                        </select>
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Description</label>
-                                            <textarea class="form-control" name=taxdesc style="resize:vertical; width:100%;height:107px" placeholder="Description" required></textarea>
-                                        </div>
-                                    </div>
+                                </div>
                                     <!-- /.row -->
                                 </div>
                                 <div class="col-md-12" >

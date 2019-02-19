@@ -34,8 +34,17 @@
                     <h4 class="panel-title">Manage Currencies</h4>
                 </div>
                 <!-- end panel-heading -->
-
-                <div class="panel-body bg-black text-white">...</div>
+                <div class="panel-body bg-black text-white">
+                    <div class="row">
+                        <div class="col-md-12" >Base currency for conversion </div>
+                        <div class="col-md-6">
+                            <span style="font-weight: bolder;font-size: 3em;text-align: justify;">United States of America</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span style="font-weight: bolder;font-size: 3em;text-align: justify;">$ 51.02 dollar</span>
+                        </div>
+                    </div>
+                </div>
                 <!-- begin alert -->
 
                 @if(session('success') || session('error') )
@@ -62,14 +71,14 @@
                         <tbody>
                         @foreach($curr as $item)
                             <tr>
-                                <td><strong>{{ $item->CURR_COUNTRY }}</strong><label>({{$item->CURR_ACC}})</label>
-                                    <br><small>{{ $item->CURR_SYMBOL }}</small></td>
+                                <td><strong>{{ $item->CURR_COUNTRY }} ({{$item->CURR_ACR}})</strong>
+                                    <br><small>{{ $item->CURR_SYMBOL }} - {{ $item->CURR_NAME }} </small></td>
                                 <td>{{$item->CURR_RATE}}</td>
-                                <td>{{ $item->rTaxTableProfile->TAXP_RATE  }}</td>
+                                <td>{{ $item->rTaxTableProfile->TAXP_NAME  }} - {{ $item->rTaxTableProfile->TAXP_RATE  }}</td>
                                 <td>{{ (new DateTime($item->created_at))->format('D M d, Y | h:i A') }}</td>
                                 <td>
                                     <center>
-
+                                        <a class="btn btn-info" id='edit' data-toggle="modal" data-value="{{$item->CURR_ID}}" href="#editSetup"><i class="fas fa-pencil-alt text-white"></i></a>
                                     </center>
                                 </td>
                             </tr>
@@ -91,55 +100,85 @@
         <!-- end col-10 -->
     </div>
     <!-- end row -->
-    <div class="modal modal-message fade" id="taxreferencesetup" >
+    <div class="modal modal-message fade" id="editSetup" >
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Product Tax</h4>
+                    <h4 class="modal-title">Currency</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
                 <div class="modal-body">
 
-                    <form method="post" id="taxModal" action="{{url('tax')}}"  enctype="multipart/form-data">
+                    <form method="post" id="setupModal" action="{{url('currency')}}"  enctype="multipart/form-data">
                         {{csrf_field()}}
                         <input type="hidden" name="_method" value="POST" />
                         <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Name</label>
-                                        <input class="form-control" name=taxname placeholder="Name" required>
-                                    </div>
-                                </div>
+                            <div class="col-md-12" style="padding-bottom: 20px;">
+                                <strong>Are you sure? you want to edit this record?</strong>
+                                <p>Please provide the following inputs to validate the record.</p>
+                            </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Rate</label>
-                                        <input class="form-control" name=taxrate type="number" placeholder="Rate" required>
-                                    </div>
+                            <div class="col-md-6">
+                                <label>Country</label>
+                                <div class="input-group m-b-10">
+                                    <div class="input-group-prepend"><span class="input-group-text">*</span></div>
+                                    <input class="form-control" name=country placeholder="Philippines" required>
                                 </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Acronym</label>
+                                <div class="input-group m-b-10">
+                                    <div class="input-group-prepend"><span class="input-group-text">*</span></div>
+                                    <input class="form-control" name=acronym type="text" placeholder="PHP" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Symbol</label>
+                                <div class="input-group m-b-10">
+                                    <div class="input-group-prepend"><span class="input-group-text">*</span></div>
+                                    <input class="form-control" name=symbol type="text" placeholder="₱" required>
+                                </div>
+                            </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Type</label>
-                                        <select class="form-control " name="taxtype" style="width: 100%;" required>
-                                            <option selected="selected"  disabled>Please Select Type</option>
-                                            <option value=0 >Percentage</option>
-                                            <option value=1 >Fixed</option>
+                            <div class="col-md-3">
+                                <label>Currency Name</label>
+                                <div class="input-group m-b-10">
+                                    <div class="input-group-prepend"><span class="input-group-text">*</span></div>
+                                    <input class="form-control" name=name type="text" placeholder="Peso" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Currency Rate</label>
+                                <div class="input-group m-b-10">
+                                    <div class="input-group-prepend"><span class="input-group-text">*</span></div>
+                                    <input class="form-control" name=rate type="text" placeholder="Rate" required>
+                                    <div class="input-group-append"><span class="input-group-text">#</span></div>
+                                </div>
+                            </div>
 
-                                        </select>
-                                    </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Product Tax</label>
+                                    <select class="form-control productType" name="tax" style="width: 100%;" required >
+                                        <option selected value="0" disabled>Please Select Tax Reference</option>
+                                        <optgroup label="Percentage">
+                                            @foreach($taxProf->where('TAXP_TYPE',0) as $item)
+                                                <option value="{{$item->TAXP_ID}}">{{$item->TAXP_NAME}} - {{$item->TAXP_RATE}} % </option>
+                                            @endforeach
+                                        </optgroup>
+                                        <optgroup label="Fixed">
+                                            @foreach($taxProf->where('TAXP_TYPE',1) as $item)
+                                                <option value="{{$item->TAXP_ID}}">{{$item->TAXP_NAME}} - {{$item->TAXP_RATE}}</option>
+                                            @endforeach
+                                        </optgroup>
+                                    </select>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Description</label>
-                                        <textarea class="form-control" name=taxdesc style="resize:vertical; width:100%;height:107px" placeholder="Description" required></textarea>
-                                    </div>
-                                </div>
-                                <!-- /.row -->
-                            <div class="col-md-12" >
-                                <div class="pull-right" style="margin-right: 10px;">
-                                    <button class="btn btn-success" type="submit" >Save</button>
-                                </div>
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                        <div class="col-md-12" >
+                            <div class="pull-right" style="margin-right: 10px;">
+                                <button class="btn btn-success" type="submit" >Submit</button>
                             </div>
                         </div>
                     </form>
@@ -196,74 +235,28 @@
         });
 
 
+        $('a[id=edit]').on('click',function(){
+            $id = $(this).attr('data-value');
 
-        $("a[id='deact']").on('click',function(){
-            $id = $(this).attr('vals');
-            // $("button[id='deactSave']").on('click',function () {
-            swal({
-                title: "This record will be deactivated?"
-                , text: "After this action, this record is not available, unless it is activated"
-                , type: "warning"
-                , showLoaderOnConfirm: true
-                , showCancelButton: true
-                , confirmButtonColor: '#9DD656'
-                , confirmButtonText: 'Yes!'
-                , cancelButtonText: "No!"
-                , closeOnConfirm: false
-                , closeOnCancel: true
-            }, function (isConfirm) {
-                if (isConfirm) {
-
-                    $.ajax({
-                        url: '/tax/actDeact'
-                        ,type: 'post'
-                        ,data: {id:$id,_token:CSRF_TOKEN, type:0  }
-                        ,success:function(){
-                            window.location.reload();
-                        }
-                        ,error:function(){
-
-                        }
-                    });
+            $.ajax({
+                type:'get   '
+                ,url: '/currency/'+$id
+                ,datatype: 'json'
+                ,success: function($data){
+                    $('input[name=name]').val($fata.CURR_NAME);
+                    $('input[name=country]').val($fata.CURR_COUNTRY);
+                    $('input[name=acronym]').val($fata.CURR_ACR);
+                    $('input[name=symbol]').val($fata.CURR_SYMBOL);
+                    $('input[name=rate]').val($fata.CURR_RATE);
+                    $('select[name=tax]').val($fata.TAXP_ID).trigger('change');
+                }
+                ,error: function(){
 
                 }
             });
-            // });
+
         });
 
-        $("a[id='act']").on('click',function(){
-            $id = $(this).attr('vals');
-            // $("button[id='actSave']").on('click',function () {
-
-            swal({
-                title: "This record will be activated?"
-                , text: "After this action, this record is now available, unless it is deactivated"
-                , type: "warning"
-                , showLoaderOnConfirm: true
-                , showCancelButton: true
-                , confirmButtonColor: '#9DD656'
-                , confirmButtonText: 'Yes!'
-                , cancelButtonText: "No!"
-                , closeOnConfirm: false
-                , closeOnCancel: true
-            }, function (isConfirm) {
-                if (isConfirm) {
-                    $.ajax({
-                        url: '/tax/actDeact'
-                        ,type: 'post'
-                        ,data: {id:$id,_token:CSRF_TOKEN, type:1  }
-                        ,success:function(){
-                            window.location.reload();
-                        }
-                        ,error:function(){
-
-                        }
-                    });
-                }
-            });
-
-            // });
-        });
 
 
     </script>

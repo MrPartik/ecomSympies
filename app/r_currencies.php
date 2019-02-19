@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $CURR_NAME
  * @property string $CURR_COUNTRY
  * @property string $CURR_SYMBOL
- * @property string $CURR_ACC
+ * @property string $CURR_ACR
  * @property float $CURR_RATE
  * @property string $created_at
  * @property string $updated_at
@@ -35,13 +35,13 @@ class r_currencies extends Model
     /**
      * @var array
      */
-    protected $fillable = ['TAXP_ID', 'CURR_NAME', 'CURR_COUNTRY','CURR_ACC', 'CURR_SYMBOL', 'CURR_RATE', 'created_at', 'updated_at'];
+    protected $fillable = ['TAXP_ID', 'CURR_NAME', 'CURR_COUNTRY','CURR_ACR', 'CURR_SYMBOL', 'CURR_RATE', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function rTaxTableProfile()
     {
-        return $this->belongsTo('App\RTaxTableProfile', 'TAXP_ID', 'TAXP_ID');
+        return $this->belongsTo(r_tax_table_profile::class, 'TAXP_ID', 'TAXP_ID');
     }
 }

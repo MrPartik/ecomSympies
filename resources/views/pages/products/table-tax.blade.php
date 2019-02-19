@@ -109,6 +109,11 @@
                         {{csrf_field()}}
                         <input type="hidden" name="_method" value="POST" />
                         <div class="row">
+
+                            <div class="col-md-12" style="padding-bottom: 20px;">
+                                <strong>Are you sure? you want to edit this record?</strong>
+                                <p>Please provide the following inputs to validate the record.</p>
+                            </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Name</label>
