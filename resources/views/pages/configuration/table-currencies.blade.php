@@ -78,7 +78,7 @@
                                 <td>{{ (new DateTime($item->created_at))->format('D M d, Y | h:i A') }}</td>
                                 <td>
                                     <center>
-                                        <a class="btn btn-info" id='edit' data-toggle="modal" data-value="{{$item->CURR_ID}}" href="#editSetup"><i class="fas fa-pencil-alt text-white"></i></a>
+                                        <a title="Edit" class="btn btn-info" id='edit' data-toggle="modal" data-value="{{$item->CURR_ID}}" href="#editSetup"><i class="fas fa-pencil-alt text-white"></i></a>
                                     </center>
                                 </td>
                             </tr>
@@ -261,7 +261,6 @@
             });
 
         });
-
 
 
     </script>

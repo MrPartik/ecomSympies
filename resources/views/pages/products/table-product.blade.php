@@ -92,10 +92,10 @@
                                         echo $total = ($woDtotal!='NAN')?number_format(($discount)?$woDtotal-($woDtotal*($discount/100)):$woDtotal,2):$woDtotal
                                     @endphp
                                 </td>
-                                <td>
+                                <td data-toggle="tooltip" title="{{$item->PROD_AVAILABILITY }}">
                                     Available
                                 </td>
-                                <td title ="{{$item->rAffiliateInfo->AFF_NAME}}"  data-order="{{$item->rAffiliateInfo->AFF_NAME}}" data-title="{{$item->rAffiliateInfo->AFF_NAME}}">
+                                <td data-toggle="tooltip" title ="{{$item->rAffiliateInfo->AFF_NAME}}"  data-order="{{$item->rAffiliateInfo->AFF_NAME}}" data-title="{{$item->rAffiliateInfo->AFF_NAME}}">
                                     <center>
                                         <img src="{{ Avatar::create($item->rAffiliateInfo->AFF_NAME)->toBase64() }}" style="height: 40px;">
 

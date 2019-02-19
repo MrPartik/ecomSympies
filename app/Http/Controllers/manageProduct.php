@@ -237,8 +237,6 @@ class manageProduct extends Controller
 
         if(Auth::user()->role=="admin"){
             try {
-                $prodInfo->PROD_MARKUP = $request->prodmarkup;
-                $prodInfo->PROD_REBATE = $request->prodrebate;
                 $prodInfo->PROD_IS_APPROVED = 1;
                 $prodInfo->save();
                 return redirect()->back()->with('success', 'Successfully record is updated!');
