@@ -22,6 +22,8 @@
 	<link href="{{asset('assets/css/e-commerce/style-responsive.min.css')}}" rel="stylesheet" />
 	<link href="{{asset('assets/css/e-commerce/theme/default.css')}}" id="theme" rel="stylesheet" />
     <link href="{{asset('assets/plugins/jquery-smart-wizard/src/css/smart_wizard.css')}}" rel="stylesheet" />
+
+    <link href="{{asset('assets/plugins/select2/dist/css/select2.min.css')}}" rel="stylesheet" />
     <link href="{{asset('assets/plugins/parsley/src/parsley.css')}}" rel="stylesheet" />
 
 	<!-- ================== END BASE CSS STYLE ================== -->
@@ -339,10 +341,7 @@
                                 <div class="info">
                                     <h4 class="info-title">{{$item->PROD_NAME}}</h4>
                                     <div class="price">
-                                        @php
-                                            $total = $item->PROD_MY_PRICE;
-                                            echo number_format($total,2)
-                                        @endphp
+                                       {{$item->PRICE}}
                                         </div>
                                 </div>
                             </li>
@@ -415,6 +414,7 @@
     <script src="{{asset('assets/plugins/parsley/dist/parsley.js')}}"></script>
     <script src="{{asset('assets/plugins/jquery-smart-wizard/src/js/jquery.smartWizard.js')}}"></script>
     <script src="{{asset('assets/js/demo/form-wizards-validation.demo.min.js')}}"></script>
+    <script src="{{asset('assets/plugins/select2/dist/js/select2.min.js')}}"></script>
 	<!-- ================== END BASE JS ================== -->
 
 	<script>
@@ -432,6 +432,8 @@
                 (m, i) => p < 0 || i < p ? `${m},` : m
             )
         }
+
+
 	</script>
 
     @yield('extrajs')

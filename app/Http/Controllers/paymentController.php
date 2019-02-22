@@ -43,15 +43,13 @@ class paymentController extends Controller
 
     public function payWithpaypal(Request $request)
     {
-        $getProd = r_product_info::with('rAffiliateInfo','rProductType','rTaxTableProfile')
+        $getProd = r_product_info::with('rAffiliateInfo','rProductType')
             ->where('PROD_IS_APPROVED','1')
             ->where('PROD_DISPLAY_STATUS',1)
             ->where('PROD_ID',$request->prodID)
             ->first();
 
-        $totalPrice=($getProd->PROD_IS_APPROVED==1)?(($getProd->PROD_REBATE/100)* $getProd->PROD_BASE_PRICE)
-        +(($getProd->rTaxTableProfile->TAXP_TYPE==0)?($getProd->rTaxTableProfile->TAXP_RATE/100)* $getProd->PROD_BASE_PRICE:($getProd->rTaxTableProfile->TAXP_RATE)+ $getProd->PROD_BASE_PRICE)
-        +(($getProd->PROD_MARKUP/100)* $getProd->PROD_BASE_PRICE)+$getProd->PROD_BASE_PRICE:'NAN';
+        $totalPrice=$getProd->PROD_MY_PRICE;
         $discount = $getProd->PROD_DISCOUNT;
         $total =($discount)?$totalPrice-($totalPrice*($discount/100)):$totalPrice;
 

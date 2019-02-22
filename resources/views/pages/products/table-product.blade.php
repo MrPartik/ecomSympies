@@ -49,11 +49,11 @@
                 <!-- end alert -->
                 <!-- begin panel-body -->
                 <div class="panel-body">
-                    <table id="data-table-buttons" class="table table-striped table-bordered">
+                    <table id="data-table-buttons" class="table  table-bordered">
                         <thead>
                         <tr>
                             <th width="30%">Product Info</th>
-                            <th>Base | Selling Price</th>
+                            <th>Base | Selling Price </th>
                             <th>Status</th>
                             <th>Affiliate</th>
                             <th>Date Modified</th>
@@ -62,7 +62,7 @@
                         </thead>
                         <tbody>
                         @foreach($prodInfo as $item)
-                            <tr>
+                            <tr style="background-color: {{($item->PROD_IS_APPROVED==0 || $item->PROD_DISPLAY_STATUS == 0)?'#ffbebe':'#c7ffc7'}}">
                                 <td>
                                     <div class="row">
                                         <div class="col-md-4">
@@ -74,7 +74,7 @@
                                            <br>
                                         </div>
                                         <div class="col-md-8">
-                                            <strong style="color:lightgray">{{$item->PROD_CODE}}</strong><br>
+                                            <strong style="color:dimgray">{{$item->PROD_CODE}}</strong><br>
                                             <strong>{{ $item->PROD_NAME}}</strong><br>
                                             <small>{{ $item->PROD_DESC}}</small><br>
                                         </div>
@@ -82,7 +82,7 @@
                                 </td>
                                 <td>
 
-                                    Base Price: {{$item->PROD_BASE_PRICE}} <br>
+                                    Base Price: {{number_format($item->PROD_BASE_PRICE,2)}} <br>
                                     Discount (%): {{$discount=$item->PROD_DISCOUNT}}% <br>
                                     Selling Price:
                                     @php
@@ -92,8 +92,12 @@
                                         echo $total = ($woDtotal!='NAN')?number_format(($discount)?$woDtotal-($woDtotal*($discount/100)):$woDtotal,2):$woDtotal
                                     @endphp
                                 </td>
-                                <td data-toggle="tooltip" title="{{$item->PROD_AVAILABILITY }}">
-                                    Available
+                                <td data-toggle="tooltip" title="{{$item->PROD_AVAILABILITY}}">
+                                    @if(\App\Providers\sympiesProvider::isAvailable($item->PROD_AVAILABILITY))
+                                        <label style="color:green">Available</label>
+                                    @else
+                                        <label style="color:red">Not Available</label>
+                                    @endif
                                 </td>
                                 <td data-toggle="tooltip" title ="{{$item->rAffiliateInfo->AFF_NAME}}"  data-order="{{$item->rAffiliateInfo->AFF_NAME}}" data-title="{{$item->rAffiliateInfo->AFF_NAME}}">
                                     <center>
@@ -102,7 +106,7 @@
                                         <br><span style="color: gray;">{{$item->rAffiliateInfo->AFF_NAME}}</span>
                                     </center>
                                 </td>
-                                <td data-order="{{$item->created_at}}">{{ (new DateTime($item->created_at))->format('D M d, Y | h:i A') }}</td>
+                                    <td data-order="{{$item->created_at}}">{{ (new DateTime($item->created_at))->format('D M d, Y | h:i A') }}</td>
 
                                 <td>
                                     <center>
@@ -180,6 +184,7 @@
                                 <strong>Are you sure? you want to approved this product?</strong>
                                 <p>Please provide the following inputs to validate the product in the market.</p>
                             </div>
+                            <div class="col-md-12" style=""><label>Base Price (Affiliate)</label></div>
 
                             <div class="col-md-6" style="background: lightgray;">
                                 <span id="BasePrice" style="color: gray;font-weight: 1000;font-size: 5em;text-align: justify;"></span>
@@ -364,7 +369,7 @@
                 '                </div>\n' +
                 '                </div>\n' +
                 '                </td>\n' +
-                '                <td><input class="form-control" name=prodvarimg[] type="file"></td>\n' +
+                '                <td><input class="form-control" name=prodvarimg[] type="file" accept="image/*"></td>\n' +
                 '                <td><textarea class="form-control" name=prodvardesc[] style="resize:vertical; width:100%;height:36px" placeholder="Product Description" required></textarea></td>\n' +
                 '            <td><div class="input-group">\n' +
                 '                <input type="number" placeholder="0" name="inv_qty[]" class="form-control" required>\n' +
@@ -418,11 +423,14 @@
                             '                </div>\n' +
                             '                </div>\n' +
                             '                </td>\n' +
-                            '                <td><input  class="form-control" name=prodvarimg[] type="file"></td>\n' +
+                            '                <td><input  class="form-control" name=prodvarimg[] type="file" accept="image/*"></td>\n' +
                             '                <td><textarea class="form-control" name=prodvardesc[] style="resize:vertical; width:100%;height:36px" placeholder="Product Description" required>'+$data.data[index].PRODV_DESC+'</textarea></td>\n' +
-                            '            <td><div class="input-group"><center>\n' +
-                            '                '+$data.data[index].PRODV_INIT_QTY+'\n' +
-                            '                </center></div>\n' +
+                            '            <td><div class="input-group">\n' +
+                            '                <input type="number" placeholder="0" name="inv_qty[]" readonly value='+$data.data[index].PRODV_INIT_QTY+' class="form-control" required>\n' +
+                            '            <div class="input-group-addon">\n' +
+                            '                #\n' +
+                            '                </div>\n' +
+                            '                </div>\n' +
                             '                </td>\n' +
                             '            <td><a class="btn btn-danger" onclick="if($(\'#prodvartable tbody tr\').length>1)$(this).closest(\'tr\').remove()"><i class="fa fa-minus text-white"></i></a></td>\n' +
                             '            </tr>'
@@ -442,7 +450,7 @@
                         '                </div>\n' +
                         '                </div>\n' +
                         '                </td>\n' +
-                        '                <td><input class="form-control" name=prodvarimg[] type="file"></td>\n' +
+                        '                <td><input class="form-control" name=prodvarimg[] type="file" accept="image/*"></td>\n' +
                         '                <td><textarea class="form-control" name=prodvardesc[] style="resize:vertical; width:100%;height:36px" placeholder="Product Description" required></textarea></td>\n' +
                         '            <td><div class="input-group">\n' +
                         '                <input type="number" placeholder="0" name="inv_qty[]" class="form-control" required>\n' +

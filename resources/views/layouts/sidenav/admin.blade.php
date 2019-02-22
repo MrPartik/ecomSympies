@@ -43,9 +43,9 @@
                     @php
                         $prod = \App\r_product_info::all()->where('PROD_DISPLAY_STATUS',1);
                     @endphp
-                    <span class="label m-l-5 label-success" title="approved">{{$prod->where('PROD_IS_APPROVED','1')->count()}}</span>
-                    <span class="label m-l-5 label-warning" title="pending">{{$prod->where('PROD_APPROVED_AT','')->count()}}</span>
-                    <span class="label m-l-5 label-danger" title="rejected">{{$prod->where('PROD_IS_APPROVED','0')->count()}}</span>
+                    <span class="label m-l-5 label-success" data-toggle="tooltip" title="Approved">{{$prod->where('PROD_IS_APPROVED','1')->count()}}</span>
+                    <span class="label m-l-5 label-warning" data-toggle="tooltip" title="Pending">{{$prod->where('PROD_APPROVED_AT','')->count()}}</span>
+                    <span class="label m-l-5 label-danger" data-toggle="tooltip" title="Rejected">{{$prod->where('PROD_IS_APPROVED','0')->count()}}</span>
                 </a>
                 <ul class="sub-menu">
                     <li class="{{Route::is('prodList')?'active':''}}"><a href="{{url('product/list')}}">Product List</a></li>
@@ -53,6 +53,18 @@
 
                 </ul>
             </li>
+            <li class="has-sub {{(Request::is('inventory-remaining')||Request::is('inventory-manage'))?'active':'' }}">
+                <a href="javascript:;">
+                    <b class="caret"></b>
+                    <i class="fa fa-chart-pie"></i>
+                    <span>Inventory</span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="{{Request::is('inventory-remaining')?'active':''}}"><a href="{{url('order-cancel')}}">Remaining Inventory</a></li>
+                    <li class="{{Request::is('inventory-manage')?'active':''}}"><a href="{{url('order-pending')}}">Manage Inventory</a></li>
+                </ul>
+            </li>
+
             <li class="has-sub {{(Request::is('order-cancel')||Request::is('order-pending')||Request::is('order-complete')||Request::is('order-refund'))?'active':'' }}">
                 <a href="javascript:;">
                     <b class="caret"></b>

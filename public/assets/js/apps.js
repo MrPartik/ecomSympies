@@ -411,8 +411,9 @@ var handleDraggablePanel = function() {
 ------------------------------------------------ */
 var handelTooltipPopoverActivation = function() {
     "use strict";
-    if ($('[data-toggle="tooltip"]').length !== 0) {
-        $('[data-toggle=tooltip]').tooltip();
+    if ($('[tooltip="tooltip"]').length !== 0 || $('[data-toggle="tooltip"]').length !== 0) {
+        $('[tooltip="tooltip"]').tooltip();
+        $('[data-toggle="tooltip"]').tooltip();
     }
     if ($('[data-toggle="popover"]').length !== 0) {
         $('[data-toggle=popover]').popover();

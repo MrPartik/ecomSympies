@@ -4,6 +4,11 @@
 @section('title','Products')
 
 @section('content')
+    <style>
+        .item-row{
+            display:flex;
+        }
+    </style>
       <!-- BEGIN #slider -->
       <div id="slider" class="section-container p-0 bg-black-darker">
             <!-- BEGIN carousel -->
@@ -24,14 +29,10 @@
                                 <p class="m-b-15 fadeInRightBig animated">{{$item->PROD_DESC}}</p>
                                 <div class="price m-b-30 fadeInRightBig animated"><small>from</small>
                                     <span>
-                                        @php
-                                            $discount=$item->PROD_DISCOUNT;
-                                            $total= $item->PROD_MY_PRICE;
-                                        echo number_format(($discount)?$total-($total*($discount/100)):$total,2)
-                                        @endphp
+                                        {{$item->PRICE}}
                                     </span>
 
-                                    {{--<div class="item-discount-price">{{($discount)?number_format($total,2):''}}</div>--}}
+                                    <div class="item-discount-price" style="text-decoration:line-through; ">{{$item->DISCOUNT}}</div>
                                 </div>
                                 <a href="{{url('product/details/'.$item->PROD_ID)}}" class="btn btn-outline btn-lg fadeInRightBig animated">View</a>
                             </div>
@@ -90,12 +91,11 @@
                                 <p class="item-desc" title="{{$item->PROD_DESC}}">{{$item->PROD_DESC}}</p>
 
                                 <div class="item-price">
-                                    @php
-                                        $total= $item->PROD_MY_PRICE;
-                                         echo number_format(($discount)?$total-($total*($discount/100)):$total,2)
-                                    @endphp
+                                    {{$item->PRICE}}
                                 </div>
-                                 <div class="item-discount-price">{{($discount)?number_format($total,2):''}}</div>
+                                 <div class="item-discount-price">
+                                     {{$item->DISCOUNT}}
+                                 </div>
                             </div>
                         </div>
                         <!-- END item -->
@@ -161,10 +161,10 @@
                         <div class="category-item list">
 
                             @php $i=1 @endphp
-                            @foreach($Allprod->take(9) as $item)
+                            @foreach($Allprod as $item)
                             <!-- BEGIN item-row -->
                             @if( $i%3==1)
-                            <div class="item-row">
+                            <div class="item-row" >
                             @endif
                                <!-- BEGIN item -->
                             <div class="item item-thumbnail">
@@ -180,12 +180,11 @@
                                     </h4>
                                     <p class="item-desc"  title="{{$item->PROD_DESC}}">{{$item->PROD_DESC}}</p>
                                     <div class="item-price">
-                                        @php
-                                            $total= $item->PROD_MY_PRICE;
-                                            echo number_format(($discount)?$total-($total*($discount/100)):$total,2)
-                                        @endphp
+                                        {{$item->PRICE}}
                                     </div>
-                                    <div class="item-discount-price">{{($discount)?number_format($total,2):''}}</div>
+                                    <div class="item-discount-price">
+                                        {{$item->DISCOUNT}}
+                                    </div>
                                 </div>
                             </div>
                                 <!-- END item -->
@@ -261,7 +260,7 @@
                         <div class="category-item list">
 
                         @php $i=1 @endphp
-                        @foreach($Allprod->take(9) as $item)
+                        @foreach($Allprod as $item)
                             <!-- BEGIN item-row -->
                             @if( $i%3==1)
                                     <div class="item-row">
@@ -279,12 +278,11 @@
                                                 </h4>
                                                 <p class="item-desc"  title="{{$item->PROD_DESC}}">{{$item->PROD_DESC}}</p>
                                                 <div class="item-price">
-                                                    @php
-                                                        $total= $item->PROD_MY_PRICE;
-                                                        echo ($total!='NAN')?number_format(($discount)?$total-($total*($discount/100)):$total,2):$total
-                                                    @endphp
+                                                    {{$item->PRICE}}
                                                 </div>
-                                                <div class="item-discount-price">{{($discount)?number_format($total,2):''}}</div>
+                                                <div class="item-discount-price">
+                                                    {{$item->DISCOUNT}}
+                                                </div>
                                             </div>
                                         </div>
                                         <!-- END item -->
@@ -438,8 +436,6 @@
                             $start="";
                             $end="";
                             $pic="/uPackage.png";
-                            $discounts = "";
-                            $price="";
                             if($i%3==1)
                                 $start="<div class='item-row'>";
                             if($i%3==0 || $data.count )
@@ -447,19 +443,10 @@
                             if(val.PROD_IMG)
                                 $pic=val.PROD_IMG;
 
-                            $total=val.PROD_MY_PRICE;
 
-                            if($discount = val.PROD_DISCOUNT){
-                                $price = moneyFormat(($total-($total*($discount/100))).toFixed(2));
-                                $discounts =moneyFormat($total.toFixed(2));
-                            }else{
-                                $price = moneyFormat($total.toFixed(2));
-                                $discounts = '';
-                            }
-
-                            $datas += $start+"<div class='item item-thumbnail'> <a href='/product/details/"+val.PROD_ID+"' class='item-image'> <img src='"+$pic+"' />  <div class='discount' >"+$discount+"% OFF</div> </a> <div class='item-info'> <h4 class='item-title'>  <a href='/product/details/"+val.PROD_ID+"'>"+val.PROD_NAME+"<br /> <span style='color:gray'>"+val.r_affiliate_info.AFF_NAME+"</span></a>" +
-                                "</h4> <p class='item-desc'  title='"+val.PROD_DESC+"'>"+val.PROD_DESC+"</p> <div class='item-price'>"+$price+"</div>" +
-                                "<div class='item-discount-price'>"+$discounts+"</div></div> </div>"+$end;
+                            $datas += $start+"<div class='item item-thumbnail'> <a href='/product/details/"+val.PROD_ID+"' class='item-image'> <img src='"+$pic+"' />  <div class='discount' >"+val.PROD_DISCOUNT+"% OFF</div> </a> <div class='item-info'> <h4 class='item-title'>  <a href='/product/details/"+val.PROD_ID+"'>"+val.PROD_NAME+"<br /> <span style='color:gray'>"+val.r_affiliate_info.AFF_NAME+"</span></a>" +
+                                "</h4> <p class='item-desc'  title='"+val.PROD_DESC+"'>"+val.PROD_DESC+"</p> <div class='item-price'>"+val.PRICE+"</div>" +
+                                "<div class='item-discount-price'>"+val.DISCOUNT+"</div></div> </div>"+$end;
                             $i++;
                         });
                         if($data=='')
@@ -500,8 +487,6 @@
                             $start="";
                             $end="";
                             $pic="/uPackage.png";
-                            $discounts = "";
-                            $price="";
                             if($i%3==1)
                                 $start="<div class='item-row'>";
                             if($i%3==0 || $data.count )
@@ -509,17 +494,9 @@
                             if(val.PROD_IMG)
                                 $pic=val.PROD_IMG;
 
-                            $total=val.PROD_MY_PRICE;
-                            if($discount = val.PROD_DISCOUNT){
-                                $price = moneyFormat(($total-($total*($discount/100))).toFixed(2));
-                                $discounts =moneyFormat($total.toFixed(2));
-                            }else{
-                                $price = moneyFormat($total.toFixed(2));
-                                $discounts = '';
-                            }
-                            $datas += $start+"<div class='item item-thumbnail'> <a href='/product/details/"+val.PROD_ID+"' class='item-image'> <img src='"+$pic+"' />  <div class='discount' >"+$discount+"% OFF</div> </a> <div class='item-info'> <h4 class='item-title'>  <a href='/product/details/"+val.PROD_ID+"'>"+val.PROD_NAME+"<br /> <span style='color:gray'>"+val.r_affiliate_info.AFF_NAME+"</span></a>" +
-                                "</h4> <p class='item-desc'  title='"+val.PROD_DESC+"'>"+val.PROD_DESC+"</p> <div class='item-price'>"+$price+"</div>" +
-                                "<div class='item-discount-price'>"+$discounts+"</div></div> </div>"+$end;
+                            $datas += $start+"<div class='item item-thumbnail'> <a href='/product/details/"+val.PROD_ID+"' class='item-image'> <img src='"+$pic+"' />  <div class='discount' >"+val.PROD_DISCOUNT+"% OFF</div> </a> <div class='item-info'> <h4 class='item-title'>  <a href='/product/details/"+val.PROD_ID+"'>"+val.PROD_NAME+"<br /> <span style='color:gray'>"+val.r_affiliate_info.AFF_NAME+"</span></a>" +
+                                "</h4> <p class='item-desc'  title='"+val.PROD_DESC+"'>"+val.PROD_DESC+"</p> <div class='item-price'>"+val.PRICE+"</div>" +
+                                "<div class='item-discount-price'>"+val.DISCOUNT+"</div></div> </div>"+$end;
                             $i++;
                         });
                         if($data=='')

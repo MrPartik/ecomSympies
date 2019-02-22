@@ -63,7 +63,7 @@
                                 @if($type==1)
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label>Product Parent (optional)</label>
+                                            <label>Product Parent</label>
                                             <select class="form-control prodParent" name="prodparent" style="width: 100%;" required>
                                                 @foreach($cat->where('PRODT_PARENT',null)->where('PRODT_DISPLAY_STATUS',1)   as $item)
                                                     <option value="{{$item->PRODT_ID}}">{{$item->PRODT_TITLE}}</option>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Providers\sympiesProvider;
 use App\t_product_variance;
 use Illuminate\Http\Request;
 use App\r_product_info;
@@ -19,14 +20,16 @@ class frontProductsController extends Controller
     public function index()
     {
 
-        $Allprod = r_product_info::with('rAffiliateInfo','rProductType')
-            ->where('PROD_IS_APPROVED','1')
-            ->where('PROD_DISPLAY_STATUS',1)->get();
+        $Allprod = sympiesProvider::filterAvailable(r_product_info::with('rAffiliateInfo', 'rProductType')
+            ->where('PROD_IS_APPROVED', '1')
+            ->where('PROD_DISPLAY_STATUS', 1)->get());
         $aff = r_affiliate_info::all();
-        $cat = r_product_type::with('rProductType')->get();
+        $cat = r_product_type::with('rProductType')->where('PRODT_DISPLAY_STATUS',1)->get();
 
+//        dd($Allprod = collect($Allprod));
 
-        return view('pages.frontend-shop.list-front-products',compact('Allprod','aff','cat'));
+        $Allprod = sympiesProvider::format($Allprod);
+            return view('pages.frontend-shop.list-front-products', compact('Allprod', 'aff', 'cat'));
     }
 
     /**
@@ -98,17 +101,18 @@ class frontProductsController extends Controller
     public function getProdAffiliates($id){
 
         if($id!=0)
-            $Allprod = r_product_info::with('rAffiliateInfo','rProductType')
-            ->where('PROD_IS_APPROVED','1')
-            ->where('PROD_DISPLAY_STATUS',1)
-            ->where('AFF_ID',$id)
-            ->get()->take(9);
+            $Allprod = sympiesProvider::filterAvailable(r_product_info::with('rAffiliateInfo', 'rProductType')
+                ->where('PROD_IS_APPROVED', '1')
+                ->where('PROD_DISPLAY_STATUS', 1)
+                ->where('AFF_ID', $id)
+                ->get());
         else
-            $Allprod = r_product_info::with('rAffiliateInfo','rProductType')
-                ->where('PROD_IS_APPROVED','1')
-                ->where('PROD_DISPLAY_STATUS',1)
-                ->get()->take(9);
+            $Allprod = sympiesProvider::filterAvailable(r_product_info::with('rAffiliateInfo', 'rProductType')
+            ->where('PROD_IS_APPROVED', '1')
+            ->where('PROD_DISPLAY_STATUS', 1)
+            ->get());
 
+        $Allprod = sympiesProvider::format($Allprod);
         return json_encode($Allprod);
     }
 
@@ -116,40 +120,41 @@ class frontProductsController extends Controller
     public function getProdCategory($id){
 
         if($id!=0)
-            $Allprod = r_product_info::with('rProductType','rAffiliateInfo')
-            ->where('PROD_IS_APPROVED','1')
-            ->where('PROD_DISPLAY_STATUS',1)
-            ->where('PRODT_ID',$id)
-            ->get()->take(9);
+            $Allprod = sympiesProvider::filterAvailable(r_product_info::with('rProductType', 'rAffiliateInfo')
+                ->where('PROD_IS_APPROVED', '1')
+                ->where('PROD_DISPLAY_STATUS', 1)
+                ->where('PRODT_ID', $id)
+                ->get());
         else
-            $Allprod = r_product_info::with('rProductType','rAffiliateInfo')
-                ->where('PROD_IS_APPROVED','1')
-                ->where('PROD_DISPLAY_STATUS',1)
-                ->get()->take(9);
+            $Allprod = sympiesProvider::filterAvailable(r_product_info::with('rProductType', 'rAffiliateInfo')
+            ->where('PROD_IS_APPROVED', '1')
+            ->where('PROD_DISPLAY_STATUS', 1)
+            ->get());
 
 
-
+        $Allprod = sympiesProvider::format($Allprod);
         return json_encode($Allprod);
     }
 
+
     public function getProdDetails($id){
 
-        $Allprod = r_product_info::with('rAffiliateInfo','rProductType')
+        $Allprod = sympiesProvider::filterAvailable(r_product_info::with('rAffiliateInfo','rProductType')
             ->where('PROD_IS_APPROVED','1')
             ->where('PROD_DISPLAY_STATUS',1)
-            ->get();
+            ->get());
 
 
-        $randProd = r_product_info::with('rAffiliateInfo','rProductType')
+        $randProd = sympiesProvider::filterAvailable(r_product_info::with('rAffiliateInfo','rProductType')
             ->where('PROD_IS_APPROVED','1')
             ->where('PROD_DISPLAY_STATUS',1)
-            ->inRandomOrder()->get();
+            ->inRandomOrder()->get());
 
-        $getProd = r_product_info::with('rAffiliateInfo','rProductType')
+        $getProd = sympiesProvider::filterAvailable(r_product_info::with('rAffiliateInfo','rProductType')
             ->where('PROD_IS_APPROVED','1')
             ->where('PROD_DISPLAY_STATUS',1)
             ->where('PROD_ID',$id)
-            ->get();
+            ->get());
 
         $getVar = t_product_variance::all()
             ->where('PROD_ID',$id);
@@ -157,6 +162,10 @@ class frontProductsController extends Controller
         $aff = r_affiliate_info::all();
         $cat = r_product_type::with('rProductType')->get();
 
+
+        $Allprod = sympiesProvider::format($Allprod);
+        $randProd = sympiesProvider::format($randProd);
+        $getProd = sympiesProvider::format($getProd);
         return view('pages.frontend-shop.product-details',compact('Allprod','aff','cat','randProd','getProd','getVar','id'));
     }
 

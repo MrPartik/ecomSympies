@@ -37,7 +37,6 @@
 <script src="{{asset('assets/plugins/jquery-tag-it/js/tag-it.min.js')}}"></script>
 <script src="{{asset('assets/plugins/bootstrap-daterangepicker/moment.js')}}"></script>
 <script src="{{asset('assets/plugins/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
-<script src="{{asset('assets/plugins/select2/dist/js/select2.min.js')}}"></script>
 <script src="{{asset('assets/plugins/bootstrap-eonasdan-datetimepicker/build/js/bootstrap-datetimepicker.min.js')}}"></script>
 <script src="{{asset('assets/plugins/bootstrap-show-password/bootstrap-show-password.js')}}"></script>
 <script src="{{asset('assets/plugins/bootstrap-colorpalette/js/bootstrap-colorpalette.js')}}"></script>

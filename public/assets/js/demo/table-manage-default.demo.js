@@ -7,7 +7,7 @@ Website: http://www.seantheme.com/color-admin-v4.0/admin/
 
 var handleDataTableDefault = function() {
 	"use strict";
-    
+
     if ($('#data-table-default').length !== 0) {
         $('#data-table-default').DataTable({
             responsive: true

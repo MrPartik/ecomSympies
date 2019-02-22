@@ -245,7 +245,7 @@
                                         <label>Product Parent (optional)</label>
                                         <select class="form-control prodParent" name="prodparent" style="width: 100%;" required>
                                             @foreach($cat->where('PRODT_PARENT',null)->where('PRODT_DISPLAY_STATUS',1)   as $item)
-                                                <option value="{{$item->PRODT_ID}}">{{$item->PRODT_TITLE}}</option>
+                                                    <option value="{{$item->PRODT_ID}}">{{$item->PRODT_TITLE}}</option>
                                             @endforeach
                                         </select>
                                     </div>
