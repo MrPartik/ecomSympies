@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $ORD_ID
  * @property int $PROD_ID
  * @property int $PRODV_ID
+ * @property string $ORDI_NOTE
  * @property int $ORDI_QTY
  * @property float $ORDI_SOLD_PRICE
  * @property string $ORDI_VOUCHER_CODE

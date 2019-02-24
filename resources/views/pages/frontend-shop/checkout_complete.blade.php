@@ -6,6 +6,10 @@
 @section('content')
 
     {{$info}}
+    <br>
+    <br>
+    <br>
+    {{$result}}
     <div class="section-container" id="checkout-cart">
         <!-- BEGIN container -->
         <div class="container">

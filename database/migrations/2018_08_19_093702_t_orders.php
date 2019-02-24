@@ -20,6 +20,7 @@ class TOrders extends Migration
             $table->unsignedInteger("SYMPIES_ID")->nullable();
             $table->text("ORD_SYMP_TRANS_CODE");
             $table->text("ORD_TRANS_CODE");
+            $table->text("ORD_PAYER_CODE");
             $table->string("ORD_FROM_NAME",50);
             $table->string("ORD_TO_NAME",50);
             $table->string("ORD_FROM_EMAIL",50);

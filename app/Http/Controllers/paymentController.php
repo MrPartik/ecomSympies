@@ -25,7 +25,10 @@ use App\r_tax_table_profile;
 use App\Providers\sympiesProvider as Sympies;
 class paymentController extends Controller
 {
-    private $_api_context;
+    private $_api_context
+        , $prodID
+        , $prodvID;
+
     /**
      * Create a new controller instance.
      *
@@ -118,8 +121,8 @@ class paymentController extends Controller
         $transaction = new Transaction();
         $transaction->setAmount($amount)
             ->setItemList($item_list)
-            ->set
-            ->setDescription('Your transaction description');
+            ->setInvoiceNumber('00001')
+            ->setDescription($request->prodnote);
 
         $redirect_urls = new RedirectUrls();
         $redirect_urls->setReturnUrl(URL::to('checkout/finished')) /** Specify return URL **/
@@ -180,17 +183,20 @@ class paymentController extends Controller
         $payment = Payment::get($payment_id, $this->_api_context);
         $execution = new PaymentExecution();
         $execution->setPayerId(Input::get('PayerID'));
+
+
         /**Execute the payment **/
         $result = $payment->execute($execution, $this->_api_context);
         if ($result->getState() == 'approved') {
             $info = $result->getPayer()->getPayerInfo();
             Session::put('payment_success', 'Payment success');
 
-            return view('pages.frontend-shop.checkout_complete',compact('info','Allprod'));
+            return view('pages.frontend-shop.checkout_complete',compact('info','Allprod','result'));
         }
         Session::put('payment_error', 'Payment failed');
         return Redirect::to('/');
     }
+
 
     public  function refundTransaction(Request $request){
 

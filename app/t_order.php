@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $SYMPIES_ID
  * @property string $ORD_SYMP_TRANS_CODE
  * @property string $ORD_TRANS_CODE
+ * @property string $ORD_PAYER_CODE
  * @property string $ORD_FROM_NAME
  * @property string $ORD_TO_NAME
  * @property string $ORD_FROM_EMAIL
@@ -44,6 +45,6 @@ class t_order extends Model
     /**
      * @var array
      */
-    protected $fillable = ['SYMPIES_ID', 'ORD_SYMP_TRANS_CODE','ORD_STATUS', 'ORD_TRANS_CODE', 'ORD_FROM_NAME', 'ORD_TO_NAME', 'ORD_FROM_EMAIL', 'ORD_TO_EMAIL', 'ORD_FROM_CONTACT', 'ORD_TO_CONTACT', 'ORD_TO_ADDRESS', 'ORD_FUNDING', 'ORD_DISCOUNT', 'ORD_COMPLETE', 'ORD_CANCELLED', 'ORD_DISPLAY_STATUS', 'created_at', 'updated_at'];
+    protected $fillable = ['SYMPIES_ID', 'ORD_SYMP_TRANS_CODE','ORD_PAYER_CODE','ORD_STATUS', 'ORD_TRANS_CODE', 'ORD_FROM_NAME', 'ORD_TO_NAME', 'ORD_FROM_EMAIL', 'ORD_TO_EMAIL', 'ORD_FROM_CONTACT', 'ORD_TO_CONTACT', 'ORD_TO_ADDRESS', 'ORD_FUNDING', 'ORD_DISCOUNT', 'ORD_COMPLETE', 'ORD_CANCELLED', 'ORD_DISPLAY_STATUS', 'created_at', 'updated_at'];
 
 }

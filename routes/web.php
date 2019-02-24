@@ -55,17 +55,12 @@ Route::group(['middleware'=> ['isSympiesUser']],function(){
 
 Route::resource('/','frontProductsController');
 
-
-if(Session::get('sympiesAccount')){
-
     // route for processing payment
         Route::post('/checkout/execute', 'paymentController@payWithpaypal');
     // route for check status of the payment
         Route::get('/checkout/finished', 'paymentController@getPaymentStatus');
     //route for ordering process
         Route::post('/makeOrder','orderingFunctions@makeOrder');
-}
-
 
 Route::get('/loginSympiesAccount/{id}',function($id){
 
