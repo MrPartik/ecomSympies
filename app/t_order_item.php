@@ -36,7 +36,7 @@ class t_order_item extends Model
     /**
      * @var array
      */
-    protected $fillable = ['ORD_ID', 'PROD_ID', 'PRODV_ID','ORDI_QTY', 'ORDI_SOLD_PRICE', 'ORDI_VOUCHER_CODE', 'created_at', 'updated_at'];
+    protected $fillable = ['ORD_ID', 'PROD_ID', 'PRODV_ID','ORDI_QTY','ORDI_NOTE', 'ORDI_SOLD_PRICE', 'ORDI_VOUCHER_CODE', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -21,6 +21,7 @@ class TOrderItems extends Migration
             $table->unsignedInteger("PROD_ID");
             $table->unsignedInteger("PRODV_ID")->nullable();
             $table->integer("ORDI_QTY")->default(1);
+            $table->text("ORDI_NOTE")->nullable();
             $table->double("ORDI_SOLD_PRICE",10,2);
             $table->string("ORDI_VOUCHER_CODE",20)->nullable();
             $table->timestamps();

@@ -203,6 +203,11 @@
                                                                 @endif
                                                             </div>
                                                             <div class="desc">{{$item->PROD_DESC}}</div>
+                                                            <br>
+                                                            <div class="desc">
+                                                                <label data-toggle="tooltip" title="to help the seller to customize product">Item Note: </label>
+                                                                <textarea data-toggle="tooltip" title="to help the seller to customize product" class="form-control" name="prodnote" style="resize: vertical;width: 100%;height: 78px;margin-top: 0px;margin-bottom: 0px;" placeholder="Buyer note to seller" ></textarea>
+                                                            </div>
                                                         </div>
                                                     </td>
                                                     <td id = cart-price class="cart-price text-center" val="{{(($discount)?$total-($total*($discount/100)):$total)}}">{{$item->PRICE}}</td>
