@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Providers\sympiesProvider;
 use App\t_product_variance;
+use App\user;
 use Illuminate\Http\Request;
 use App\r_product_info;
 use App\r_affiliate_info;
@@ -19,17 +20,16 @@ class frontProductsController extends Controller
      */
     public function index()
     {
-
         $Allprod = sympiesProvider::filterAvailable(r_product_info::with('rAffiliateInfo', 'rProductType')
             ->where('PROD_IS_APPROVED', '1')
             ->where('PROD_DISPLAY_STATUS', 1)->get());
-        $aff = r_affiliate_info::all();
+        $aff = r_affiliate_info::where('AFF_DISPLAY_STATUS',1)->get();
+
         $cat = r_product_type::with('rProductType')->where('PRODT_DISPLAY_STATUS',1)->get();
 
 //        dd($Allprod = collect($Allprod));
-
-        $Allprod = sympiesProvider::format($Allprod);
-            return view('pages.frontend-shop.list-front-products', compact('Allprod', 'aff', 'cat'));
+            $Allprod = sympiesProvider::format($Allprod);
+            return view('pages.frontend-shop.list-front-products', compact('Allprod', 'aff', 'cat','a'));
     }
 
     /**

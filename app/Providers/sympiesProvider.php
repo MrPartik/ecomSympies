@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\r_currencies;
+use App\t_setup;
 use Illuminate\Support\ServiceProvider;
 use vakata\database\Exception;
 
@@ -50,8 +52,6 @@ class sympiesProvider extends ServiceProvider
 
     }
 
-
-
     public static function filterAvailable($final){
         $Allprod = collect();
         foreach ($final as $item) {
@@ -65,9 +65,23 @@ class sympiesProvider extends ServiceProvider
     }
 
 
+    public static function active(){
+        $active = t_setup::with('rCurrency')->orderByDesc('SET_ID')->first();
+
+        return $active;
+    }
+
+    public static function active_currency(){
+
+        return $current = r_currencies::with('rTaxTableProfile')->where('CURR_ID',sympiesProvider::active()->CURR_ID)->first();
+
+    }
+
     public static function current_price($myprice){
-        if($myprice)
-            return '₱ '.$myprice;
+
+        if($myprice) {
+            return sympiesProvider::active_currency()->CURR_SYMBOL . ' ' . $myprice;
+        }
         return '';
     }
 
@@ -88,4 +102,7 @@ class sympiesProvider extends ServiceProvider
 
         return $collection;
     }
+
+
+
 }

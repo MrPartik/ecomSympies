@@ -31,6 +31,28 @@
 	<!-- ================== BEGIN BASE JS ================== -->
 	<script src="{{asset('assets/plugins/pace/pace.min.js')}}"></script>
 	<!-- ================== END BASE JS ================== -->
+    <style>
+        /* width */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 5px white;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #00acac;
+            border-radius: 5px;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00acac;
+        }
+    </style>
 </head>
 
 <body>

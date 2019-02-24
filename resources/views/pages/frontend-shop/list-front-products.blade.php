@@ -4,10 +4,23 @@
 @section('title','Products')
 
 @section('content')
+
     <style>
         .item-row{
             display:flex;
         }
+        #showall{
+            display:none;
+        }
+        @media (max-width: 480px){
+            .item-row{
+                display:block;
+            }
+            #showall{
+                display:block;
+            }
+        }
+
     </style>
       <!-- BEGIN #slider -->
       <div id="slider" class="section-container p-0 bg-black-darker">
@@ -115,8 +128,8 @@
             <div class="container">
                 <!-- BEGIN section-title -->
                 <h4 class="section-title clearfix">
-                    {{--<a href="#" class="pull-right">SHOW ALL</a>--}}
-                    Affiliates
+                    <a id=showall href="#" class="pull-right">SHOW ALL</a>
+                    All Products
                     <small>Shop and get gifts for your friends and your family!</small>
                 </h4>
                 <!-- END section-title -->
@@ -125,12 +138,14 @@
                     <!-- BEGIN category-sidebar -->
                     <div class="category-sidebar">
                         <ul class="category-list">
-                            <li class="list-header">All Affiliates</li>
                             <li style="padding-left: 5%; background: rgba(128, 128, 128, 0.37)">
                                 <a href="javascript:;"  id="btn_getProdAff" value="0">
                                     Show All
                                 </a>
                             </li>
+                            <br>
+                            <li class="list-header">All Affiliates</li>
+
                             @foreach($aff as $item)
                                 <li style="padding-left: 5%;">
                                     <a href="javascript:;" id="btn_getProdAff" value="{{$item->AFF_ID}}">
@@ -138,25 +153,27 @@
                                     </a>
                                 </li>
                             @endforeach
+                            <br>
+                            <li class="list-header">All Categories</li>
+                            {{--<li style="padding-left: 5%; background: rgba(128, 128, 128, 0.37)">--}}
+                                {{--<a href="javascript:;"  id="btn_getProdCat" value="0">--}}
+                                    {{--Show All--}}
+                                {{--</a>--}}
+                            {{--</li>--}}
+                            @foreach($cat->where('PRODT_PARENT','<>',null) as $item)
+
+                                <li style="padding-left: 5%;" title="{{$item->rProductType->PRODT_TITLE}}" >
+                                    <a href="javascript:;"  id="btn_getProdCat" value="{{$item->PRODT_ID}}">
+                                        {{$item->PRODT_TITLE}}
+                                    </a>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                     <!-- END category-sidebar -->
                     <!-- BEGIN category-detail -->
-                    <div class="category-detail">
-                        <!-- BEGIN category-item -->
-                        <!-- <a href="#" class="category-item full">
-                            <div class="item">
-                                <div class="item-cover">
-                                    <img src="../assets/img/product/product-samsung-s7-edge.jpg" alt="" />
-                                </div>
-                                <div class="item-info bottom">
-                                    <h4 class="item-title">Samsung Galaxy s7 Edge + Geat 360 + Gear VR</h4>
-                                    <p class="item-desc">Redefine what a phone can do</p>
-                                    <div class="item-price">$799.00</div>
-                                </div>
-                            </div>
-                        </a> -->
-                        <!-- END category-item -->
+                    <div class="category-detail" style="height: 700px;overflow-y:scroll ">
+
                         <!-- BEGIN category-item -->
                         <div class="category-item list">
 
@@ -207,155 +224,155 @@
         </div>
         <!-- END #mobile-list -->
 
-        <!-- BEGIN #tablet-list -->
-        <div id="tablet-list" class="section-container bg-silver p-t-0">
-            <!-- BEGIN container -->
-            <div class="container">
-                <!-- BEGIN section-title -->
-                <h4 class="section-title clearfix">
-                    {{--<a href="#" class="pull-right">SHOW ALL</a>--}}
-                    Categories
-                    <small>Shop and get gifts for your friends and your family!</small>
-                </h4>
-                <!-- END section-title -->
-                <!-- BEGIN category-container -->
-                <div class="category-container">
-                    <!-- BEGIN category-sidebar -->
-                    <div class="category-sidebar">
-                        <ul class="category-list">
-                            <li class="list-header">All Categories</li>
-                            <li style="padding-left: 5%; background: rgba(128, 128, 128, 0.37)">
-                                <a href="javascript:;"  id="btn_getProdCat" value="0">
-                                    Show All
-                                </a>
-                            </li>
-                        @foreach($cat->where('PRODT_PARENT','<>',null) as $item)
-
-                                <li style="padding-left: 5%;" title="{{$item->rProductType->PRODT_TITLE}}" >
-                                    <a href="javascript:;"  id="btn_getProdCat" value="{{$item->PRODT_ID}}">
-                                        {{$item->PRODT_TITLE}}
-                                    </a>
-                                </li>
-                        @endforeach
-                        </ul>
-                    </div>
-                    <!-- END category-sidebar -->
-                    <!-- BEGIN category-detail -->
-                    <div class="category-detail">
-                        <!-- BEGIN category-item -->
-                        <!-- <a href="#" class="category-item full">
-                            <div class="item">
-                                <div class="item-cover">
-                                    <img src="{{asset('uPackage.png')}}" alt="" />
-                                </div>
-                                <div class="item-info bottom">
-                                    <h4 class="item-title">Huawei MediaPad T1 7.0</h4>
-                                    <p class="item-desc">Vibrant colors. Beautifully displayed</p>
-                                    <div class="item-price">$299.00</div>
-                                </div>
-                            </div>
-                        </a> -->
-                        <!-- END category-item -->
-                        <!-- BEGIN category-item -->
-                        <div class="category-item list">
-
-                        @php $i=1 @endphp
-                        @foreach($Allprod as $item)
-                            <!-- BEGIN item-row -->
-                            @if( $i%3==1)
-                                    <div class="item-row">
-                                    @endif
-                                    <!-- BEGIN item -->
-                                        <div class="item item-thumbnail">
-                                            <a href="{{url('product/details/'.$item->PROD_ID)}}" class="item-image">
-                                                <img src="{{($item->PROD_IMG==null||!file_exists($item->PROD_IMG))?asset('uPackage.png'):asset($item->PROD_IMG)}}" alt="" />
-                                                <div class="discount" >{{$discount=$item->PROD_DISCOUNT}}% OFF</div>
-                                            </a>
-                                            <div class="item-info">
-                                                <h4 class="item-title">
-                                                    <a href="{{url('product/details/'.$item->PROD_ID)}}">{{$item->PROD_NAME}}<br />
-                                                        <span style="color:gray">{{$item->rAffiliateInfo->AFF_NAME}}</span></a>
-                                                </h4>
-                                                <p class="item-desc"  title="{{$item->PROD_DESC}}">{{$item->PROD_DESC}}</p>
-                                                <div class="item-price">
-                                                    {{$item->PRICE}}
-                                                </div>
-                                                <div class="item-discount-price">
-                                                    {{$item->DISCOUNT}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- END item -->
-
-                                        @if($i%3==0 || count($Allprod)==$i )
-                                    </div>
-                                    <!-- END item-row -->
-                                @endif
-
-                                @php $i++ @endphp
-                            @endforeach
-
-                        </div>
-                        <!-- END category-item -->
-                    </div>
-                    <!-- END category-detail -->
-                </div>
-                <!-- END category-container -->
-            </div>
-            <!-- END container -->
-        </div>
-        <!-- END #tablet-list -->
-
-        <!-- BEGIN #policy -->
-        {{--<div id="policy" class="section-container p-t-30 p-b-30">--}}
+        {{--<!-- BEGIN #tablet-list -->--}}
+        {{--<div id="tablet-list" class="section-container bg-silver p-t-0">--}}
             {{--<!-- BEGIN container -->--}}
             {{--<div class="container">--}}
-                {{--<!-- BEGIN row -->--}}
-                {{--<div class="row">--}}
-                    {{--<!-- BEGIN col-4 -->--}}
-                    {{--<div class="col-md-4 col-sm-4">--}}
-                        {{--<!-- BEGIN policy -->--}}
-                        {{--<div class="policy">--}}
-                            {{--<div class="policy-icon"><i class="fa fa-truck"></i></div>--}}
-                            {{--<div class="policy-info">--}}
-                                {{--<h4>Free Delivery Over $100</h4>--}}
-                                {{--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                        {{--<!-- END policy -->--}}
+                {{--<!-- BEGIN section-title -->--}}
+                {{--<h4 class="section-title clearfix">--}}
+                    {{--<a href="#" class="pull-right">SHOW ALL</a>--}}
+                    {{--Categories--}}
+                    {{--<small>Shop and get gifts for your friends and your family!</small>--}}
+                {{--</h4>--}}
+                {{--<!-- END section-title -->--}}
+                {{--<!-- BEGIN category-container -->--}}
+                {{--<div class="category-container">--}}
+                    {{--<!-- BEGIN category-sidebar -->--}}
+                    {{--<div class="category-sidebar">--}}
+                        {{--<ul class="category-list">--}}
+                            {{--<li class="list-header">All Categories</li>--}}
+                            {{--<li style="padding-left: 5%; background: rgba(128, 128, 128, 0.37)">--}}
+                                {{--<a href="javascript:;"  id="btn_getProdCat" value="0">--}}
+                                    {{--Show All--}}
+                                {{--</a>--}}
+                            {{--</li>--}}
+                        {{--@foreach($cat->where('PRODT_PARENT','<>',null) as $item)--}}
+
+                                {{--<li style="padding-left: 5%;" title="{{$item->rProductType->PRODT_TITLE}}" >--}}
+                                    {{--<a href="javascript:;"  id="btn_getProdCat" value="{{$item->PRODT_ID}}">--}}
+                                        {{--{{$item->PRODT_TITLE}}--}}
+                                    {{--</a>--}}
+                                {{--</li>--}}
+                        {{--@endforeach--}}
+                        {{--</ul>--}}
                     {{--</div>--}}
-                    {{--<!-- END col-4 -->--}}
-                    {{--<!-- BEGIN col-4 -->--}}
-                    {{--<div class="col-md-4 col-sm-4">--}}
-                        {{--<!-- BEGIN policy -->--}}
-                        {{--<div class="policy">--}}
-                            {{--<div class="policy-icon"><i class="fa fa-shield"></i></div>--}}
-                            {{--<div class="policy-info">--}}
-                                {{--<h4>1 Year Warranty For Phones</h4>--}}
-                                {{--<p>Cras laoreet urna id dui malesuada gravida. <br />Duis a lobortis dui.</p>--}}
+                    {{--<!-- END category-sidebar -->--}}
+                    {{--<!-- BEGIN category-detail -->--}}
+                    {{--<div class="category-detail">--}}
+                        {{--<!-- BEGIN category-item -->--}}
+                        {{--<!-- <a href="#" class="category-item full">--}}
+                            {{--<div class="item">--}}
+                                {{--<div class="item-cover">--}}
+                                    {{--<img src="{{asset('uPackage.png')}}" alt="" />--}}
+                                {{--</div>--}}
+                                {{--<div class="item-info bottom">--}}
+                                    {{--<h4 class="item-title">Huawei MediaPad T1 7.0</h4>--}}
+                                    {{--<p class="item-desc">Vibrant colors. Beautifully displayed</p>--}}
+                                    {{--<div class="item-price">$299.00</div>--}}
+                                {{--</div>--}}
                             {{--</div>--}}
+                        {{--</a> -->--}}
+                        {{--<!-- END category-item -->--}}
+                        {{--<!-- BEGIN category-item -->--}}
+                        {{--<div class="category-item list">--}}
+
+                        {{--@php $i=1 @endphp--}}
+                        {{--@foreach($Allprod as $item)--}}
+                            {{--<!-- BEGIN item-row -->--}}
+                            {{--@if( $i%3==1)--}}
+                                    {{--<div class="item-row">--}}
+                                    {{--@endif--}}
+                                    {{--<!-- BEGIN item -->--}}
+                                        {{--<div class="item item-thumbnail">--}}
+                                            {{--<a href="{{url('product/details/'.$item->PROD_ID)}}" class="item-image">--}}
+                                                {{--<img src="{{($item->PROD_IMG==null||!file_exists($item->PROD_IMG))?asset('uPackage.png'):asset($item->PROD_IMG)}}" alt="" />--}}
+                                                {{--<div class="discount" >{{$discount=$item->PROD_DISCOUNT}}% OFF</div>--}}
+                                            {{--</a>--}}
+                                            {{--<div class="item-info">--}}
+                                                {{--<h4 class="item-title">--}}
+                                                    {{--<a href="{{url('product/details/'.$item->PROD_ID)}}">{{$item->PROD_NAME}}<br />--}}
+                                                        {{--<span style="color:gray">{{$item->rAffiliateInfo->AFF_NAME}}</span></a>--}}
+                                                {{--</h4>--}}
+                                                {{--<p class="item-desc"  title="{{$item->PROD_DESC}}">{{$item->PROD_DESC}}</p>--}}
+                                                {{--<div class="item-price">--}}
+                                                    {{--{{$item->PRICE}}--}}
+                                                {{--</div>--}}
+                                                {{--<div class="item-discount-price">--}}
+                                                    {{--{{$item->DISCOUNT}}--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                        {{--<!-- END item -->--}}
+
+                                        {{--@if($i%3==0 || count($Allprod)==$i )--}}
+                                    {{--</div>--}}
+                                    {{--<!-- END item-row -->--}}
+                                {{--@endif--}}
+
+                                {{--@php $i++ @endphp--}}
+                            {{--@endforeach--}}
+
                         {{--</div>--}}
-                        {{--<!-- END policy -->--}}
+                        {{--<!-- END category-item -->--}}
                     {{--</div>--}}
-                    {{--<!-- END col-4 -->--}}
-                    {{--<!-- BEGIN col-4 -->--}}
-                    {{--<div class="col-md-4 col-sm-4">--}}
-                        {{--<!-- BEGIN policy -->--}}
-                        {{--<div class="policy">--}}
-                            {{--<div class="policy-icon"><i class="fa fa-user-md"></i></div>--}}
-                            {{--<div class="policy-info">--}}
-                                {{--<h4>6 Month Warranty For Accessories</h4>--}}
-                                {{--<p>Fusce ut euismod orci. Morbi auctor, sapien non eleifend iaculis.</p>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                        {{--<!-- END policy -->--}}
-                    {{--</div>--}}
-                    {{--<!-- END col-4 -->--}}
+                    {{--<!-- END category-detail -->--}}
                 {{--</div>--}}
-                {{--<!-- END row -->--}}
+                {{--<!-- END category-container -->--}}
             {{--</div>--}}
             {{--<!-- END container -->--}}
         {{--</div>--}}
+        {{--<!-- END #tablet-list -->--}}
+
+        <!-- BEGIN #policy -->
+        <div id="policy" class="section-container p-t-30 p-b-30">
+            <!-- BEGIN container -->
+            <div class="container">
+                <!-- BEGIN row -->
+                <div class="row">
+                    <!-- BEGIN col-4 -->
+                    <div class="col-md-4 col-sm-4">
+                        <!-- BEGIN policy -->
+                        <div class="policy">
+                            <div class="policy-icon"><i class="fa fa-truck"></i></div>
+                            <div class="policy-info">
+                                <h4>Free Delivery Over $100</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            </div>
+                        </div>
+                        <!-- END policy -->
+                    </div>
+                    <!-- END col-4 -->
+                    <!-- BEGIN col-4 -->
+                    <div class="col-md-4 col-sm-4">
+                        <!-- BEGIN policy -->
+                        <div class="policy">
+                            <div class="policy-icon"><i class="fa fa-shield"></i></div>
+                            <div class="policy-info">
+                                <h4>1 Year Warranty For Phones</h4>
+                                <p>Cras laoreet urna id dui malesuada gravida. <br />Duis a lobortis dui.</p>
+                            </div>
+                        </div>
+                        <!-- END policy -->
+                    </div>
+                    <!-- END col-4 -->
+                    <!-- BEGIN col-4 -->
+                    <div class="col-md-4 col-sm-4">
+                        <!-- BEGIN policy -->
+                        <div class="policy">
+                            <div class="policy-icon"><i class="fa fa-user-md"></i></div>
+                            <div class="policy-info">
+                                <h4>6 Month Warranty For Accessories</h4>
+                                <p>Fusce ut euismod orci. Morbi auctor, sapien non eleifend iaculis.</p>
+                            </div>
+                        </div>
+                        <!-- END policy -->
+                    </div>
+                    <!-- END col-4 -->
+                </div>
+                <!-- END row -->
+            </div>
+            <!-- END container -->
+        </div>
         <!-- END #policy -->
 
         <!-- BEGIN #subscribe -->

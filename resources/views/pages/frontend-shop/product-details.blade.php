@@ -81,7 +81,7 @@
                             </li>
                             @foreach($getVar as $var)
                                 <li>
-                                    <i class="fa fa-circle"></i> {{$var->PRODV_NAME }} - {{\App\Providers\sympiesProvider::current_price(number_format((($discount)?$total-($total*($discount/100)):$total)+($var->PRODV_ADD_PRICE),2) ) }}
+                                    <i class="fa fa-circle"></i> {{$var->PRODV_NAME }} - {{Sympies::current_price(number_format((($discount)?$total-($total*($discount/100)):$total)+($var->PRODV_ADD_PRICE),2) ) }}
                                 </li>
                             @endforeach
                         </ul>
@@ -100,34 +100,20 @@
                         <!-- BEGIN product-purchase-container -->
                         <div class="product-purchase-container">
 
-                            <div class="product-discount">
-                                <span class="discount">{{$item->DISCOUNT}}</span>
-                            </div>
+                            @if($item->DISCOUNT)
+                                <div class="product-discount">
+                                    <span class="discount">{{$item->DISCOUNT}}</span>
+                                </div>
+                            @endif
                             <div class="product-price">
                                 <div class="price">{{$item->PRICE}}</div>
                             </div>
-                            <a href="#buy"  id="buyProd" class="btn btn-success" data-toggle="modal" tooltip="tooltip" title= "Click to Buy"><i class="fa fa-credit-card-alt"></i> Buy</a>
-                            <form  method="POST" method="POST" id="payment-form" action="{!! URL::to('paypal') !!}" _target="blank">
-                                {{ csrf_field() }}
-                                <input name="ProdName" value="{{$item->PROD_NAME}}" style="display: none">
-                                <input name="prodID" value="{{$item->PROD_ID}}" style="display: none">
+                            @if(Session::get('sympiesAccount'))
+                                <a href="#buy"  id="buyProd" class="btn btn-success" data-toggle="modal" tooltip="tooltip" title= "Click to Buy"><i class="fa fa-credit-card-alt"></i> Buy</a>
+                            @else
+                                <a href="{{url('/loginSympiesAccount/1')}}"   class="btn btn-danger"   tooltip="tooltip" title= "Please login to make transaction"><i class="fa fa-key"></i> Login</a>
+                            @endif
 
-
-                                {{--<!-- PayPal Logo -->--}}
-                                    {{--<table border="0" cellpadding="10" cellspacing="0" align="left">--}}
-                                        {{--<tr>--}}
-                                            {{--<td align="center"></td>--}}
-                                        {{--</tr>--}}
-                                        {{--<tr>--}}
-                                            {{--<td align="center">--}}
-                                                {{--<a  href="javascript:;" onclick="document.getElementById('payment-form').submit();"  title="Pay using paypal"  >--}}
-                                                    {{--<img src="https://www.paypalobjects.com/webstatic/mktg/logo/PP_AcceptanceMarkTray-NoDiscover_243x40.png" alt="Buy now with PayPal" />--}}
-                                                {{--</a>--}}
-                                            {{--</td>--}}
-                                        {{--</tr>--}}
-                                    {{--</table>--}}
-                                {{--<!-- PayPal Logo -->--}}
-                            </form>
                             <center>
                             <div class="form-group">
                                 <div class="col-sm-6">
@@ -167,20 +153,24 @@
                 <div class="modal modal-message fade" id="buy" >
                     <div class="modal-dialog" >
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title"> </img>iGift</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="prodOrderNow" method="post" action="{{url('product/discount')}}" enctype="multipart/form-data">
+
+                            <div class="modal-body" style="width: 90%;">
+                                <form id="prodOrderNow" method="post" action="{{url('/checkout/execute')}}"   _target="blank">
                                     {{csrf_field()}}
-                                    <input id="DiscountProdID" name="prodID" value="0" style="display: none;">
-                                    <div class="row">
-                                        <div class="col-md-12" style="padding-bottom: 20px;">
-                                            <strong>You are about to checkout this item.</strong>
-                                            <p>Please indicate how many items you want to checkout.</p>
+                                    <input id="prodID" name="prodID" value="{{$item->PROD_ID}}" style="display: none;">
+                                    <input id="prodvID" name="prodvID" value="0" style="display: none;">
+                                   <!-- BEGIN checkout-header -->
+                                    <div class="checkout-header">
+                                        <!-- BEGIN row -->
+                                        <div class="row">
+                                            <div class="col-md-12 text-white" style="padding-bottom: 20px;">
+                                                <strong>You are about to checkout this item.</strong>
+                                                <p>Please indicate how many items you want to checkout.</p>
+                                            </div>
                                         </div>
+                                        <!-- END row -->
                                     </div>
+                                    <!-- END checkout-header -->
                                     <!-- BEGIN checkout-body -->
                                     <div class="checkout-body">
                                         <div class="table-responsive">
@@ -190,58 +180,77 @@
                                                     <th>Product Name</th>
                                                     <th class="text-center">Price</th>
                                                     <th class="text-center">Quantity</th>
-                                                    <th class="text-center">Total</th>
+                                                    <th class="text-center" width="10%">Total</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 <tr>
                                                     <td class="cart-product">
                                                         <div class="product-img">
-                                                            <img src="{{($item->PROD_IMG==null||!file_exists($item->PROD_IMG))?asset('uPackage.png'):asset($item->PROD_IMG)}}" alt="{{$item->PROD_NAME}}" alt="" />
+                                                            <img id="varimage" src="{{($item->PROD_IMG==null||!file_exists($item->PROD_IMG))?asset('uPackage.png'):asset($item->PROD_IMG)}}" alt="{{$item->PROD_NAME}}" alt="" />
                                                         </div>
                                                         <div class="product-info">
                                                             <div class="title">
                                                                 @if(count($getVar))
                                                                     <select class="form-control" id="prodVars" name="prodVars" style="width: 100%;" required>
-                                                                        <option price="{{$item->PROD_MY_PRICE}}" prodid="{{$item->PROD_ID}}" prodvar="">{{$item->PROD_NAME}}</option>
+                                                                        <option img="{{$item->PROD_IMG}}" price="{{(($discount)?$total-($total*($discount/100)):$total)}}" prodid="{{$item->PROD_ID}}" prodvar="0" selected>{{$item->PROD_NAME}}</option>
                                                                         @foreach($getVar as $var)
-                                                                            <option price="{{(($discount)?$total-($total*($discount/100)):$total)+($var->PRODV_ADD_PRICE) }}" prodid="" prodvar="{{$var->PRODV_ID}}">{{$var->PRODV_NAME}}</option>
+                                                                            <option img="{{$var->PRODV_IMG}}" price="{{(($discount)?$total-($total*($discount/100)):$total)+($var->PRODV_ADD_PRICE) }}" prodid="{{$item->PROD_ID}}"  prodvar="{{$var->PRODV_ID}}">{{$var->PRODV_NAME}}</option>
                                                                         @endforeach
                                                                     </select>
                                                                 @else
                                                                     {{$item->PROD_NAME}}
                                                                 @endif
                                                             </div>
-                                                            <div class="desc">Delivers Tue 26/04/2016 - Free</div>
+                                                            <div class="desc">{{$item->PROD_DESC}}</div>
                                                         </div>
                                                     </td>
-                                                    <td class="cart-price text-center">$999.00</td>
+                                                    <td id = cart-price class="cart-price text-center" val="{{(($discount)?$total-($total*($discount/100)):$total)}}">{{$item->PRICE}}</td>
                                                     <td class="cart-qty text-center">
                                                         <div class="cart-qty-input">
-                                                            <a href="#" class="qty-control left disabled" data-click="decrease-qty" data-target="#qty"><i class="fa fa-minus"></i></a>
-                                                            <input type="text" name="qty" value="1" class="form-control" id="qty" />
-                                                            <a href="#" class="qty-control right disabled" data-click="increase-qty" data-target="#qty"><i class="fa fa-plus"></i></a>
+                                                            <a id=change href="#" class="qty-control left disabled" data-click="decrease-qty" data-target="#qty"><i class="fa fa-minus"></i></a>
+                                                            <input  type="text" name="qty" value="1" min=1 class="form-control cart-qty " id="qty" />
+                                                            <a id=change href="#" class="qty-control right disabled" data-click="increase-qty" data-target="#qty"><i class="fa fa-plus"></i></a>
                                                         </div>
                                                         <div class="qty-desc">1 to max order</div>
                                                     </td>
-                                                    <td class="cart-total text-center">
-                                                        $999.00
+                                                    <td id=cart-total class="cart-total text-center" >
+                                                        {{$item->PRICE}}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="cart-summary" colspan="4">
                                                         <div class="summary-container">
-                                                            <div class="summary-row">
-                                                                <div class="field">Cart Subtotal</div>
-                                                                <div class="value">$999.00</div>
+                                                            <div class="summary-row text-black">
+                                                                <div class="field">Sub-total</div>
+                                                                <div class="value" id="sub-total"> {{$item->PRICE}}</div>
                                                             </div>
-                                                            <div class="summary-row text-danger">
-                                                                <div class="field">Free Shipping</div>
-                                                                <div class="value">$0.00</div>
+                                                            <br>
+                                                            <div class="summary-row text-black">
+                                                                <div class="field">Tax Rate</div>
+                                                                @php
+                                                                    $val = Sympies::active_currency()->rTaxTableProfile->TAXP_RATE;
+                                                                    $tax = (Sympies::active_currency()->rTaxTableProfile->TAXP_TYPE==0)?$val.' %':Sympies::active_currency()->CURR_SYMBOL.' '.$val;
+                                                                @endphp
+                                                                <div class="value"> {{$tax}}</div>
+                                                            </div>
+                                                            <div class="summary-row text-black">
+                                                                <div class="field">Sales Tax</div>
+                                                                @php
+                                                                    $val = Sympies::active_currency()->rTaxTableProfile->TAXP_RATE;
+                                                                    $taxPercent = (Sympies::active_currency()->rTaxTableProfile->TAXP_TYPE==0)?$val:0;
+                                                                    $taxFixed = (Sympies::active_currency()->rTaxTableProfile->TAXP_TYPE==1)?$val:0;
+                                                                    $taxSale = number_format(($taxPercent)?($item->PROD_MY_PRICE*($taxPercent/100)):$taxFixed,2);
+                                                                @endphp
+                                                                <div id=sale-tax class="value"> {{Sympies::active_currency()->CURR_SYMBOL.' '.$taxSale}}</div>
+                                                            </div>
+                                                            <div class="summary-row text-black">
+                                                                <div class="field">Delivery Charge</div>
+                                                                <div class="value"> {{Sympies::current_price(number_format(Sympies::active()->SET_DEL_CHARGE,2))}}</div>
                                                             </div>
                                                             <div class="summary-row total">
-                                                                <div class="field">Total</div>
-                                                                <div class="value">$999.00</div>
+                                                                <div class="field">Grand Total</div>
+                                                                <div class="value" id="total-cart">{{$item->PRICE}}</div>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -249,6 +258,25 @@
                                                 </tbody>
                                             </table>
                                         </div>
+                                    </div>
+                                    <div class="checkout-footer">
+
+                                        <!-- PayPal Logo -->
+                                        <table border="0" cellpadding="10" cellspacing="0" align="left">
+                                        <tr>
+                                        <td align="center"></td>
+                                        </tr>
+                                        <tr>
+                                        <td align="center">
+                                        <a  href="javascript:;"  >
+                                        <img src="{{asset('paypal.png')}}" alt="Buy now with PayPal" />
+                                        </a>
+                                        </td>
+                                        </tr>
+                                        </table>
+                                        <!-- PayPal Logo -->
+                                        <a href="javascript:;" data-dismiss="modal"   title=""  class="btn btn-danger btn-lg p-l-30 p-r-30 m-l-10">Continue Shopping</a>
+                                        <a href="javascript:;" onclick="document.getElementById('prodOrderNow').submit();"  title="Pay using paypal"  class="btn btn-inverse btn-lg p-l-30 p-r-30 m-l-10">Checkout</a>
                                     </div>
                                     <!-- END checkout-body -->
                                 </form>
@@ -302,7 +330,57 @@
 @endsection
 @section('extrajs')
     <script>
+
+        var $currency = '{{Sympies::active_currency()->CURR_SYMBOL}}'+' ';
+        var $percent = parseInt('{{(Sympies::active_currency()->rTaxTableProfile->TAXP_TYPE==0)?Sympies::active_currency()->rTaxTableProfile->TAXP_RATE:0}}');
+        var $fixed =parseInt('{{(Sympies::active_currency()->rTaxTableProfile->TAXP_TYPE==1)?Sympies::active_currency()->rTaxTableProfile->TAXP_RATE:0}}');
+        var $delivery = parseInt('{{Sympies::active()->SET_DEL_CHARGE}}');
+
+
         $('select').select2({ dropdownParent: $('#prodOrderNow')});
+
+        updateCart();
+
+        $('select[id=prodVars]').on('change',function(){
+
+            $('td[id=cart-price]').attr('val',$(this).children('option:selected').attr('price'));
+            $('td[id=cart-price]').text($currency+moneyFormat(parseFloat($(this).children('option:selected').attr('price')).toFixed(2)));
+            $('img[id=varimage]').attr('src','{{url('/')}}/'+$(this).children('option:selected').attr('img'));
+            $('input[id=qty]').trigger('keyup');
+
+            $('input[id=prodID]').val($(this).children('option:selected').attr('prodid'));
+            $('input[id=prodvID]').val($(this).children('option:selected').attr('prodvar'));
+
+        });
+
+        $('input[id=qty]').on('keyup',function(){
+            updateCart();
+        });
+        $('a[id=change]').on('click',function(){
+
+            updateCart();
+        });
+
+        function updateCart(){
+            setTimeout(function() {
+                $qty = $('input[id=qty]').val();
+                $total = $('td[id=cart-price]').attr('val') * $qty;
+                if(!$percent) {
+                    $computed = $total + $delivery + $fixed;
+                    $sale_tax = $fixed;
+                }
+                else {
+                    $computed = $total + ($total * ($percent / 100)) + $delivery;
+                    $sale_tax = ($total * ($percent / 100));
+                }
+
+                $('td[id=cart-total]').text($currency+moneyFormat($total.toFixed(2)));
+                $('div[id=total-cart]').text($currency+moneyFormat($computed.toFixed(2)));
+                $('div[id=sub-total]').text($currency+moneyFormat($total.toFixed(2)));
+                $('div[id=sale-tax]').text($currency+moneyFormat($sale_tax.toFixed(2)));
+
+            }, 100);
+        }
     </script>
 @endsection
 

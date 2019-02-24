@@ -19,6 +19,7 @@ class TOrderItems extends Migration
             $table->increments("ORDI_ID");
             $table->unsignedInteger("ORD_ID");
             $table->unsignedInteger("PROD_ID");
+            $table->unsignedInteger("PRODV_ID")->nullable();
             $table->integer("ORDI_QTY")->default(1);
             $table->double("ORDI_SOLD_PRICE",10,2);
             $table->string("ORDI_VOUCHER_CODE",20)->nullable();
@@ -28,6 +29,9 @@ class TOrderItems extends Migration
                 ->onUpdate("cascade")
                 ->onDelete("no action");
             $table->foreign("PROD_ID")->references("PROD_ID")->on("R_PRODUCT_INFOS")
+                ->onUpdate("cascade")
+                ->onDelete("no action");
+            $table->foreign("PRODV_ID")->references("PRODV_ID")->on("T_PRODUCT_VARIANCES")
                 ->onUpdate("cascade")
                 ->onDelete("no action");
         });

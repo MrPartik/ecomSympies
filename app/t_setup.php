@@ -17,14 +17,14 @@ class t_setup extends Model
 {
     /**
      * The table associated with the model.
-     * 
+     *
      * @var string
      */
     protected $table = 'T_SETUPS';
 
     /**
      * The primary key for the model.
-     * 
+     *
      * @var string
      */
     protected $primaryKey = 'SET_ID';
@@ -39,6 +39,6 @@ class t_setup extends Model
      */
     public function rCurrency()
     {
-        return $this->belongsTo('App\RCurrency', 'CURR_ID', 'CURR_ID');
+        return $this->belongsTo(r_currencies::class, 'CURR_ID', 'CURR_ID');
     }
 }

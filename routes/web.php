@@ -16,6 +16,7 @@ Auth::routes();
 Route::group(['middleware' => ['authenticate']], function() {
 
     Route::group(['middleware' => ['isAdmin']], function(){
+
         Route::resource('/product/category', 'manageProductCategory',['names'=>['index'=>'prodCat','create'=>'prodCat','edit'=>'prodCat']]);
         Route::resource('/tax', 'manageTax',['names'=>['index'=>'tax','create'=>'tax','edit'=>'tax']]);
         Route::resource('/users', 'manageUsers',['names'=>['index'=>'users','create'=>'users','edit'=>'users']]);
@@ -25,6 +26,7 @@ Route::group(['middleware' => ['authenticate']], function() {
         Route::resource('/currency','manageCurrency',['names'=>['index'=>'currency','create'=>'currency','edit'=>'currency']]);
 
     });
+
 
     Route::post('/product/actDeact','manageProduct@actDeact');
     Route::post('/product/appDisapprove','manageProduct@appDisapprove');
@@ -43,23 +45,29 @@ Route::group(['middleware' => ['authenticate']], function() {
 
 });
 
+Route::group(['middleware'=> ['isSympiesUser']],function(){
+
+    Route::get('/getProd/Affiliates/{id}','frontProductsController@getProdAffiliates');
+    Route::get('/getProd/Category/{id}','frontProductsController@getProdCategory');
+    Route::get('/product/details/{id}','frontProductsController@getProdDetails');
+});
+
+
 Route::resource('/','frontProductsController');
-Route::get('/getProd/Affiliates/{id}','frontProductsController@getProdAffiliates');
-Route::get('/getProd/Category/{id}','frontProductsController@getProdCategory');
-Route::get('/product/details/{id}','frontProductsController@getProdDetails');
 
 
-Route::post('/checkout/create','prodCheckout@createPayment');
-Route::post('/checkout/execute','prodCheckout@executePayment');
+if(Session::get('sympiesAccount')){
+
+    // route for processing payment
+        Route::post('/checkout/execute', 'paymentController@payWithpaypal');
+    // route for check status of the payment
+        Route::get('/checkout/finished', 'paymentController@getPaymentStatus');
+    //route for ordering process
+        Route::post('/makeOrder','orderingFunctions@makeOrder');
+}
 
 
-// route for processing payment
-Route::post('paypal', 'paymentController@payWithpaypal');
-// route for check status of the payment
-Route::get('status', 'paymentController@getPaymentStatus');
-
-
-Route::get('/getSympiesAccount/{id}',function($id){
+Route::get('/loginSympiesAccount/{id}',function($id){
 
     $account = Array(
         "ID" => 3,
@@ -71,9 +79,13 @@ Route::get('/getSympiesAccount/{id}',function($id){
 
     $get = Session::get('sympiesAccount');
     Session::put('sympiesAccount', $account);
+    return redirect()->back();
+});
+
+Route::get('/logoutSympiesAccount/{id}',function($id){
+
+    Session::forget('sympiesAccount');
 });
 
 
-//ordering process
-Route::post('/makeOrder','orderingFunctions@makeOrder');
 
