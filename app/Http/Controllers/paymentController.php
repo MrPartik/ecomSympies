@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Input;
 use PayPal\Api\Amount;
 use PayPal\Api\Details;
 use PayPal\Api\Item;
+use PayPal\Api\Payout;
+use PayPal\Api\PayoutItem;
+use PayPal\Api\ShippingAddress;
+use PayPal\Api\ShippingInfo;
 /** All Paypal Details class **/
 use PayPal\Api\ItemList;
 use PayPal\Api\Payer;
@@ -26,8 +30,21 @@ use App\Providers\sympiesProvider as Sympies;
 class paymentController extends Controller
 {
     private $_api_context
-        , $prodID
-        , $prodvID;
+        ,$prodID =0
+        ,$prodvID = 0
+        ,$qty = 0
+        ,$prodName = ""
+        ,$prodCode =""
+        ,$prodDesc =""
+        ,$percentage =0
+        ,$fixed = 0
+        ,$taxed = 0
+        ,$taxRate=0
+        ,$subtotal=0
+        ,$sellingPrice =0
+        ,$prodPrice =0
+        ,$currency = ""
+        ,$delivery = 0;
 
     /**
      * Create a new controller instance.
@@ -51,16 +68,11 @@ class paymentController extends Controller
         $prodID = $request->prodID;
         $prodvID = $request->prodvID;
         $qty = $request->qty;
-        $prodName = "";
-        $prodCode ="";
-        $prodDesc ="";
         $percentage = (Sympies::active_currency()->rTaxTableProfile->TAXP_TYPE==0)?Sympies::active_currency()->rTaxTableProfile->TAXP_RATE:0;
         $fixed = (Sympies::active_currency()->rTaxTableProfile->TAXP_TYPE==1)?Sympies::active_currency()->rTaxTableProfile->TAXP_RATE:0;
-        $taxed = 0;
-        $sellingPrice =0;
-        $prodPrice =0;
-        $currency = Sympies::active_currency()->CURR_ACR;
+        $currency = 'USD';
         $delivery = Sympies::active()->SET_DEL_CHARGE;
+
         if($prodvID==0){
             $getProd = r_product_info::with('rAffiliateInfo','rProductType')
                 ->where('PROD_IS_APPROVED','1')
@@ -73,8 +85,10 @@ class paymentController extends Controller
             $discount = $getProd->PROD_DISCOUNT;
             $prodName = $getProd->PROD_NAME;
             $sellingPrice = ($discount)?$prodPrice-($prodPrice*($discount/100)):$prodPrice;
+            $subtotal = (($discount)?$prodPrice-($prodPrice*($discount/100)):$prodPrice)* $qty;
             $sellingPrice =  $sellingPrice * $qty;
             $taxed = ($percentage==0)?$sellingPrice+$fixed:($sellingPrice + ($sellingPrice*($percentage/100)));
+            $taxRate = ($percentage==0)?$fixed:(($sellingPrice*($percentage/100)));
             $sellingPrice = $taxed;
         }else{
             $getProdv = t_product_variance::with('rProductInfo')
@@ -88,75 +102,108 @@ class paymentController extends Controller
             $prodPrice = $getProdv->PRODV_ADD_PRICE + $getProdv->rProductInfo->PROD_MY_PRICE;
             $prodName = $getProdv->PRODV_NAME;
             $sellingPrice = ($discount)?$prodPrice-($prodPrice*($discount/100)):$prodPrice;
+            $subtotal = (($discount)?$prodPrice-($prodPrice*($discount/100)):$prodPrice)* $qty;
             $sellingPrice =  $sellingPrice * $qty;
             $taxed = ($percentage==0)?$sellingPrice+$fixed:($sellingPrice + ($sellingPrice*($percentage/100)));
+            $taxRate = ($percentage==0)?$fixed:(($sellingPrice*($percentage/100)));
             $sellingPrice = $taxed;
 
         }
         $sellingPrice = $sellingPrice+$delivery;
 
 
+        $payer = new Payer();
+        $details = new Details();
+        $amount = new Amount();
+        $item_list = new ItemList();
+        $redirect_urls = new RedirectUrls();
+        $transaction = new Transaction();
+        $payment = new Payment();
 
+        //payment
+        $payer
+            ->setPaymentMethod('paypal');
 
-
-      $payer = new Payer();
-        $payer->setPaymentMethod('paypal');
-
+        //item it should be array, if cart use foreach init Item() in every succeeding item in cart
         $item_1 = new Item();
-        $item_1->setName($prodName) /** item name **/
-        ->setCurrency($currency)
+        $item_1
+            ->setName($prodName) /** item name **/
+            ->setCurrency($currency)
             ->setQuantity($qty)
             ->setPrice($sellingPrice) /** unit price **/
             ->setSku($prodCode)
             ->setDescription($prodDesc);
 
-        $item_list = new ItemList();
-        $item_list->setItems(array($item_1));
+        //item list
+        $item_list
+            ->setItems(array($item_1));
 
+        // Details
+//        $details
+//            ->setShipping($delivery)
+//            ->setTax($taxRate)
+//            ->setSubtotal($subtotal)
+//            ->setShippingDiscount('0.00')
+//            ->setFee('0.00')
+//            ->setInsurance('0.00')
+//            ->setGiftWrap('0.00')
+//            ->setHandlingFee('0.00');
 
-        $amount = new Amount();
-        $amount->setCurrency($currency)
+        //amount
+        $amount
+            ->setCurrency($currency)
             ->setTotal($sellingPrice);
 
-        $transaction = new Transaction();
-        $transaction->setAmount($amount)
+        //transaction
+        $transaction
+            ->setAmount($amount)
             ->setItemList($item_list)
-            ->setInvoiceNumber('00001')
+            ->setInvoiceNumber(uniqid('SYMPIES-'))
             ->setDescription($request->prodnote);
 
-        $redirect_urls = new RedirectUrls();
-        $redirect_urls->setReturnUrl(URL::to('checkout/finished')) /** Specify return URL **/
-        ->setCancelUrl(URL::to('/'));
+        //redirect url's
+        $redirect_urls
+            ->setReturnUrl(URL::to('checkout/finished')) /** Specify return URL **/
+            ->setCancelUrl(URL::to('/'));
 
-        $payment = new Payment();
-        $payment->setIntent('sale')
+        //set intent *sale *order *authorize
+        $payment
+            ->setIntent('sale')
             ->setPayer($payer)
             ->setRedirectUrls($redirect_urls)
             ->setTransactions(array($transaction));
+
+
         try {
-            $payment->create($this->_api_context);
+            //create payment
+            $payment
+                ->create($this->_api_context);
+
         } catch (\PayPal\Exception\PPConnectionException $ex) {
-            if (\Config::get('app.debug')) {
-                \Session::put('error', 'Connection timeout');
+
+            if (Config::get('app.debug')) {
+                Session::put('error', 'Connection timeout');
                 return Redirect::to('/');
             } else {
-                \Session::put('error', 'Some error occur, sorry for inconvenient');
+                Session::put('error', 'Some error occur, sorry for inconvenient');
                 return Redirect::to('/');
             }
         }
+
         foreach ($payment->getLinks() as $link) {
             if ($link->getRel() == 'approval_url') {
                 $redirect_url = $link->getHref();
                 break;
             }
         }
+
         /** add payment ID to session **/
         Session::put('paypal_payment_id', $payment->getId());
         if (isset($redirect_url)) {
             /** redirect to paypal **/
             return Redirect::away($redirect_url);
         }
-        \Session::put('error', 'Unknown error occurred');
+        Session::put('error', 'Unknown error occurred');
         return Redirect::to('/');
     }
 
@@ -191,7 +238,7 @@ class paymentController extends Controller
             $info = $result->getPayer()->getPayerInfo();
             Session::put('payment_success', 'Payment success');
 
-            return view('pages.frontend-shop.checkout_complete',compact('info','Allprod','result'));
+            return view('pages.frontend-shop.checkout_complete',compact('info','Allprod','result','prodID','prodvID'));
         }
         Session::put('payment_error', 'Payment failed');
         return Redirect::to('/');

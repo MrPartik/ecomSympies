@@ -264,8 +264,57 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="checkout-footer">
+                                    <div class="checkout-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                            </div>
 
+                                            <div class="col-md-6">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">
+                                                            First Name <span class="text-danger">*</span>
+                                                        </label>
+                                                        <div class="col-md-4">
+                                                            <input type="text" class="form-control" name="first_name" value="" placeholder="" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">
+                                                            First Name <span class="text-danger">*</span>
+                                                        </label>
+                                                        <div class="col-md-4">
+                                                            <input type="text" class="form-control" name="first_name" value="" placeholder="" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">
+                                                            First Name <span class="text-danger">*</span>
+                                                        </label>
+                                                        <div class="col-md-4">
+                                                            <input type="text" class="form-control" name="first_name" value="" placeholder="" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <div class="col-md-12">
+                                                <div class="m-b-5"><b>Shipping Policy</b></div>
+                                                <ul class="checkout-info-list">
+                                                    <li>Signature may be required for delivery</li>
+                                                    <li>We do not ship to P.O. boxes</li>
+                                                    <li>Delivery estimates below include item preparation and shipping time</li>
+                                                    <li>We do not ship directly to APO/FPO addresses.</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END checkout-body -->
+                                    <div class="checkout-footer">
                                         <!-- PayPal Logo -->
                                         <table border="0" cellpadding="10" cellspacing="0" align="left">
                                         <tr>
