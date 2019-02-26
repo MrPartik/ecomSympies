@@ -19,6 +19,7 @@ class TShipmentOrderitems extends Migration
             $table->increments("SHIPORDI_ID");
             $table->unsignedInteger("SHIP_ID");
             $table->unsignedInteger("ORDI_ID");
+            $table->timestamps();
 
             $table->foreign("SHIP_ID")->references("SHIP_ID")->on("T_SHIPMENTS")
                 ->onUpdate("cascade")

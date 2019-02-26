@@ -273,30 +273,20 @@
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-4">
-                                                            First Name <span class="text-danger">*</span>
+                                                            To Email <span class="text-danger">*</span>
                                                         </label>
                                                         <div class="col-md-4">
-                                                            <input type="text" class="form-control" name="first_name" value="" placeholder="" />
+                                                            <input type="text" class="form-control" name="to_email" value="" placeholder="" />
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-4">
-                                                            First Name <span class="text-danger">*</span>
+                                                            To Contact <span class="text-danger">*</span>
                                                         </label>
                                                         <div class="col-md-4">
-                                                            <input type="text" class="form-control" name="first_name" value="" placeholder="" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">
-                                                            First Name <span class="text-danger">*</span>
-                                                        </label>
-                                                        <div class="col-md-4">
-                                                            <input type="text" class="form-control" name="first_name" value="" placeholder="" />
+                                                            <input type="text" class="form-control" name="to_contact" value="" placeholder="" />
                                                         </div>
                                                     </div>
                                                 </div>

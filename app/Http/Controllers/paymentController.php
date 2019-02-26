@@ -1,7 +1,16 @@
 <?php
 namespace App\Http\Controllers;
+use App\r_inventory_info;
+use App\t_invoice;
+use App\t_order;
+use App\t_order_item;
+use App\t_payment;
 use App\t_product_variance;
+use App\t_shipment;
+use App\t_shipment_orderitem;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use PayPal\Api\Amount;
 use PayPal\Api\Details;
@@ -29,23 +38,7 @@ use App\r_tax_table_profile;
 use App\Providers\sympiesProvider as Sympies;
 class paymentController extends Controller
 {
-    private $_api_context
-        ,$prodID =0
-        ,$prodvID = 0
-        ,$qty = 0
-        ,$prodName = ""
-        ,$prodCode =""
-        ,$prodDesc =""
-        ,$percentage =0
-        ,$fixed = 0
-        ,$taxed = 0
-        ,$taxRate=0
-        ,$subtotal=0
-        ,$sellingPrice =0
-        ,$prodPrice =0
-        ,$currency = ""
-        ,$delivery = 0
-        ,$priceDiscounted =0;
+    private $_api_context;
 
     /**
      * Create a new controller instance.
@@ -73,7 +66,7 @@ class paymentController extends Controller
         $fixed = (Sympies::active_currency()->rTaxTableProfile->TAXP_TYPE==1)?Sympies::active_currency()->rTaxTableProfile->TAXP_RATE:0;
         $currency = 'USD';
         $delivery = Sympies::active()->SET_DEL_CHARGE;
-
+        $invoice = uniqid('SYMPIES-');
 
 
         if($prodvID==0){
@@ -164,13 +157,13 @@ class paymentController extends Controller
         $transaction
             ->setAmount($amount)
             ->setItemList($item_list)
-            ->setInvoiceNumber(uniqid('SYMPIES-'))
+            ->setInvoiceNumber($invoice)
             ->setDescription($request->prodnote);
 
         //redirect url's
         $redirect_urls
             ->setReturnUrl(URL::to('checkout/finished')) /** Specify return URL **/
-            ->setCancelUrl(URL::to('/'));
+            ->setCancelUrl(URL::to('/product/details/'.$prodID));
 
         //set intent *sale *order *authorize
         $payment
@@ -203,8 +196,21 @@ class paymentController extends Controller
             }
         }
 
-        /** add payment ID to session **/
-        Session::put('paypal_payment_id', $payment->getId());
+        $paypal_details = array(
+            'prodID'=>$prodID,
+            'prodvID'=>$prodvID,
+            'paypal_payment_id'=>$payment->getId(),
+            'prod_note'=>$request->prodnote,
+            'to_email'=>$request->to_email,
+            'to_contact'=>$request->to_contact,
+            'discount'=>$discount,
+            'invoice'=>$invoice,
+            'qty'=>$qty,
+        );
+
+
+        Session::put('paypal_details', $paypal_details);
+
         if (isset($redirect_url)) {
             /** redirect to paypal **/
             return Redirect::away($redirect_url);
@@ -221,30 +227,100 @@ class paymentController extends Controller
         $Allprod = Sympies::filterAvailable(r_product_info::with('rAffiliateInfo', 'rProductType')
             ->where('PROD_IS_APPROVED', '1')
             ->where('PROD_DISPLAY_STATUS', 1)->get());
-
         $Allprod = Sympies::format($Allprod);
 
+        $paypal_details = Session::get('paypal_details');
+        $payment_id =  $paypal_details['paypal_payment_id'];
+        Session::forget('paypal_details');
 
-        /** Get the payment ID before session clear **/
-        $payment_id = Session::get('paypal_payment_id');
-        /** clear the session payment ID **/
-//        Session::forget('paypal_payment_id');
-        if (empty(Input::get('PayerID')) || empty(Input::get('token'))) {
-            Session::put('payment_failed', 'Payment failed');
-            return Redirect::to('/');
-        }
-        $payment = Payment::get($payment_id, $this->_api_context);
-        $execution = new PaymentExecution();
-        $execution->setPayerId(Input::get('PayerID'));
+        if($paypal_details) {
+            if (empty(Input::get('PayerID')) || empty(Input::get('token'))) {
+                Session::put('payment_failed', 'Payment failed');
+                return Redirect::to('/');
+            }
+            $payment = Payment::get($payment_id, $this->_api_context);
+            $execution = new PaymentExecution();
+            $execution->setPayerId(Input::get('PayerID'));
 
 
-        /**Execute the payment **/
-        $result = $payment->execute($execution, $this->_api_context);
-        if ($result->getState() == 'approved') {
-            $info = $result->getPayer()->getPayerInfo();
-            Session::put('payment_success', 'Payment success');
+            /**Execute the payment **/
+            $result = $payment->execute($execution, $this->_api_context);
+            if ($result->getState() == 'approved') {
+                $info = $result->getPayer()->getPayerInfo();
+                $payment_info = $result->getTransactions()[0]->getRelatedResources()[0]->getSale();
 
-            return view('pages.frontend-shop.checkout_complete',compact('info','Allprod','result','prodID','prodvID'));
+
+                Session::put('payment_success', 'Payment success');
+                $sympiesCred = Session::get('sympiesAccount');
+
+                $order = new t_order();
+                $order->SYMPIES_ID = $sympiesCred['ID'];
+                $order->ORD_SYMP_TRANS_CODE = uniqid('TRANSACT-');
+                $order->ORD_PAY_CODE = $payment_id;
+                $order->ORD_TRANS_CODE = $payment_info->id;
+                $order->ORD_FROM_NAME = $info->first_name . ' ' . $info->last_name;
+                $order->ORD_TO_NAME = $info->getShippingAddress()->recipient_name;
+                $order->ORD_FROM_EMAIL = $sympiesCred['EMAIL'];
+                $order->ORD_TO_EMAIL = $paypal_details['to_email'];
+                $order->ORD_FROM_CONTACT = $sympiesCred['CONTACT_NO'];
+                $order->ORD_TO_CONTACT = $paypal_details['to_contact'];
+                $order->ORD_TO_ADDRESS = $info->getShippingAddress()->line1
+                    . ', ' . $info->getShippingAddress()->city
+                    . ', ' . $info->getShippingAddress()->state
+                    . ', ' . $info->getShippingAddress()->postal_code
+                    . ', ' . $info->getShippingAddress()->country_code;
+                $order->ORD_FUNDING = $result->payer->payment_method;
+                $order->ORD_DISCOUNT = $paypal_details['discount'];
+                $order->ORD_STATUS = $payment_info->state;
+                $order->save();
+
+                $orderi = new t_order_item();
+                $orderi->ORD_ID = $order->ORD_ID;
+                $orderi->PROD_ID = $paypal_details['prodID'];
+                $orderi->PRODV_ID = ($paypal_details['prodvID'] != 0) ? $paypal_details['prodvID'] : null;
+                $orderi->ORDI_QTY = $paypal_details['qty'];
+                $orderi->ORDI_NOTE = $paypal_details['prod_note'];
+                $orderi->ORDI_SOLD_PRICE = $result->getTransactions()[0]->amount->total;
+                $orderi->ORDI_VOUCHER_CODE = '';
+                $orderi->save();
+
+                $invoice = new t_invoice();
+                $invoice->INV_NO = $paypal_details['invoice'];
+                $invoice->ORD_ID = $order->ORD_ID;
+                $invoice->INV_STATUS = $payment_info->state;
+                $invoice->INV_DETAILS = 'Thank you for purchasing on SympiesShop';
+                $invoice->save();
+
+                $payment_ = new t_payment();
+                $payment_->INV_ID = $invoice->INV_ID;
+                $payment_->PAY_RECIEVED_BY = 'SympiesShop';
+                $payment_->PAY_AMOUNT_DUE = $result->getTransactions()[0]->amount->total;
+                $payment_->PAY_CAPTURED_AT = Carbon::now();
+                $payment_->save();
+
+                $shipment = new t_shipment();
+                $shipment->SHIP_TRACKING_NO = uniqid('SHIP-');
+                $shipment->ORD_ID = $order->ORD_ID;
+                $shipment->INV_ID = $invoice->INV_ID;
+                $shipment->SHIP_DESC = 'The item will be delivered soon';
+                $shipment->save();
+
+                $shipment_ordi = new t_shipment_orderitem();
+                $shipment_ordi->ORDI_ID = $orderi->ORDI_ID;
+                $shipment_ordi->SHIP_ID = $shipment->SHIP_ID;
+                $shipment_ordi->save();
+
+                $inventory = new r_inventory_info();
+                $inventory->ORDI_ID = $orderi->ORDI_ID;
+                $inventory->PRODV_ID = ($paypal_details['prodvID'] != 0) ? $paypal_details['prodvID'] : null;
+                $inventory->PROD_ID = $paypal_details['prodID'];
+                $inventory->INV_QTY = $orderi->ORDI_QTY;
+                $inventory->INV_TYPE = 'ORDER';
+                $inventory->save();
+
+
+                return view('pages.frontend-shop.checkout_complete', compact('paypal_details', 'info', 'Allprod', 'result', 'prodID', 'prodvID'));
+            }
         }
         Session::put('payment_error', 'Payment failed');
         return Redirect::to('/');

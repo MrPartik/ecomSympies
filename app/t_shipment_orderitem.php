@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $SHIPORDI_ID
  * @property int $SHIP_ID
  * @property int $ORDI_ID
+ * @property string $created_at
+ * @property string $updated_at
  * @property TOrderItem $tOrderItem
  * @property TShipment $tShipment
  */
@@ -15,14 +17,14 @@ class t_shipment_orderitem extends Model
 {
     /**
      * The table associated with the model.
-     * 
+     *
      * @var string
      */
     protected $table = 'T_SHIPMENT_ORDERITEMS';
 
     /**
      * The primary key for the model.
-     * 
+     *
      * @var string
      */
     protected $primaryKey = 'SHIPORDI_ID';
@@ -30,7 +32,7 @@ class t_shipment_orderitem extends Model
     /**
      * @var array
      */
-    protected $fillable = ['SHIP_ID', 'ORDI_ID'];
+    protected $fillable = ['SHIP_ID', 'ORDI_ID', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
