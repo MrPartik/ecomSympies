@@ -187,7 +187,7 @@
                             <div class="col-md-12" style=""><label>Base Price (Affiliate)</label></div>
 
                             <div class="col-md-6" style="background: lightgray;">
-                                <span id="BasePrice" style="color: gray;font-weight: 1000;font-size: 5em;text-align: justify;"></span>
+                                <span id="BasePrice" style="color: gray;font-weight: bolder;font-size: 5em;text-align: justify;"></span>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -229,7 +229,7 @@
                                 <p>Please provide the following inputs to validate the product in the market.</p>
                             </div>
                             <div class="col-md-6" style="background: lightgray;">
-                                <span id="SellingPrice" style="color: gray;font-weight: 1000;font-size: 5em;text-align: justify;"></span>
+                                <span id="SellingPrice" style="color: gray;font-weight: bolder;font-size: 5em;text-align: justify;"></span>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">

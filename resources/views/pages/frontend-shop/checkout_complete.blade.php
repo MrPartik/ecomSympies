@@ -12,10 +12,6 @@
     {{$result}}
     <br>
     <br>
-    {{$prodID}}
-    <br>
-    <br>
-    {{$prodID}}
 
     <div class="section-container" id="checkout-cart">
         <!-- BEGIN container -->

@@ -44,7 +44,8 @@ class paymentController extends Controller
         ,$sellingPrice =0
         ,$prodPrice =0
         ,$currency = ""
-        ,$delivery = 0;
+        ,$delivery = 0
+        ,$priceDiscounted =0;
 
     /**
      * Create a new controller instance.
@@ -73,6 +74,8 @@ class paymentController extends Controller
         $currency = 'USD';
         $delivery = Sympies::active()->SET_DEL_CHARGE;
 
+
+
         if($prodvID==0){
             $getProd = r_product_info::with('rAffiliateInfo','rProductType')
                 ->where('PROD_IS_APPROVED','1')
@@ -84,6 +87,7 @@ class paymentController extends Controller
             $prodPrice = $getProd->PROD_MY_PRICE;
             $discount = $getProd->PROD_DISCOUNT;
             $prodName = $getProd->PROD_NAME;
+            $priceDiscounted = ($discount)?$prodPrice-($prodPrice*($discount/100)):$prodPrice;
             $sellingPrice = ($discount)?$prodPrice-($prodPrice*($discount/100)):$prodPrice;
             $subtotal = (($discount)?$prodPrice-($prodPrice*($discount/100)):$prodPrice)* $qty;
             $sellingPrice =  $sellingPrice * $qty;
@@ -101,9 +105,10 @@ class paymentController extends Controller
             $discount = $getProdv->rProductInfo->PROD_DISCOUNT;
             $prodPrice = $getProdv->PRODV_ADD_PRICE + $getProdv->rProductInfo->PROD_MY_PRICE;
             $prodName = $getProdv->PRODV_NAME;
+            $priceDiscounted = ($discount)?$prodPrice-($prodPrice*($discount/100)):$prodPrice;
             $sellingPrice = ($discount)?$prodPrice-($prodPrice*($discount/100)):$prodPrice;
-            $subtotal = (($discount)?$prodPrice-($prodPrice*($discount/100)):$prodPrice)* $qty;
             $sellingPrice =  $sellingPrice * $qty;
+            $subtotal = (($discount)?$sellingPrice-($sellingPrice*($discount/100)):$sellingPrice)* $qty;
             $taxed = ($percentage==0)?$sellingPrice+$fixed:($sellingPrice + ($sellingPrice*($percentage/100)));
             $taxRate = ($percentage==0)?$fixed:(($sellingPrice*($percentage/100)));
             $sellingPrice = $taxed;
@@ -113,9 +118,9 @@ class paymentController extends Controller
 
 
         $payer = new Payer();
-        $details = new Details();
         $amount = new Amount();
         $item_list = new ItemList();
+        $details = new Details();
         $redirect_urls = new RedirectUrls();
         $transaction = new Transaction();
         $payment = new Payment();
@@ -130,7 +135,7 @@ class paymentController extends Controller
             ->setName($prodName) /** item name **/
             ->setCurrency($currency)
             ->setQuantity($qty)
-            ->setPrice($sellingPrice) /** unit price **/
+            ->setPrice($priceDiscounted) /** unit price **/
             ->setSku($prodCode)
             ->setDescription($prodDesc);
 
@@ -138,21 +143,22 @@ class paymentController extends Controller
         $item_list
             ->setItems(array($item_1));
 
-        // Details
-//        $details
-//            ->setShipping($delivery)
-//            ->setTax($taxRate)
-//            ->setSubtotal($subtotal)
-//            ->setShippingDiscount('0.00')
-//            ->setFee('0.00')
-//            ->setInsurance('0.00')
-//            ->setGiftWrap('0.00')
-//            ->setHandlingFee('0.00');
+         //Details
+        $details
+            ->setShipping($delivery)
+            ->setTax($taxRate)
+            ->setSubtotal($subtotal)
+            ->setShippingDiscount('0.00')
+            ->setFee('0.00')
+            ->setInsurance('0.00')
+            ->setGiftWrap('0.00')
+            ->setHandlingFee('0.00');
 
         //amount
         $amount
             ->setCurrency($currency)
-            ->setTotal($sellingPrice);
+            ->setDetails($details)
+            ->setTotal($delivery+$taxRate+$subtotal );
 
         //transaction
         $transaction
@@ -168,7 +174,7 @@ class paymentController extends Controller
 
         //set intent *sale *order *authorize
         $payment
-            ->setIntent('sale')
+            ->setIntent('Sale')
             ->setPayer($payer)
             ->setRedirectUrls($redirect_urls)
             ->setTransactions(array($transaction));
