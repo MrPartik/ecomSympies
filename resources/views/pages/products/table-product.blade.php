@@ -62,7 +62,7 @@
                         </thead>
                         <tbody>
                         @foreach($prodInfo as $item)
-                            <tr style="background-color: {{($item->PROD_IS_APPROVED==0 || $item->PROD_DISPLAY_STATUS == 0)?'#ffbebe':'#c7ffc7'}}">
+                            <tr style="background-color: {{($item->PROD_IS_APPROVED==0 || $item->PROD_DISPLAY_STATUS == 0)?'#fdeeee':'#eefdee'}}">
                                 <td>
                                     <div class="row">
                                         <div class="col-md-4">

@@ -159,6 +159,7 @@
                                     {{csrf_field()}}
                                     <input id="prodID" name="prodID" value="{{$item->PROD_ID}}" style="display: none;">
                                     <input id="prodvID" name="prodvID" value="0" style="display: none;">
+                                    <input id="prodIMG" name="prodIMG" value="{{($item->PROD_IMG==null||!file_exists($item->PROD_IMG))?asset('uPackage.png'):asset($item->PROD_IMG)}}" alt="{{$item->PROD_NAME}}" style="display: none;">
                                    <!-- BEGIN checkout-header -->
                                     <div class="checkout-header">
                                         <!-- BEGIN row -->
@@ -225,6 +226,31 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="cart-summary" colspan="4">
+                                                        <div style="float: left">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-md-4">
+                                                                            To Email <span class="text-danger">*</span>
+                                                                        </label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" class="form-control" name="to_email" value="" placeholder="" required />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <br>
+                                                                <div class="col-md-12" style="margin-top: 10px;">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-md-4">
+                                                                            To Contact <span class="text-danger">*</span>
+                                                                        </label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" class="form-control" name="to_contact" value="" placeholder="" required/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <div class="summary-container">
                                                             <div class="summary-row text-black">
                                                                 <div class="field">Sub-total</div>
@@ -264,45 +290,6 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="checkout-body">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">
-                                                            To Email <span class="text-danger">*</span>
-                                                        </label>
-                                                        <div class="col-md-4">
-                                                            <input type="text" class="form-control" name="to_email" value="" placeholder="" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">
-                                                            To Contact <span class="text-danger">*</span>
-                                                        </label>
-                                                        <div class="col-md-4">
-                                                            <input type="text" class="form-control" name="to_contact" value="" placeholder="" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr />
-                                            <div class="col-md-12">
-                                                <div class="m-b-5"><b>Shipping Policy</b></div>
-                                                <ul class="checkout-info-list">
-                                                    <li>Signature may be required for delivery</li>
-                                                    <li>We do not ship to P.O. boxes</li>
-                                                    <li>Delivery estimates below include item preparation and shipping time</li>
-                                                    <li>We do not ship directly to APO/FPO addresses.</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <!-- END checkout-body -->
                                     <div class="checkout-footer">
                                         <!-- PayPal Logo -->
@@ -320,7 +307,7 @@
                                         </table>
                                         <!-- PayPal Logo -->
                                         <a href="javascript:;" data-dismiss="modal"   title=""  class="btn btn-danger btn-lg p-l-30 p-r-30 m-l-10">Continue Shopping</a>
-                                        <a href="javascript:;" onclick="document.getElementById('prodOrderNow').submit();"  title="Pay using paypal"  class="btn btn-inverse btn-lg p-l-30 p-r-30 m-l-10">Checkout</a>
+                                        <input type="submit" title="Pay using paypal"  class="btn btn-inverse btn-lg p-l-30 p-r-30 m-l-10" value="Checkout">
                                     </div>
                                     <!-- END checkout-body -->
                                 </form>
@@ -392,6 +379,7 @@
             $('img[id=varimage]').attr('src','{{url('/')}}/'+$(this).children('option:selected').attr('img'));
             $('input[id=qty]').trigger('keyup');
 
+            $('input[id=prodIMG]').val('{{url('/')}}/'+$(this).children('option:selected').attr('img'));
             $('input[id=prodID]').val($(this).children('option:selected').attr('prodid'));
             $('input[id=prodvID]').val($(this).children('option:selected').attr('prodvar'));
 

@@ -64,7 +64,7 @@ class paymentController extends Controller
         $qty = $request->qty;
         $percentage = (Sympies::active_currency()->rTaxTableProfile->TAXP_TYPE==0)?Sympies::active_currency()->rTaxTableProfile->TAXP_RATE:0;
         $fixed = (Sympies::active_currency()->rTaxTableProfile->TAXP_TYPE==1)?Sympies::active_currency()->rTaxTableProfile->TAXP_RATE:0;
-        $currency = 'USD';
+        $currency = Sympies::active_currency()->CURR_ACR;
         $delivery = Sympies::active()->SET_DEL_CHARGE;
         $invoice = uniqid('SYMPIES-');
 
@@ -80,6 +80,7 @@ class paymentController extends Controller
             $prodPrice = $getProd->PROD_MY_PRICE;
             $discount = $getProd->PROD_DISCOUNT;
             $prodName = $getProd->PROD_NAME;
+            $prodImg = $getProd->PROD_IMG;
             $priceDiscounted = ($discount)?$prodPrice-($prodPrice*($discount/100)):$prodPrice;
             $sellingPrice = ($discount)?$prodPrice-($prodPrice*($discount/100)):$prodPrice;
             $subtotal = (($discount)?$prodPrice-($prodPrice*($discount/100)):$prodPrice)* $qty;
@@ -98,6 +99,7 @@ class paymentController extends Controller
             $discount = $getProdv->rProductInfo->PROD_DISCOUNT;
             $prodPrice = $getProdv->PRODV_ADD_PRICE + $getProdv->rProductInfo->PROD_MY_PRICE;
             $prodName = $getProdv->PRODV_NAME;
+            $prodImg = $getProdv->PRODV_IMG_IMG;
             $priceDiscounted = ($discount)?$prodPrice-($prodPrice*($discount/100)):$prodPrice;
             $sellingPrice = ($discount)?$prodPrice-($prodPrice*($discount/100)):$prodPrice;
             $sellingPrice =  $sellingPrice * $qty;
@@ -199,6 +201,9 @@ class paymentController extends Controller
         $paypal_details = array(
             'prodID'=>$prodID,
             'prodvID'=>$prodvID,
+            'prodName'=>$prodName,
+            'prodDesc'=>$prodDesc,
+            'prodImg'=>$request->prodIMG,
             'paypal_payment_id'=>$payment->getId(),
             'prod_note'=>$request->prodnote,
             'to_email'=>$request->to_email,
@@ -248,6 +253,7 @@ class paymentController extends Controller
             if ($result->getState() == 'approved') {
                 $info = $result->getPayer()->getPayerInfo();
                 $payment_info = $result->getTransactions()[0]->getRelatedResources()[0]->getSale();
+                $transcode= uniqid('TRANSACT-');
 
 
                 Session::put('payment_success', 'Payment success');
@@ -255,7 +261,7 @@ class paymentController extends Controller
 
                 $order = new t_order();
                 $order->SYMPIES_ID = $sympiesCred['ID'];
-                $order->ORD_SYMP_TRANS_CODE = uniqid('TRANSACT-');
+                $order->ORD_SYMP_TRANS_CODE = $transcode;
                 $order->ORD_PAY_CODE = $payment_id;
                 $order->ORD_TRANS_CODE = $payment_info->id;
                 $order->ORD_FROM_NAME = $info->first_name . ' ' . $info->last_name;
@@ -319,7 +325,7 @@ class paymentController extends Controller
                 $inventory->save();
 
 
-                return view('pages.frontend-shop.checkout_complete', compact('paypal_details', 'info', 'Allprod', 'result', 'prodID', 'prodvID'));
+                return view('pages.frontend-shop.checkout_complete', compact('transcode','payment_info','paypal_details', 'info', 'Allprod', 'result', 'prodID', 'prodvID'));
             }
         }
         Session::put('payment_error', 'Payment failed');

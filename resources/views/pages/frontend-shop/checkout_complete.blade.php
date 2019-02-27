@@ -5,13 +5,6 @@
 
 @section('content')
 
-    {{$info}}
-    <br>
-    <br>
-    <br>
-    {{$result}}
-    <br>
-    <br>
 
     <div class="section-container" id="checkout-cart">
         <!-- BEGIN container -->
@@ -41,35 +34,39 @@
                                     <tbody>
                                     <tr>
                                         <td class="field">Transaction Status</td>
-                                        <td class="value">Success</td>
+                                        <td class="value">{{$payment_info->state}}</td>
                                     </tr>
                                     <tr>
-                                        <td class="field">Transaction Reference No.</td>
-                                        <td class="value">REF000001</td>
+                                        <td class="field">Reference No.</td>
+                                        <td class="value">{{$transcode}}</td>
                                     </tr>
                                     <tr>
-                                        <td class="field">Bank Authorised Code</td>
-                                        <td class="value">AUTH000001</td>
+                                        <td class="field">Invoice No.</td>
+                                        <td class="value"><a href="{{url('/order/invoice/').$paypal_details['invoice']}}" target="_blank">{{$paypal_details['invoice']}}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="field">Transaction Code</td>
+                                        <td class="value">{{$payment_info->id}}</td>
                                     </tr>
                                     <tr>
                                         <td class="field">Transaction Date and Time</td>
-                                        <td class="value">05 APR 2016 07:30PM</td>
+                                        <td class="value">{{\Carbon\Carbon::now()->format('D M d, Y | h:i A')}}</td>
                                     </tr>
                                     <tr>
                                         <td class="field">Orders</td>
                                         <td class="value product-summary">
                                             <div class="product-summary-img">
-                                                <img src="../assets/img/product/product-iphone-6s-plus.png" alt="" />
+                                                <img src="{{$paypal_details['prodImg']}}" alt="" />
                                             </div>
                                             <div class="product-summary-info">
-                                                <div class="title">iPhone 6s Plus 16GB (Silver)</div>
-                                                <div class="desc">Delivers Tue 26/04/2016 - Free</div>
+                                                <div class="title">{{$paypal_details['prodName']}}</div>
+                                                <div class="desc">{{$paypal_details['prodDesc']}}</div>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="field">Payment Amount (RM)</td>
-                                        <td class="value">$999.00</td>
+                                        <td class="field">Payment Amount ({{Sympies::active_currency()->CURR_ACR}})</td>
+                                        <td class="value">{{Sympies::current_price(number_format($result->getTransactions()[0]->amount->total))}}</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -81,7 +78,7 @@
                     <!-- END checkout-body -->
                     <!-- BEGIN checkout-footer -->
                     <div class="checkout-footer text-center">
-                        <button type="submit" class="btn btn-white btn-lg p-l-30 p-r-30 m-l-10">Manage Orders</button>
+                        <a href="{{url('/order/summary')}}" type="submit" class="btn btn-white btn-lg p-l-30 p-r-30 m-l-10">Manage Orders</a>
                     </div>
                     <!-- END checkout-footer -->
                 </form>
