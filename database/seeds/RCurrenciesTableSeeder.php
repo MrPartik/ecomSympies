@@ -20,7 +20,7 @@ class RCurrenciesTableSeeder extends Seeder
             0 => 
             array (
                 'CURR_ID' => 1,
-                'TAXP_ID' => 3,
+                'TAXP_ID' => 2,
                 'CURR_NAME' => 'Peso',
                 'CURR_COUNTRY' => 'Philippines',
                 'CURR_SYMBOL' => '₱',

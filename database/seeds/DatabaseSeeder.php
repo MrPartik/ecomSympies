@@ -28,7 +28,8 @@ class DatabaseSeeder extends Seeder
         $this->call(TSetupsTableSeeder::class);
         $this->call(TShipmentOrderitemsTableSeeder::class);
         $this->call(TShipmentsTableSeeder::class);
-
+        $this->call(UsersTableSeeder::class);
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        $this->call(RTaxTableProfilesTableSeeder::class);
     }
 }
