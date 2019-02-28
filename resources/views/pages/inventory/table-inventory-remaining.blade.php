@@ -149,7 +149,11 @@
                         @foreach($inventory as $item)
                             <tr>
                                 {{--<td>{{ $affInfo->where('AFF_ID', $item->AFF_ID)->first()->AFF_NAME }}</td>--}}
-                                <td><strong>{{ $item->TAXP_NAME }}</strong><br><small>{{ $item->TAXP_DESC }}</small> </td>
+                                <td>
+                                    <strong style="margin-bottom:50px">{{ $item->PROD_NAME}}</strong>
+                                    <br><i>{{ $item->PROD_DESC }}</i>
+                                    <br><i style="color:orangered">Critical Value: {{ $item->PROD_CRITICAL }}</i>
+                                </td>
                                 <td>@if($item->TAXP_TYPE ==0 )Percent @else Fixed @endif </td>
                                 <td>{{ $item->TAXP_RATE  }}</td>
                                 <td>{{ (new DateTime($item->created_at))->format('D M d, Y | h:i A') }}</td>
