@@ -65,21 +65,28 @@
                 </ul>
             </li>
 
-            <li class="has-sub {{(Request::is('order-cancel')||Request::is('order-pending')||Request::is('order-complete')||Request::is('order-refund') ||Request::is('order-void'))?'active':'' }}">
-                <a href="javascript:;">
-                    <b class="caret"></b>
+            {{--<li class="has-sub {{(Request::is('order-cancel')||Request::is('order-pending')||Request::is('order-complete')||Request::is('order-refund') ||Request::is('order-void'))?'active':'' }}">--}}
+                {{--<a href="javascript:;">--}}
+                    {{--<b class="caret"></b>--}}
+                    {{--<i class="fa fa-truck"></i>--}}
+                    {{--<span>Orders</span>--}}
+                {{--</a>--}}
+                {{--<ul class="sub-menu">--}}
+                    {{--<li class="{{Request::is('order-pending')?'active':''}}"><a href="{{url('order-pending')}}">Pending</a></li>--}}
+                    {{--<li class="{{Request::is('order-complete')?'active':''}}"><a href="{{url('order-complete')}}">Completed</a></li>--}}
+                    {{--<li class="{{Request::is('order-cancel')?'active':''}}"><a href="{{url('order-cancel')}}">Cancellation Requests</a></li>--}}
+                    {{--<li class="{{Request::is('order-refund')?'active':''}}"><a href="{{url('order-refund')}}">Refund Requests</a></li>--}}
+                    {{--<li class="{{Request::is('order-void')?'active':''}}"><a href="{{url('order-void')}}">Void Orders</a></li>--}}
+                {{--</ul>--}}
+            {{--</li> --}}
+
+
+            <li class="{{Request::is('orders')?'active':''}}">
+                <a href="{{url('orders')}}">
                     <i class="fa fa-truck"></i>
                     <span>Orders</span>
                 </a>
-                <ul class="sub-menu">
-                    <li class="{{Request::is('order-cancel')?'active':''}}"><a href="{{url('order-cancel')}}">Cancellation Requests</a></li>
-                    <li class="{{Request::is('order-pending')?'active':''}}"><a href="{{url('order-pending')}}">Pending</a></li>
-                    <li class="{{Request::is('order-complete')?'active':''}}"><a href="{{url('order-complete')}}">Completed</a></li>
-                    <li class="{{Request::is('order-refund')?'active':''}}"><a href="{{url('order-refund')}}">Refund Requests</a></li>
-                    <li class="{{Request::is('order-void')?'active':''}}"><a href="{{url('order-void')}}">Void Orders</a></li>
-                </ul>
             </li>
-
 
             <li class="has-sub {{(Request::is('sales-markup')||Request::is('sales-vat')||Request::is('sales'))?'active':'' }}">
                 <a href="javascript:;">

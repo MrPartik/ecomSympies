@@ -15,7 +15,12 @@ class manageOrder extends Controller
      */
     public function index()
     {
-        //
+        $order = t_order::all();
+        $order_item = t_order_item::with('tOrder','rProductInfo')
+            ->get();
+
+        return view('pages.orders.table-orders',compact('order','order_item'));
+
     }
 
     /**
@@ -84,28 +89,5 @@ class manageOrder extends Controller
         //
     }
 
-    public function filter(){
-
-        $status = '';
-        if(\Request::is('order-pending'))
-            $status='pending';
-        else if(\Request::is('order-cancel'))
-            $status='cancel';
-        else if(\Request::is('order-complete'))
-            $status='completed';
-        else if(\Request::is('order-refund'))
-            $status='refund';
-        else if(\Request::is('order-void'))
-            $status='void';
-
-
-
-        $order = t_order::where('ORD_STATUS',$status)
-            ->get();
-        $order_item = t_order_item::with('tOrder','rProductInfo')
-            ->get();
-
-        return view('pages.orders.table-orders',compact('status','order','order_item'));
-    }
 
 }

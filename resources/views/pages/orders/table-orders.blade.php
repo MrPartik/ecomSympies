@@ -6,12 +6,12 @@
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
         <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
-        <li class="breadcrumb-item"><a href="javascript:;">Manage {{ucwords($status)}} Orders</a></li>
+        <li class="breadcrumb-item"><a href="javascript:;">Manage Orders</a></li>
         <li class="breadcrumb-item active">List</li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">Manage {{ucwords($status)}} Orders <small>...</small></h1>
+    <h1 class="page-header">Manage Orders <small>...</small></h1>
     <!-- end page-header -->
 
     <!-- begin row -->
@@ -31,11 +31,15 @@
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     </div>
-                    <h4 class="panel-title">Manage {{ucwords($status)}} Orders</h4>
+                    <h4 class="panel-title">Manage Orders</h4>
                 </div>
                 <!-- end panel-heading -->
 
-                <div class="panel-body bg-black text-white">...</div>
+                <div class="panel-body bg-black text-white">
+                    <a id=shippedSome  vals="0" class="btn btn-primary" data-toggle="tooltip" title="Mark as Delivered" href="javascript:;">(<span id="countChecked">0</span>) <i class="fas fa-truck text-white"></i> Deliver Order</a>
+                    <a id=voidSome  vals="0" class="btn btn-danger" data-toggle="tooltip" title="Mark as Void" href="javascript:;">(<span id="countChecked">0</span>) <i class="fa fa-ban text-white"></i> Void Order</a>
+
+                </div>
                 <!-- begin alert -->
 
                 @if(session('success') || session('error') )
@@ -55,22 +59,30 @@
                             <th style="width: 1%">
                                 <input type="checkbox" class="form-check-input" id="checkAll"  style="height: 20px;width: 20px;margin-top:20px;"/>
                             </th>
-                            <th style="width: 10%">Code</th>
-                            <th style="width: 20%">Sender Info</th>
+                            <th style="width: 20%">Order Information</th>
+                            <th style="width: 15%">Sender Info</th>
                             <th style="width: 20%">Receiver Info</th>
+                            <th style="width: 5%">Status</th>
                             <th style="width: 10%">Date Issued</th>
                             <th style="width: 20%">Action</th>
-                        </tr>
                         </thead>
                         <tbody>
                         @foreach($order as $item)
+
                             <tr>
                                 <td>
                                     <center>
-                                        <input type="checkbox" class="form-check-input" id="isChecked"  style="height: 20px;width: 20px;margin-top:20px;"/>
+                                        <input vals="{{$item->ORD_ID}}" type="checkbox" class="form-check-input" id="isChecked"  style="height: 20px;width: 20px;margin-top:20px;"/>
                                     </center>
                                 </td>
-                                <td><strong style="color:dimgray">{{$item->ORD_TRANS_CODE}}</strong>></td>
+                                <td>
+                                    <strong>Transaction Code: </strong>{{$item->ORD_TRANS_CODE}}<br>
+                                    @foreach($order_item->where('ORD_ID',$item->ORD_ID) as $ord_item)
+                                        Product Name: {{$ord_item->rProductInfo->PROD_NAME}}<br>
+                                        Qty: {{$ord_item->ORDI_QTY}}<br>
+                                        Total Price: {{Sympies::current_price(number_format($ord_item->ORDI_SOLD_PRICE,2))}}
+                                    @endforeach
+                                </td>
                                 <td>
                                     <strong>{{ $item->ORD_FROM_NAME}}</strong><br>
                                     <small>
@@ -99,18 +111,30 @@
                                         </span>
                                     </small><br>
                                 </td>
+                                @php
+
+                                    $status = ucwords($item->ORD_STATUS);
+                                    $color = '';
+
+                                    if($status=='Completed') $color ='#cdfbcd';
+                                    elseif($status=='Pending') $color ='#ffe4b1';
+                                    elseif($status=='Request Refund') $color ='#ffe4b1';
+                                    elseif($status=='Request Cancellation') $color ='#ffe4b1';
+                                    elseif($status=='Cancelled') $color ='#ff8490';
+                                    elseif($status=='Void') $color ='#ff8490';
+                                    elseif($status=='Refunded') $color ='#ff8490';
+
+                                @endphp
+
+                                <td style="background: {{$color}}">{{$status}}</td>
                                 <td>{{ (new DateTime($item->created_at))->format('D M d, Y | h:i A') }}</td>
                                 <td>
                                     <center>
-                                        @if($item->ORD_DISPLAY_STATUS==1)
-                                            <a id=deact  vals="{{$item->ORD_ID}}" class="btn btn-success" data-toggle="tooltip" title="Complete" href="javascript:;"><i class="fas fa-thumbs-up text-white"></i></a>
-                                            <a id=deact  vals="{{$item->ORD_ID}}" class="btn btn-purple"  data-toggle="tooltip" title="View Invoice" href="javascript:;"><i class="fas fa-clipboard text-white"></i></a>
-                                            <a id=deact  vals="{{$item->ORD_ID}}" class="btn btn-warning" data-toggle="tooltip" title="View Record" href="javascript:;"><i class="fas fa-align-justify text-white"></i></a>
-                                            <a id=deact  vals="{{$item->ORD_ID}}" class="btn btn-primary" data-toggle="tooltip" title="Mark as Delivered" href="javascript:;"><i class="fas fa-truck text-white"></i></a>
-                                            <a id=deact  vals="{{$item->ORD_ID}}" class="btn btn-danger" data-toggle="tooltip" title="Mark as Void" href="javascript:;"><i class="fa fa-ban text-white"></i></a>
-                                        @else
-                                            <a id=act  vals="{{$item->ORD_ID}}" class="btn btn-success" data-toggle="modal" data-target="#activate"><i class="fas fa-undo text-white"></i></a>
-                                        @endif
+                                            <a id=shipped  vals="{{$item->ORD_ID}}" class="btn btn-primary" data-toggle="tooltip" title="Mark as Delivered" href="javascript:;"><i class="fas fa-truck text-white"></i></a>
+                                            <a id=invoice  vals="{{$item->ORD_ID}}" class="btn btn-purple"  data-toggle="tooltip" title="View Invoice" href="javascript:;"><i class="fas fa-clipboard text-white"></i></a>
+                                            <a id=record  vals="{{$item->ORD_ID}}" class="btn btn-warning" data-toggle="tooltip" title="View Record" href="javascript:;"><i class="fas fa-align-justify text-white"></i></a>
+                                        <a id=void  vals="{{$item->ORD_ID}}" class="btn btn-danger" data-toggle="tooltip" title="Mark as Void" href="javascript:;"><i class="fa fa-ban text-white"></i></a>
+                                        <a id=refund  vals="{{$item->ORD_ID}}" class="btn btn-danger" data-toggle="tooltip" title="Mark as Refund" href="javascript:;"><i class="fa fa-exchange-alt text-white"></i></a>
                                     </center>
                                 </td>
                             </tr>
@@ -120,9 +144,10 @@
                             <th style="width: 1%">
                                 <input type="checkbox" class="form-check-input" style="height: 20px;width: 20px;margin-top:20px;" disabled />
                             </th>
-                            <th>Code</th>
-                            <th style="width: 20%">Sender Info</th>
-                            <th style="width: 20%">Receiver Info</th>
+                            <th>Order Information</th>
+                            <th >Sender Info</th>
+                            <th >Receiver Info</th>
+                            <th >Status</th>
                             <th>Date Issued</th>
                             <th>Action</th>
                         </tfoot>
@@ -140,11 +165,7 @@
 
 @endsection
 
-@section('extrajs')
-
-    <script>
-
-        $('#data-table-buttons').DataTable({
+@section('extrajs$('#data-table-buttons').DataTable({
             'paging'      : true,
             'lengthChange': true,
             'searching'   : true,
@@ -153,49 +174,80 @@
             'autoWidth'   : true,
             "aaSorting": [[3, "desc" ]]
             ,'columnDefs':[
-                { orderable: false, targets: [0,5] },
+                { orderable: false, targets: [0,6] },
                 // { visible: false, targets: [5,12,13] }
                 ]
             ,dom: 'lBfrtip'
             ,   buttons: [
                 { extend: 'copy', className: 'btn-sm',
                     exportOptions: {
-                        columns: [0,1,2,3]
+                        columns: [1,2,3,4]
                     }
                 },
                 { extend: 'csv', className: 'btn-sm' ,
                     exportOptions: {
-                        columns: [0,1,2,3]
+                        columns: [1,2,3,4]
                     }
                 },
                 { extend: 'excel', className: 'btn-sm',
                     exportOptions: {
-                        columns: [0,1,2,3]
+                        columns: [1,2,3,4]
                     }
                 },
                 { extend: 'pdf', className: 'btn-sm',
                     exportOptions: {
-                        columns: [0,1,2,3]
+                        columns: [1,2,3,4]
                     }
                 },
                 { extend: 'print', className: 'btn-sm',
                     exportOptions: {
-                        columns: [0,1,2,3]
+                        columns: [1,2,3,4]
                     }
                 },
-
-
             ],
         });
 
 
-        $('input[id=checkAll]').on('click',function(){
+
+
+        $('input[id=checkAll]').on('change',function(){
             if($('input[id=checkAll]').prop('checked'))
                 $('input[id=isChecked]').prop('checked',true);
             else
                 $('input[id=isChecked]').prop('checked',false);
+
+            countChecked();
         });
 
+        $('input[id=isChecked]').on('change',function(){
+
+            if($('input[id=isChecked]:checked').length == $('input[id=isChecked]').length)
+                $('input[id=checkAll]').prop('checked',true);
+            else
+                $('input[id=checkAll]').prop('checked',false);
+
+            countChecked();
+
+        });
+
+        function countChecked(){
+            $('span[id=countChecked]').text($('input[id=isChecked]:checked').length);
+            if($('input[id=isChecked]:checked').length==0){
+                $('a[id=shippedSome]').prop('disabled',true);
+                $('a[id=voidSome]').prop('disabled',true);
+            }else{
+                $('a[id=shippedSome]').prop('disabled',false);
+                $('a[id=voidSome]').prop('disabled',false);
+            }
+
+            orderIDs = [];
+            $.each($('input[id=isChecked]:checked'),function(){
+                orderIDs.push($(this).attr('vals'));
+
+            })
+            console.log(orderIDs);
+
+        }
 
 
 

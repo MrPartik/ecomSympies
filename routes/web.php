@@ -45,11 +45,12 @@ Route::group(['middleware' => ['authenticate']], function() {
 
     Route::resource('/order','manageOrder',['names'=>['index'=>'order','create'=>'order','edit'=>'order']]);
 
-    Route::get('order-pending','manageOrder@filter');
-    Route::get('order-complete','manageOrder@filter');
-    Route::get('order-cancel','manageOrder@filter');
-    Route::get('order-refund','manageOrder@filter');
-    Route::get('order-void','manageOrder@filter');
+//    Route::get('order-pending','manageOrder@index');
+//    Route::get('order-complete','manageOrder@index');
+//    Route::get('order-cancel','manageOrder@index');
+//    Route::get('order-refund','manageOrder@index');
+//    Route::get('order-void','manageOrder@index');
+    Route::get('orders','manageOrder@index');
 
     Route::get('inventory-remaining','manageInventory@index');
 

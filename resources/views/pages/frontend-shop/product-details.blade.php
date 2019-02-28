@@ -231,7 +231,8 @@
                                                                 <div class="col-md-12">
                                                                     <div class="form-group">
                                                                         <label class="control-label col-md-4">
-                                                                            To Email <span class="text-danger">*</span>
+                                                                            Email <span class="text-danger">*</span>
+                                                                            <small>Reciever</small>
                                                                         </label>
                                                                         <div class="col-md-8">
                                                                             <input type="text" class="form-control" name="to_email" value="" placeholder="" required />
@@ -242,7 +243,8 @@
                                                                 <div class="col-md-12" style="margin-top: 10px;">
                                                                     <div class="form-group">
                                                                         <label class="control-label col-md-4">
-                                                                            To Contact <span class="text-danger">*</span>
+                                                                            Contact <span class="text-danger">*</span>
+                                                                            <small>Reciever</small>
                                                                         </label>
                                                                         <div class="col-md-8">
                                                                             <input type="text" class="form-control" name="to_contact" value="" placeholder="" required/>
