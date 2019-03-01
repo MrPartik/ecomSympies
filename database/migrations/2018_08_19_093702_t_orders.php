@@ -30,7 +30,8 @@ class TOrders extends Migration
             $table->text("ORD_TO_ADDRESS");
             $table->string("ORD_FUNDING",50);
             $table->double("ORD_DISCOUNT",10,2)->default(0);
-            $table->string("ORD_STATUS",25)->default("Processing");
+            $table->string("ORD_STATUS",25)->default("Pending");
+            $table->string("ORD_VOUCHER_CODE",20)->nullable();
             $table->dateTime("ORD_COMPLETE")->nullable();
             $table->dateTime("ORD_CANCELLED")->nullable();
             $table->boolean("ORD_DISPLAY_STATUS")->default(1);

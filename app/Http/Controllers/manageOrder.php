@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\t_order;
 use App\t_order_item;
 use Illuminate\Http\Request;
+use vakata\database\Exception;
 
 class manageOrder extends Controller
 {
@@ -41,7 +42,52 @@ class manageOrder extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $type =$request->type;
+        $id = $request->id;
+        $ids=$request->ids;
+
+            if($type==1){
+                foreach($ids as $id){
+                    $order = t_order::where('ORD_ID',$id)->first();
+                    $order->ORD_STATUS = 'Completed';
+                    $order->save();
+                }
+            }else if($type==2){
+                foreach($ids as $id){
+                    $order = t_order::where('ORD_ID',$id)->first();
+                    $order->ORD_STATUS = 'Void';
+                    $order->save();
+                }
+            }else if($type==3){
+                $order = t_order::where('ORD_ID',$id)->first();
+                $order->ORD_STATUS = 'Refunded';
+                $order->save();
+
+            }else if($type==4){
+                $order = t_order::where('ORD_ID',$id)->first();
+                $order->ORD_STATUS = 'Void';
+                $order->save();
+
+            }else if($type==5){
+                $order = t_order::where('ORD_ID',$id)->first();
+                $order->ORD_STATUS = 'Completed';
+                $order->save();
+
+            }else if($type==6){
+                $order = t_order::where('ORD_ID',$id)->first();
+                $order->ORD_STATUS = 'Cancelled';
+                $order->save();
+
+            }else if($type==6.1){
+                $order = t_order::where('ORD_ID',$id)->first();
+                $order->ORD_STATUS = 'Pending';
+                $order->save();
+            }else if($type==3.1){
+                $order = t_order::where('ORD_ID',$id)->first();
+                $order->ORD_STATUS = 'Pending';
+                $order->save();
+            }
+
     }
 
     /**

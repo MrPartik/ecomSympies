@@ -287,7 +287,6 @@ class paymentController extends Controller
                 $orderi->ORDI_QTY = $paypal_details['qty'];
                 $orderi->ORDI_NOTE = $paypal_details['prod_note'];
                 $orderi->ORDI_SOLD_PRICE = $result->getTransactions()[0]->amount->total;
-                $orderi->ORDI_VOUCHER_CODE = '';
                 $orderi->save();
 
                 $invoice = new t_invoice();

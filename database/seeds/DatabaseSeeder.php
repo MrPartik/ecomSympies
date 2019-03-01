@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RProductInfosTableSeeder::class);
         $this->call(RRegEcommerceTableSeeder::class);
         $this->call(TInvoicesTableSeeder::class);
+        $this->call(RTaxTableProfilesTableSeeder::class);
         $this->call(TOrderItemsTableSeeder::class);
         $this->call(TOrdersTableSeeder::class);
         $this->call(TPaymentsTableSeeder::class);
@@ -30,6 +31,5 @@ class DatabaseSeeder extends Seeder
         $this->call(TShipmentsTableSeeder::class);
         $this->call(UsersTableSeeder::class);
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-        $this->call(RTaxTableProfilesTableSeeder::class);
     }
 }
