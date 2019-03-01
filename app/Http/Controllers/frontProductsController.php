@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Providers\sympiesProvider;
+use App\t_order;
+use App\t_order_item;
 use App\t_product_variance;
 use App\user;
 use Illuminate\Http\Request;
@@ -168,5 +170,24 @@ class frontProductsController extends Controller
         $getProd = sympiesProvider::format($getProd);
         return view('pages.frontend-shop.product-details',compact('Allprod','aff','cat','randProd','getProd','getVar','id'));
     }
+
+
+    public function getOrders(){
+
+        $Allprod = sympiesProvider::filterAvailable(r_product_info::with('rAffiliateInfo','rProductType')
+            ->where('PROD_IS_APPROVED','1')
+            ->where('PROD_DISPLAY_STATUS',1)
+            ->get());
+
+        $Allprod = sympiesProvider::format($Allprod);
+
+        $order = t_order::all();
+        $order_item = t_order_item::with('tOrder','rProductInfo')
+            ->get();
+
+        return view('pages.frontend-shop.user-manage-orders',compact('Allprod','order','order_item'));
+    }
+
+
 
 }

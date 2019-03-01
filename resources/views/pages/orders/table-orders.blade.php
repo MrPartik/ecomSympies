@@ -84,14 +84,14 @@
                             @endphp
                             <tr>
                                 <td>
-                                    <input vals="{{$item->ORD_ID}}" type="checkbox" class="form-check-input"  {{($status!='Completed' && $status!='Voided')?'id=isChecked':'disabled=true'}}  style="height: 20px;width: 20px;margin-top:20px;"/>
+                                    <input vals="{{$item->ORD_ID}}" type="checkbox" class="form-check-input"  {{($status!='Completed' && $status!='Void')?'id=isChecked':'disabled=true'}}  style="height: 20px;width: 20px;margin-top:20px;"/>
                                 </td>
                                 <td>
                                     <strong>Transaction Code: </strong>{{$item->ORD_TRANS_CODE}}<br>
                                     @foreach($order_item->where('ORD_ID',$item->ORD_ID) as $ord_item)
                                         Product Name: {{$ord_item->rProductInfo->PROD_NAME}}<br>
                                         Qty: {{$ord_item->ORDI_QTY}}<br>
-                                        Total Price: {{Sympies::current_price(number_format($ord_item->ORDI_SOLD_PRICE,2))}}
+                                        Price: {{Sympies::current_price(number_format($ord_item->ORDI_SOLD_PRICE,2))}}
                                     @endforeach
                                 </td>
                                 <td>
@@ -131,10 +131,7 @@
                                             <a id=invoice  vals="{{$item->ORD_ID}}" class="btn btn-purple"  data-toggle="tooltip" title="View Invoice" href="{{url('/get/user-invoice/'.$item->ORD_ID)}}" target="_blank"><i class="fas fa-clipboard text-white"></i></a>
                                             <a id=record  vals="{{$item->ORD_ID}}" class="btn btn-warning" data-toggle="tooltip" title="View Record" href="javascript:;"><i class="fas fa-align-justify text-white"></i></a>
                                                 @if($status != 'Cancelled' && $status != 'Void' && $status != 'Refunded')
-                                                    <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown">
-                                                        <i class="fa fa-ellipsis-v"></i>
-                                                        <span class="sr-only">Toggle Dropdown</span>
-                                                    </button>
+                                                    <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown" title="More Options" ></button>
                                                     <ul class="dropdown-menu" role="menu">
                                                         @if($status=='Completed')
                                                             <li> <a btn=4 id=void  vals="{{$item->ORD_ID}}"  href="javascript:;">Mark as Void</a></li>

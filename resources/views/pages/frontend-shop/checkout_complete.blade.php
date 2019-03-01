@@ -78,7 +78,7 @@
                     <!-- END checkout-body -->
                     <!-- BEGIN checkout-footer -->
                     <div class="checkout-footer text-center">
-                        <a href="{{url('/order/summary')}}" type="submit" class="btn btn-white btn-lg p-l-30 p-r-30 m-l-10">Manage Orders</a>
+                        <a href="{{url('/summary-orders')}}" type="submit" class="btn btn-white btn-lg p-l-30 p-r-30 m-l-10">Manage Orders</a>
                     </div>
                     <!-- END checkout-footer -->
                 </form>

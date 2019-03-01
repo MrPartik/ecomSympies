@@ -35,7 +35,7 @@ a {
 }
 
 a:active,a:focus,a:hover {
-    color: #008a8a
+    /* color: #008a8a */
 }
 
 .h1,.h2,.h3,.h4,.h5,.h6,h1,h2,h3,h4,h5,h6 {
@@ -2491,7 +2491,7 @@ a:active,a:focus,a:hover {
 }
 
 .panel-inverse .panel-title>a:focus,.panel-inverse .panel-title>a:hover {
-    color: #999
+    /* color: #999; */
 }
 
 .panel-title .accordion-toggle.accordion-toggle-styled .fa:before {

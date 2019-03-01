@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\t_order;
 use App\t_order_item;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use vakata\database\Exception;
 
@@ -50,41 +51,66 @@ class manageOrder extends Controller
                 foreach($ids as $id){
                     $order = t_order::where('ORD_ID',$id)->first();
                     $order->ORD_STATUS = 'Completed';
+                    $order->ORD_COMPLETE = Carbon::now();
+                    $order->ORD_CANCELLED = NULL;
+                    $order->updated_at = Carbon::now();
                     $order->save();
                 }
             }else if($type==2){
                 foreach($ids as $id){
                     $order = t_order::where('ORD_ID',$id)->first();
                     $order->ORD_STATUS = 'Void';
+                    $order->ORD_COMPLETE = NULL;
+                    $order->ORD_CANCELLED = NULL;
+                    $order->updated_at = Carbon::now();
                     $order->save();
                 }
             }else if($type==3){
                 $order = t_order::where('ORD_ID',$id)->first();
                 $order->ORD_STATUS = 'Refunded';
+                $order->ORD_COMPLETE = NULL;
+                $order->ORD_CANCELLED = NULL;
+                $order->updated_at = Carbon::now();
                 $order->save();
 
             }else if($type==4){
                 $order = t_order::where('ORD_ID',$id)->first();
                 $order->ORD_STATUS = 'Void';
+                $order->ORD_COMPLETE = NULL;
+                $order->ORD_CANCELLED = NULL;
+                $order->updated_at = Carbon::now();
                 $order->save();
 
             }else if($type==5){
                 $order = t_order::where('ORD_ID',$id)->first();
                 $order->ORD_STATUS = 'Completed';
+                $order->ORD_COMPLETE = Carbon::now();
+                $order->ORD_CANCELLED = NULL;
+                $order->updated_at = Carbon::now();
                 $order->save();
 
             }else if($type==6){
                 $order = t_order::where('ORD_ID',$id)->first();
                 $order->ORD_STATUS = 'Cancelled';
+                $order->ORD_COMPLETE = NULL;
+                $order->ORD_CANCELLED = Carbon::now();
+                $order->updated_at = Carbon::now();
                 $order->save();
 
             }else if($type==6.1){
                 $order = t_order::where('ORD_ID',$id)->first();
                 $order->ORD_STATUS = 'Pending';
+                $order->ORD_COMPLETE = NULL;
+                $order->ORD_CANCELLED = NULL;
+                $order->updated_at = Carbon::now();
                 $order->save();
+
             }else if($type==3.1){
                 $order = t_order::where('ORD_ID',$id)->first();
                 $order->ORD_STATUS = 'Pending';
+                $order->ORD_COMPLETE = NULL;
+                $order->ORD_CANCELLED = NULL;
+                $order->updated_at = Carbon::now();
                 $order->save();
             }
 

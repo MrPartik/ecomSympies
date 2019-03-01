@@ -15,12 +15,12 @@ Website: http://www.seantheme.com/color-admin-v4.0/frontend/e-commerce/
     background: #008a8a;
     border-color: #008a8a;
 }
-.header-nav .nav > li.active > a, 
-.header-nav .nav > li.active > a:focus, 
+.header-nav .nav > li.active > a,
+.header-nav .nav > li.active > a:focus,
 .header-nav .nav > li.active > a:hover,
-.header .dropdown-menu > li > a:hover, 
+.header .dropdown-menu > li > a:hover,
 .header .dropdown-menu > li > a:focus,
-.dropdown-menu-list > li > a:hover, 
+.dropdown-menu-list > li > a:hover,
 .dropdown-menu-list > li > a:focus,
 .item.item-thumbnail .item-price,
 .cart-item > li .price,
@@ -35,13 +35,13 @@ a {
 .header .dropdown-menu {
     border-top-color: #00acac;
 }
-.dropdown .arrow.top:after, 
+.dropdown .arrow.top:after,
 .dropdown .arrow.top:before {
     border-bottom-color: #00acac;
 }
 a:hover,
 a:focus {
-    color: #008a8a;
+    /* color: #008a8a; */
 }
 .pace-progress {
     background: #008a8a;

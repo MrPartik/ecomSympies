@@ -58,7 +58,7 @@ class TOrderItemsTableSeeder extends Seeder
                 'ORDI_QTY' => 2,
                 'PROD_NAME' => 'Love and Blooms!',
                 'PROD_DESC' => 'One Dozen White Roses and White Messenger Bear™',
-                'PROD_SKU' => '019-ISL-00002-5',
+                'PROD_SKU' => '2019-ISL-00002-5',
                 'PROD_MY_PRICE' => 3500.0,
                 'ORDI_NOTE' => NULL,
                 'ORDI_SOLD_PRICE' => 7860.0,

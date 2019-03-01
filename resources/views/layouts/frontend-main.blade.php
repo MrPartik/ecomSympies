@@ -118,7 +118,10 @@
                     <div class="header-nav">
                         <div class=" collapse navbar-collapse" id="navbar-collapse">
                             <ul class="nav">
-                                <li class="active"><a href="{{url('/')}}">Home</a></li>
+                                <li class="{{Request::is('/')?'active':''}}"><a href="{{url('/')}}">Home</a></li>
+                                @if(Session::get('sympiesAccount'))
+                                    <li class="{{Request::is('/summary-orders')?'active':''}}" ><a href="{{url('/summary-orders')}}">Manage Orders</a></li>
+                            @endif
                                 {{--<li class="dropdown dropdown-full-width dropdown-hover">--}}
                                     {{--<a href="#" data-toggle="dropdown">--}}
                                         {{--Our Store --}}

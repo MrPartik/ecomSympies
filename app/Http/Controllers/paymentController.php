@@ -68,6 +68,9 @@ class paymentController extends Controller
         $delivery = Sympies::active()->SET_DEL_CHARGE;
         $invoice = uniqid('SYMPIES-');
 
+        $sku = '';
+        $saletax = 0;
+        $subtotal=0;
 
         if($prodvID==0){
             $getProd = r_product_info::with('rAffiliateInfo','rProductType')
@@ -82,12 +85,7 @@ class paymentController extends Controller
             $prodName = $getProd->PROD_NAME;
             $prodImg = $getProd->PROD_IMG;
             $priceDiscounted = ($discount)?$prodPrice-($prodPrice*($discount/100)):$prodPrice;
-            $sellingPrice = ($discount)?$prodPrice-($prodPrice*($discount/100)):$prodPrice;
-            $subtotal = (($discount)?$prodPrice-($prodPrice*($discount/100)):$prodPrice)* $qty;
-            $sellingPrice =  $sellingPrice * $qty;
-            $taxed = ($percentage==0)?$sellingPrice+$fixed:($sellingPrice + ($sellingPrice*($percentage/100)));
-            $taxRate = ($percentage==0)?$fixed:(($sellingPrice*($percentage/100)));
-            $sellingPrice = $taxed;
+
         }else{
             $getProdv = t_product_variance::with('rProductInfo')
                 ->where('PROD_ID',$prodID)
@@ -99,17 +97,14 @@ class paymentController extends Controller
             $discount = $getProdv->rProductInfo->PROD_DISCOUNT;
             $prodPrice = $getProdv->PRODV_ADD_PRICE + $getProdv->rProductInfo->PROD_MY_PRICE;
             $prodName = $getProdv->PRODV_NAME;
-            $prodImg = $getProdv->PRODV_IMG_IMG;
+            $prodImg = $getProdv->PRODV_IMG;
             $priceDiscounted = ($discount)?$prodPrice-($prodPrice*($discount/100)):$prodPrice;
-            $sellingPrice = ($discount)?$prodPrice-($prodPrice*($discount/100)):$prodPrice;
-            $sellingPrice =  $sellingPrice * $qty;
-            $subtotal = (($discount)?$sellingPrice-($sellingPrice*($discount/100)):$sellingPrice)* $qty;
-            $taxed = ($percentage==0)?$sellingPrice+$fixed:($sellingPrice + ($sellingPrice*($percentage/100)));
-            $taxRate = ($percentage==0)?$fixed:(($sellingPrice*($percentage/100)));
-            $sellingPrice = $taxed;
 
         }
-        $sellingPrice = $sellingPrice+$delivery;
+
+        $subtotal = $priceDiscounted *$qty;
+        $saletax = (!$fixed)?($subtotal * ($percentage/100)):$subtotal+$fixed;
+
 
 
         $payer = new Payer();
@@ -141,7 +136,7 @@ class paymentController extends Controller
          //Details
         $details
             ->setShipping($delivery)
-            ->setTax($taxRate)
+            ->setTax($saletax)
             ->setSubtotal($subtotal)
             ->setShippingDiscount('0.00')
             ->setFee('0.00')
@@ -153,7 +148,7 @@ class paymentController extends Controller
         $amount
             ->setCurrency($currency)
             ->setDetails($details)
-            ->setTotal($delivery+$taxRate+$subtotal );
+            ->setTotal($delivery+$saletax+$subtotal );
 
         //transaction
         $transaction
@@ -211,6 +206,11 @@ class paymentController extends Controller
             'discount'=>$discount,
             'invoice'=>$invoice,
             'qty'=>$qty,
+            'sku'=>$prodCode,
+            'price'=>$prodPrice,
+            'subtotal'=>$subtotal,
+            'salestax'=>$saletax,
+            'delivery'=>$delivery,
         );
 
 
@@ -278,6 +278,7 @@ class paymentController extends Controller
                 $order->ORD_FUNDING = $result->payer->payment_method;
                 $order->ORD_DISCOUNT = $paypal_details['discount'];
                 $order->ORD_STATUS = $payment_info->state;
+                $order->ORD_COMPLETE = ($payment_info->state!='pending')?Carbon::now():NULL;;
                 $order->save();
 
                 $orderi = new t_order_item();
@@ -286,6 +287,10 @@ class paymentController extends Controller
                 $orderi->PRODV_ID = ($paypal_details['prodvID'] != 0) ? $paypal_details['prodvID'] : null;
                 $orderi->ORDI_QTY = $paypal_details['qty'];
                 $orderi->ORDI_NOTE = $paypal_details['prod_note'];
+                $orderi->PROD_NAME = $paypal_details['prodName'];
+                $orderi->PROD_SKU = $paypal_details['sku'];
+                $orderi->PROD_MY_PRICE = $paypal_details['price'];
+                $orderi->PROD_DESC = $paypal_details['prodDesc'];
                 $orderi->ORDI_SOLD_PRICE = $result->getTransactions()[0]->amount->total;
                 $orderi->save();
 
@@ -301,13 +306,10 @@ class paymentController extends Controller
                 $payment_->PAY_RECIEVED_BY = 'SympiesShop';
                 $payment_->PAY_AMOUNT_DUE = $result->getTransactions()[0]->amount->total;
                 //compute
-
-                $payment->PAY_SUB_TOTAL =0;
-                $payment->PAY_SALES_TAX =0;
-                $payment->PAY_DELIVERY_CHARGE =0;
-
-
-                $payment_->PAY_CAPTURED_AT = Carbon::now();
+                $payment_->PAY_SUB_TOTAL =$paypal_details['subtotal'];
+                $payment_->PAY_SALES_TAX =$paypal_details['salestax'];
+                $payment_->PAY_DELIVERY_CHARGE =$paypal_details['delivery'];
+                $payment_->PAY_CAPTURED_AT = ($payment_info->state!='pending')?Carbon::now():NULL;
                 $payment_->save();
 
                 $shipment = new t_shipment();

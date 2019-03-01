@@ -3,6 +3,7 @@
 @section('title','Invoice')
 
 @section('content')
+
 <!-- begin breadcrumb -->
 			<ol class="breadcrumb hidden-print pull-right">
 				<li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
@@ -10,20 +11,19 @@
 			</ol>
 			<!-- end breadcrumb -->
 			<!-- begin page-header -->
-			<h1 class="page-header hidden-print">Invoice <small>...</small></h1>
+			<h1 class="page-header hidden-print">{{$invoice->INV_NO}} </h1>
 			<!-- end page-header -->
 
 			<!-- begin invoice -->
+            <div class="invoice-company text-inverse f-w-600" style="padding: 10px;background: white;">
+                                <span class="pull-right hidden-print">
+                                <a href="javascript:;" class="btn btn-sm btn-white m-b-10 p-l-5"><i class="fa fa-file-pdf t-plus-1 text-danger fa-fw fa-lg"></i> Export as PDF</a>
+                                <a href="javascript:;" onclick="prints()" class="btn btn-sm btn-white m-b-10 p-l-5"><i class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Print</a>
+                                </span>
+                Sympies (Affiliate Name)
+            </div>
+                <br>
 			<div class="invoice">
-                <!-- begin invoice-company -->
-                <div class="invoice-company text-inverse f-w-600">
-                    <span class="pull-right hidden-print">
-                    <a href="javascript:;" class="btn btn-sm btn-white m-b-10 p-l-5"><i class="fa fa-file-pdf t-plus-1 text-danger fa-fw fa-lg"></i> Export as PDF</a>
-                    <a href="javascript:;" onclick="window.print()" class="btn btn-sm btn-white m-b-10 p-l-5"><i class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Print</a>
-                    </span>
-                    Sympies (Affiliate Name)
-                </div>
-                <!-- end invoice-company -->
                 <!-- begin invoice-header -->
                 <div class="invoice-header">
                     <div class="invoice-from">
@@ -44,8 +44,8 @@
                         </address>
                     </div>
                     <div class="invoice-date">
-                        <small>Invoice / {{(new DateTime($invoice->created_at))->format('M') }} period</small>
-                        <div class="date text-inverse m-t-5">August 3,2012</div>
+                        <small>Invoice / {{(new DateTime($invoice->created_at))->format('F') }} period</small>
+                        <div class="date text-inverse m-t-5">{{(new DateTime($invoice->created_at))->format('F d, Y') }}</div>
                         <div class="invoice-detail">
                             {{$invoice->INV_NO}}<br />
                             {{$invoice->INV_DETAILS}}<br />
@@ -69,42 +69,32 @@
                             </thead>
                             <tbody>
                             @foreach($order_items as $oi)
-                                @if(!$oi->PRODV_ID)
-                                    @foreach($product->where('PROD_ID',$oi->PROD_ID) as $prod)
+
                                     <tr>
                                         <td>
-                                            <span class="text-inverse">
-                                                {{$prod->PROD_NAME}}
-                                            </span><br />
-                                            <small>{{$prod->PROD_DESC}}</small>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <center>
+                                                        <a href="{{(!file_exists('uploads/'.$oi->PROD_SKU.'.jpg'))?asset('uPackage.png'):asset('uploads/'.$oi->PROD_SKU.'.jpg')}}" data-lightbox="gallery-group-1">
+                                                            <img style="width: 50%;height: 100%;" src="{{(!file_exists('uploads/'.$oi->PROD_SKU.'.jpg'))?asset('uPackage.png'):asset('uploads/'.$oi->PROD_SKU.'.jpg')}}">
+                                                        </a>
+                                                    </center>
+                                                    <br>
+                                                </div>
+                                                <div class="col-md-8">
+                                                   <span class="text-inverse"> {{$oi->PROD_NAME}} </span><br />
+                                                   <small>{{$oi->PROD_DESC}}</small>
+                                                </div>
+                                            </div>
+
                                         </td>
-                                        <td class="text-center">{{$prod->PROD_BASE_PRICE}}</td>
-                                        //discount computation
-                                        <td class="text-center">{{$prod->PROD_DISCOUNT}}</td>
+                                        <td class="text-center">{{Sympies::current_price(number_format($oi->PROD_MY_PRICE,2))}}</td>
+
+                                        <td class="text-center">{{((!$oi->PROD_DISCOUNT)?'0':$oi->PROD_DISCOUNT).'%' }}</td>
                                         <td class="text-center">{{$oi->ORDI_QTY}}</td>
-                                        <td class="text-right">{{$prod->PROD_BASE_PRICE *$oi->ORDI_QTY}}</td>
+                                        <td class="text-right">{{Sympies::current_price(number_format($oi->PROD_MY_PRICE *$oi->ORDI_QTY,2))}}</td>
                                     </tr>
-                                    @endforeach
-                                @else
-                                    @foreach($product->where('PROD_ID',$oi->PROD_ID) as $prodv)
-                                    <tr>
-                                        <td>
-                                            <span class="text-inverse">
-                                                {{$prodv->PRODV_NAME}}
-                                            </span><br />
-                                            <small>{{$prodv->PRODV_DESC}}</small>
-                                        </td>
-                                        @php
-                                            $price = $prodv->PRODV_ADD_PRICE + $prodv->rProductInfo->PROD_BASE_PRICE;
-                                        @endphp
-                                        <td class="text-center">{{$price}}</td>
-                                        //discount computation
-                                        <td class="text-center">{{$prodv->rProductInfo->PROD_DISCOUNT}}</td>
-                                        <td class="text-center">{{$oi->ORDI_QTY}}</td>
-                                        <td class="text-right">{{$price->PROD_BASE_PRICE *$oi->ORDI_QTY}}</td>
-                                    </tr>
-                                    @endforeach
-                                @endif
+
                               @endforeach
                             </tbody>
                         </table>
@@ -116,26 +106,26 @@
                             <div class="invoice-price-row">
                                 <div class="sub-price">
                                     <small>SUBTOTAL</small>
-                                    <span class="text-inverse">{{$payment->PAY_SUB_TOTAL}}</span>
+                                    <span class="text-inverse">{{Sympies::current_price(number_format($payment->PAY_SUB_TOTAL,2))}}</span>
                                 </div>
                                 <div class="sub-price">
                                     <i class="fa fa-plus text-muted"></i>
                                 </div>
                                 <div class="sub-price">
                                     <small>SALES TAX</small>
-                                    <span class="text-inverse">{{$payment->PAY_SALES_TAX}}</span>
+                                    <span class="text-inverse">{{Sympies::current_price(number_format($payment->PAY_SALES_TAX,2))}}</span>
                                 </div>
                                 <div class="sub-price">
                                     <i class="fa fa-plus text-muted"></i>
                                 </div>
                                 <div class="sub-price">
                                     <small>DELIVERY CHARGE</small>
-                                    <span class="text-inverse">{{$payment->PAY_DELIVERY_CHARGE}}</span>
+                                    <span class="text-inverse">{{Sympies::current_price(number_format($payment->PAY_DELIVERY_CHARGE,2)) }}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="invoice-price-right">
-                            <small>TOTAL</small> <span class="f-w-600">{{$payment->PAY_AMOUNT_DUE}}</span>
+                            <small>TOTAL</small> <span class="f-w-600">{{Sympies::current_price(number_format($payment->PAY_AMOUNT_DUE,2)) }}</span>
                         </div>
                     </div>
                 	<!-- end invoice-price -->
@@ -245,11 +235,21 @@
 		<!-- begin scroll to top btn -->
 		<a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
 		<!-- end scroll to top btn -->
+
 @endsection
 
 @section('extrajs')
 
     <script>
+
+        function prints(){
+            $('body > :not(.invoice)').hide();
+            $('.invoice').appendTo('body');
+            window.print();
+            location.reload();
+        }
+
+
 
     </script>
 @endsection

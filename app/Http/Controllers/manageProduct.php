@@ -294,7 +294,7 @@ class manageProduct extends Controller
                 $prodVar->PRODV_SKU = $request->SKU[$i];
                 if (isset($request->file('prodvarimg')[$i])) {
                     $imageFile = $request->file('prodvarimg')[$i];
-                    $imageName = 'PROD_VARIANCE'.$request->prodID.'-'.t_product_variance::all()->count().'.'.$imageFile->getClientOriginalExtension();
+                    $imageName = $request->SKU[$i].'.'.$imageFile->getClientOriginalExtension();
                     if (!file_exists('uploads/'))
                         mkdir('uploads/', 666, true);
                     ini_set('memory_limit', '512M');

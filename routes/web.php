@@ -64,6 +64,7 @@ Route::group(['middleware'=> ['isSympiesUser']],function(){
     Route::get('/getProd/Affiliates/{id}','frontProductsController@getProdAffiliates');
     Route::get('/getProd/Category/{id}','frontProductsController@getProdCategory');
     Route::get('/product/details/{id}','frontProductsController@getProdDetails');
+    Route::get('/summary-orders','frontProductsController@getOrders');
 });
 
 Route::get('/get/user-invoice/{id}',function($id){
@@ -85,14 +86,6 @@ Route::get('/get/user-invoice/{id}',function($id){
     $payment = \App\t_payment::with('tInvoice')
         ->where('INV_ID',$invoice->INV_ID)
         ->first();
-
-    $product = \App\r_product_info::with('rAffiliateInfo','rProductType')
-        ->get();
-
-
-    $product_variances = \App\t_product_variance::with('rProductInfo')
-        ->get();
-
 
     return view('pages.invoices.user-invoice'
         ,compact('order','order_items','invoice','shipment','payment','product','product_variances'));
