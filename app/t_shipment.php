@@ -34,7 +34,7 @@ class t_shipment extends Model
     /**
      * @var array
      */
-    protected $fillable = ['ORD_ID', 'INV_ID', 'SHIP_TRACKING_NO', 'SHIP_DESC', 'created_at', 'updated_at'];
+    protected $fillable = ['ORD_ID', 'INV_ID', 'SHIP_TRACKING_NO','SHIP_STATUS', 'SHIP_DESC', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

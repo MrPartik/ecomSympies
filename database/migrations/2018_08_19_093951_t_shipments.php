@@ -20,6 +20,7 @@ class TShipments extends Migration
             $table->unsignedInteger("ORD_ID");
             $table->unsignedInteger("INV_ID");
             $table->string("SHIP_TRACKING_NO",20);
+            $table->string("SHIP_STATUS",30)->default('Pending');
             $table->text("SHIP_DESC")->nullable();
             $table->timestamps();
 

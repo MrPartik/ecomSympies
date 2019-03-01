@@ -20,6 +20,9 @@ class TPayments extends Migration
             $table->unsignedInteger("INV_ID");
             $table->string("PAY_RECIEVED_BY",50);
             $table->double("PAY_AMOUNT_DUE",10,2);
+            $table->double("PAY_SUB_TOTAL",10,2);
+            $table->double("PAY_SALES_TAX",10,2);
+            $table->double("PAY_DELIVERY_CHARGE",10,2);
             $table->datetime("PAY_CAPTURED_AT")->nullable();
             $table->timestamps();
 

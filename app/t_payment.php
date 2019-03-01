@@ -33,7 +33,7 @@ class t_payment extends Model
     /**
      * @var array
      */
-    protected $fillable = ['INV_ID', 'PAY_RECIEVED_BY', 'PAY_AMOUNT_DUE', 'PAY_CAPTURED_AT', 'created_at', 'updated_at'];
+    protected $fillable = ['INV_ID', 'PAY_SUB_TOTAL','PAY_SALES_TAX','PAY_DELIVERY_CHARGE', 'PAY_RECIEVED_BY', 'PAY_AMOUNT_DUE', 'PAY_CAPTURED_AT', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

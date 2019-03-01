@@ -122,38 +122,40 @@
                                         </span>
                                     </small><br>
                                 </td>
-                                <td style="background: {{$color}}">{{$status}}</td>
+                                <td style="background: {{$color}}"><center>{{$status}}</center></td>
                                 <td>{{ (new DateTime($item->created_at))->format('D M d, Y | h:i A') }}</td>
                                 <td>
                                     <center>
                                         <div class="btn-group">
 
-                                            <a id=invoice  vals="{{$item->ORD_ID}}" class="btn btn-purple"  data-toggle="tooltip" title="View Invoice" href="javascript:;"><i class="fas fa-clipboard text-white"></i></a>
+                                            <a id=invoice  vals="{{$item->ORD_ID}}" class="btn btn-purple"  data-toggle="tooltip" title="View Invoice" href="{{url('/get/user-invoice/'.$item->ORD_ID)}}" target="_blank"><i class="fas fa-clipboard text-white"></i></a>
                                             <a id=record  vals="{{$item->ORD_ID}}" class="btn btn-warning" data-toggle="tooltip" title="View Record" href="javascript:;"><i class="fas fa-align-justify text-white"></i></a>
-                                                <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown">
-                                                    <i class="fa fa-ellipsis-v"></i>
-                                                    <span class="sr-only">Toggle Dropdown</span>
-                                                </button>
-                                                <ul class="dropdown-menu" role="menu">
-                                                    @if($status=='Completed')
-                                                        <li> <a btn=4 id=void  vals="{{$item->ORD_ID}}"  href="javascript:;">Mark as Void</a></li>
-                                                    @endif
-                                                    @if($status=='Pending')
-                                                        <li><a btn=5 id=shipped  vals="{{$item->ORD_ID}}"  href="javascript:;">Mark as Delivered</a></li>
-                                                        <li><a btn=6 id=cancel  vals="{{$item->ORD_ID}}"  href="javascript:;"> Mark as Cancelled</a></li>
-                                                    @endif
+                                                @if($status != 'Cancelled' && $status != 'Void' && $status != 'Refunded')
+                                                    <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown">
+                                                        <i class="fa fa-ellipsis-v"></i>
+                                                        <span class="sr-only">Toggle Dropdown</span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        @if($status=='Completed')
+                                                            <li> <a btn=4 id=void  vals="{{$item->ORD_ID}}"  href="javascript:;">Mark as Void</a></li>
+                                                        @endif
+                                                        @if($status=='Pending')
+                                                            <li><a btn=5 id=shipped  vals="{{$item->ORD_ID}}"  href="javascript:;">Mark as Delivered</a></li>
+                                                            <li><a btn=6 id=cancel  vals="{{$item->ORD_ID}}"  href="javascript:;"> Mark as Cancelled</a></li>
+                                                        @endif
 
-                                                    @if($status=='Request Refund')
-                                                            <li><a btn=5 id=shipped  vals="{{$item->ORD_ID}}"  href="javascript:;">Mark as Delivered</a></li>
-                                                        <li><a btn=3 id=refund  vals="{{$item->ORD_ID}}" href="javascript:;">Mark as Refunded</a>
-                                                        <li><a btn=3.1 id=refundVoid  vals="{{$item->ORD_ID}}"  href="javascript:;">Cancel Request</a>
+                                                        @if($status=='Request Refund')
+                                                                <li><a btn=5 id=shipped  vals="{{$item->ORD_ID}}"  href="javascript:;">Mark as Delivered</a></li>
+                                                            <li><a btn=3 id=refund  vals="{{$item->ORD_ID}}" href="javascript:;">Mark as Refunded</a>
+                                                            <li><a btn=3.1 id=refundVoid  vals="{{$item->ORD_ID}}"  href="javascript:;">Cancel Request</a>
+                                                        @endif
+                                                        @if($status=='Request Cancellation')
+                                                                <li><a btn=5 id=shipped  vals="{{$item->ORD_ID}}"  href="javascript:;">Mark as Delivered</a></li>
+                                                            <li><a btn=6 id=cancel  vals="{{$item->ORD_ID}}"  href="javascript:;"> Mark as Cancelled</a></li>
+                                                            <li><a btn=6.1 id=cancelVoid  vals="{{$item->ORD_ID}}"    href="javascript:;">Cancel Request</a></li>
+                                                        @endif
+                                                    </ul>
                                                     @endif
-                                                    @if($status=='Request Cancellation')
-                                                            <li><a btn=5 id=shipped  vals="{{$item->ORD_ID}}"  href="javascript:;">Mark as Delivered</a></li>
-                                                        <li><a btn=6 id=cancel  vals="{{$item->ORD_ID}}"  href="javascript:;"> Mark as Cancelled</a></li>
-                                                        <li><a btn=6.1 id=cancelVoid  vals="{{$item->ORD_ID}}"    href="javascript:;">Cancel Request</a></li>
-                                                    @endif
-                                                </ul>
                                         </div>
 
 

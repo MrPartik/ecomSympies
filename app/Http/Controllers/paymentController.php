@@ -307,7 +307,8 @@ class paymentController extends Controller
                 $shipment->SHIP_TRACKING_NO = uniqid('SHIP-');
                 $shipment->ORD_ID = $order->ORD_ID;
                 $shipment->INV_ID = $invoice->INV_ID;
-                $shipment->SHIP_DESC = 'The item will be delivered soon';
+                $shipment->SHIP_STATUS = $payment_info->state;
+                $shipment->SHIP_DESC = 'The item will delivered soon';
                 $shipment->save();
 
                 $shipment_ordi = new t_shipment_orderitem();

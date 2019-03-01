@@ -54,6 +54,9 @@ Route::group(['middleware' => ['authenticate']], function() {
 
     Route::get('inventory-remaining','manageInventory@index');
 
+
+
+
 });
 
 Route::group(['middleware'=> ['isSympiesUser']],function(){
@@ -61,6 +64,31 @@ Route::group(['middleware'=> ['isSympiesUser']],function(){
     Route::get('/getProd/Affiliates/{id}','frontProductsController@getProdAffiliates');
     Route::get('/getProd/Category/{id}','frontProductsController@getProdCategory');
     Route::get('/product/details/{id}','frontProductsController@getProdDetails');
+});
+
+Route::get('/get/user-invoice/{id}',function($id){
+    $order = \App\t_order::where('ORD_ID',$id)
+        ->first();
+
+    $order_items = \App\t_order_item::with('tOrder','rProductInfo')
+        ->where('ORD_ID',$order->ORD_ID)
+        ->get();
+
+    $invoice = \App\t_invoice::with('tOrder')
+        ->where('ORD_ID',$order->ORD_ID)
+        ->first();
+
+    $shipment = \App\t_shipment::with('tInvoice','tOrder')
+        ->where('ORD_ID',$order->ORD_ID)
+        ->first();
+
+    $payment = \App\t_payment::with('tInvoice')
+        ->where('INV_ID',$invoice->INV_ID)
+        ->first();
+
+
+    return view('pages.invoices.user-invoice'
+        ,compact('order','order_items','invoice','shipment','payment'));
 });
 
 
