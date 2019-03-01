@@ -300,6 +300,13 @@ class paymentController extends Controller
                 $payment_->INV_ID = $invoice->INV_ID;
                 $payment_->PAY_RECIEVED_BY = 'SympiesShop';
                 $payment_->PAY_AMOUNT_DUE = $result->getTransactions()[0]->amount->total;
+                //compute
+
+                $payment->PAY_SUB_TOTAL =0;
+                $payment->PAY_SALES_TAX =0;
+                $payment->PAY_DELIVERY_CHARGE =0;
+
+
                 $payment_->PAY_CAPTURED_AT = Carbon::now();
                 $payment_->save();
 

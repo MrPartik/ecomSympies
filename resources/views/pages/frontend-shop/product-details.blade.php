@@ -256,7 +256,7 @@
                                                         <div class="summary-container">
                                                             <div class="summary-row text-black">
                                                                 <div class="field">Sub-total</div>
-                                                                <div class="value" id="sub-total"> {{$item->PRICE}}</div>
+                                                                <input name="subtotal" value="" style="display: none"><div class="value" id="sub-total"> {{$item->PRICE}}</div>
                                                             </div>
                                                             <br>
                                                             <div class="summary-row text-black">
@@ -275,7 +275,7 @@
                                                                     $taxFixed = (Sympies::active_currency()->rTaxTableProfile->TAXP_TYPE==1)?$val:0;
                                                                     $taxSale = number_format(($taxPercent)?($item->PROD_MY_PRICE*($taxPercent/100)):$taxFixed,2);
                                                                 @endphp
-                                                                <div id=sale-tax class="value"> {{Sympies::active_currency()->CURR_SYMBOL.' '.$taxSale}}</div>
+                                                                <input name="saletax" value="{{$taxSale}}" style="display: none"><div id=sale-tax class="value"> {{Sympies::active_currency()->CURR_SYMBOL.' '.$taxSale}}</div>
                                                             </div>
                                                             <div class="summary-row text-black">
                                                                 <div class="field">Delivery Charge</div>
@@ -412,6 +412,10 @@
                 $('div[id=total-cart]').text($currency+moneyFormat($computed.toFixed(2)));
                 $('div[id=sub-total]').text($currency+moneyFormat($total.toFixed(2)));
                 $('div[id=sale-tax]').text($currency+moneyFormat($sale_tax.toFixed(2)));
+
+
+                $('input[name=subtotal]').val($total.toFixed(2));
+                $('input[name=saletax]').val($sale_tax.toFixed(2));
 
             }, 100);
         }

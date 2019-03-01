@@ -86,9 +86,16 @@ Route::get('/get/user-invoice/{id}',function($id){
         ->where('INV_ID',$invoice->INV_ID)
         ->first();
 
+    $product = \App\r_product_info::with('rAffiliateInfo','rProductType')
+        ->get();
+
+
+    $product_variances = \App\t_product_variance::with('rProductInfo')
+        ->get();
+
 
     return view('pages.invoices.user-invoice'
-        ,compact('order','order_items','invoice','shipment','payment'));
+        ,compact('order','order_items','invoice','shipment','payment','product','product_variances'));
 });
 
 

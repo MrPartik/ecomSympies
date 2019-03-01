@@ -62,22 +62,50 @@
                                 <tr>
                                     <th>Item DESCRIPTION</th>
                                     <th class="text-center" width="10%">Price</th>
+                                    <th class="text-center" width="10%">Discount</th>
                                     <th class="text-center" width="10%">Quantity</th>
                                     <th class="text-right" width="20%">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
                             @foreach($order_items as $oi)
-                                <tr>
-                                    <td>
-                                        <span class="text-inverse">Website design &amp; development</span><br />
-                                        <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id sagittis arcu.</small>
-                                    </td>
-                                    <td class="text-center">$50.00</td>
-                                    <td class="text-center">50</td>
-                                    <td class="text-right">$2,500.00</td>
-                                </tr>
-                            @endforeach
+                                @if(!$oi->PRODV_ID)
+                                    @foreach($product->where('PROD_ID',$oi->PROD_ID) as $prod)
+                                    <tr>
+                                        <td>
+                                            <span class="text-inverse">
+                                                {{$prod->PROD_NAME}}
+                                            </span><br />
+                                            <small>{{$prod->PROD_DESC}}</small>
+                                        </td>
+                                        <td class="text-center">{{$prod->PROD_BASE_PRICE}}</td>
+                                        //discount computation
+                                        <td class="text-center">{{$prod->PROD_DISCOUNT}}</td>
+                                        <td class="text-center">{{$oi->ORDI_QTY}}</td>
+                                        <td class="text-right">{{$prod->PROD_BASE_PRICE *$oi->ORDI_QTY}}</td>
+                                    </tr>
+                                    @endforeach
+                                @else
+                                    @foreach($product->where('PROD_ID',$oi->PROD_ID) as $prodv)
+                                    <tr>
+                                        <td>
+                                            <span class="text-inverse">
+                                                {{$prodv->PRODV_NAME}}
+                                            </span><br />
+                                            <small>{{$prodv->PRODV_DESC}}</small>
+                                        </td>
+                                        @php
+                                            $price = $prodv->PRODV_ADD_PRICE + $prodv->rProductInfo->PROD_BASE_PRICE;
+                                        @endphp
+                                        <td class="text-center">{{$price}}</td>
+                                        //discount computation
+                                        <td class="text-center">{{$prodv->rProductInfo->PROD_DISCOUNT}}</td>
+                                        <td class="text-center">{{$oi->ORDI_QTY}}</td>
+                                        <td class="text-right">{{$price->PROD_BASE_PRICE *$oi->ORDI_QTY}}</td>
+                                    </tr>
+                                    @endforeach
+                                @endif
+                              @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -88,19 +116,26 @@
                             <div class="invoice-price-row">
                                 <div class="sub-price">
                                     <small>SUBTOTAL</small>
-                                    <span class="text-inverse">$4,500.00</span>
+                                    <span class="text-inverse">{{$payment->PAY_SUB_TOTAL}}</span>
                                 </div>
                                 <div class="sub-price">
                                     <i class="fa fa-plus text-muted"></i>
                                 </div>
                                 <div class="sub-price">
-                                    <small>PAYPAL FEE (5.4%)</small>
-                                    <span class="text-inverse">$108.00</span>
+                                    <small>SALES TAX</small>
+                                    <span class="text-inverse">{{$payment->PAY_SALES_TAX}}</span>
+                                </div>
+                                <div class="sub-price">
+                                    <i class="fa fa-plus text-muted"></i>
+                                </div>
+                                <div class="sub-price">
+                                    <small>DELIVERY CHARGE</small>
+                                    <span class="text-inverse">{{$payment->PAY_DELIVERY_CHARGE}}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="invoice-price-right">
-                            <small>TOTAL</small> <span class="f-w-600">$4508.00</span>
+                            <small>TOTAL</small> <span class="f-w-600">{{$payment->PAY_AMOUNT_DUE}}</span>
                         </div>
                     </div>
                 	<!-- end invoice-price -->
@@ -119,9 +154,9 @@
                         THANK YOU FOR YOUR BUSINESS
                     </p>
                     <p class="text-center">
-                        <span class="m-r-10"><i class="fa fa-fw fa-lg fa-globe"></i> matiasgallipoli.com</span>
-                        <span class="m-r-10"><i class="fa fa-fw fa-lg fa-phone-volume"></i> T:016-18192302</span>
-                        <span class="m-r-10"><i class="fa fa-fw fa-lg fa-envelope"></i> rtiemps@gmail.com</span>
+                        <span class="m-r-10"><i class="fa fa-fw fa-lg fa-globe"></i> loyolapat.com</span>
+                        <span class="m-r-10"><i class="fa fa-fw fa-lg fa-phone-volume"></i> 09309758130</span>
+                        <span class="m-r-10"><i class="fa fa-fw fa-lg fa-envelope"></i> loyolapat04@gmail.com</span>
                     </p>
                 </div>
                 <!-- end invoice-footer -->
