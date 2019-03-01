@@ -264,7 +264,7 @@ class paymentController extends Controller
                 $order->ORD_SYMP_TRANS_CODE = $transcode;
                 $order->ORD_PAY_CODE = $payment_id;
                 $order->ORD_TRANS_CODE = $payment_info->id;
-                $order->ORD_FROM_NAME = $info->first_name . ' ' . $info->last_name;
+                $order->ORD_FROM_NAME = Session::get('sympiesAccount')['NAME'];
                 $order->ORD_TO_NAME = $info->getShippingAddress()->recipient_name;
                 $order->ORD_FROM_EMAIL = $sympiesCred['EMAIL'];
                 $order->ORD_TO_EMAIL = $paypal_details['to_email'];

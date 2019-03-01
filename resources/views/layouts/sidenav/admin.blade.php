@@ -88,18 +88,25 @@
                 </a>
             </li>
 
-            <li class="has-sub {{(Request::is('sales-markup')||Request::is('sales-vat')||Request::is('sales'))?'active':'' }}">
-                <a href="javascript:;">
-                    <b class="caret"></b>
+            <li class="{{Request::is('sales')?'active':''}}">
+                <a href="{{url('sales')}}">
                     <i class="fa fa-money-bill-alt"></i>
                     <span>Sales</span>
                 </a>
-                <ul class="sub-menu">
-                    <li class="{{Request::is('sales')?'active':''}}"><a href="{{url('sales')}}">Sales</a></li>
-                    <li class="{{Request::is('sales-markup')?'active':''}}"><a href="{{url('sales-markup')}}">Markup Sales</a></li>
-                    <li class="{{Request::is('sales-vat')?'active':''}}"><a href="{{url('sales-vat')}}">VAT Sales</a></li>
-                </ul>
             </li>
+
+            {{--<li class="has-sub {{Request::is('sales'))?'active':'' }}">--}}
+                {{--<a href="javascript:;">--}}
+                    {{--<b class="caret"></b>--}}
+                    {{--<i class="fa fa-money-bill-alt"></i>--}}
+                    {{--<span>Sales</span>--}}
+                {{--</a>--}}
+                {{--<ul class="sub-menu">--}}
+                    {{--<li class="{{Request::is('sales')?'active':''}}"><a href="{{url('sales')}}">Sales</a></li>--}}
+                    {{--<li class="{{Request::is('sales-markup')?'active':''}}"><a href="{{url('sales-markup')}}">Markup Sales</a></li>--}}
+                    {{--<li class="{{Request::is('sales-vat')?'active':''}}"><a href="{{url('sales-vat')}}">VAT Sales</a></li>--}}
+                {{--</ul>--}}
+            {{--</li>--}}
 
 
             <li class="has-sub {{(Route::is('users')||Route::is('affiliates'))?'active':''}}">

@@ -49,21 +49,27 @@
                 <!-- begin nav-tabs -->
                 <ul class="nav nav-tabs">
                     <li class="nav-items">
-                        <a href="#default-tab-1" data-toggle="tab" class="nav-link active">
-                            <span class="d-sm-none">Tab 1</span>
-                            <span class="d-sm-block d-none">Default Tab 1</span>
+                        <a href="#customers" data-toggle="tab" class="nav-link active">
+                            <span class="d-sm-none">Customers</span>
+                            <span class="d-sm-block d-none">Customers</span>
                         </a>
                     </li>
                     <li class="nav-items">
-                        <a href="#default-tab-2" data-toggle="tab" class="nav-link">
-                            <span class="d-sm-none">Tab 2</span>
-                            <span class="d-sm-block d-none">Default Tab 2</span>
+                        <a href="#stocks" data-toggle="tab" class="nav-link">
+                            <span class="d-sm-none">Stocks</span>
+                            <span class="d-sm-block d-none">Stocks</span>
                         </a>
                     </li>
-                    <li class="">
-                        <a href="#default-tab-3" data-toggle="tab" class="nav-link">
-                            <span class="d-sm-none">Tab 3</span>
-                            <span class="d-sm-block d-none">Default Tab 3</span>
+                    <li class="nav-items">
+                        <a href="#tax" data-toggle="tab" class="nav-link">
+                            <span class="d-sm-none">Tax</span>
+                            <span class="d-sm-block d-none">Tax</span>
+                        </a>
+                    </li>
+                    <li class="nav-items">
+                        <a href="#purchase" data-toggle="tab" class="nav-link">
+                            <span class="d-sm-none">Purchase</span>
+                            <span class="d-sm-block d-none">Purchase</span>
                         </a>
                     </li>
                 </ul>
@@ -71,82 +77,169 @@
                 <!-- begin tab-content -->
                 <div class="tab-content">
                     <!-- begin tab-pane -->
-                    <div class="tab-pane fade active show" id="default-tab-1">
-                        <h3 class="m-t-10"><i class="fa fa-cog"></i> Lorem ipsum dolor sit amet</h3>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Integer ac dui eu felis hendrerit lobortis. Phasellus elementum, nibh eget adipiscing porttitor,
-                            est diam sagittis orci, a ornare nisi quam elementum tortor. Proin interdum ante porta est convallis
-                            dapibus dictum in nibh. Aenean quis massa congue metus mollis fermentum eget et tellus.
-                            Aenean tincidunt, mauris ut dignissim lacinia, nisi urna consectetur sapien, nec eleifend orci eros id lectus.
-                        </p>
-                        <p class="text-right m-b-0">
-                            <a href="javascript:;" class="btn btn-white m-r-5">Default</a>
-                            <a href="javascript:;" class="btn btn-primary">Primary</a>
-                        </p>
+                    <div class="tab-pane fade active show" id="customers">
+                        <h3 class="m-t-10"><i class="fa fa-users"></i> Sales on Customers Purchase</h3>
+                        <!-- begin panel-body -->
+                        <div class="panel-body">
+                            <table id="data-table-buttons" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th style="width: 30%">Customer Name</th>
+                                    <th>Quantity</th>
+                                    <th>Discount</th>
+                                    <th>Net Sales</th>
+                                    <th>VAT Sales</th>
+                                    <th>Delivery</th>
+                                    <th>Gross Sales</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($customer as $item)
+                                    <tr>
+                                        <td>{{$item->FROM_NAME}}</td>
+                                        <td>{{$item->QUANTITY}}</td>
+                                        <td>{{Sympies::current_price(number_format($item->DISCOUNT,2))}}</td>
+                                        <td>{{Sympies::current_price(number_format($item->NET_SALES,2))}}</td>
+                                        <td>{{Sympies::current_price(number_format($item->VAT_SALES,2))}}</td>
+                                        <td>{{Sympies::current_price(number_format($item->DELIVERY,2))}}</td>
+                                        <td>{{Sympies::current_price(number_format($item->GROSS_SALES,2))}}</td>
+                                    </tr>
+                                @endforeach
+
+                                </tbody>
+                                <tfoot>
+                                <th style="width: 30%">Total</th>
+                                <th>{{collect($customer)->sum('QUANTITY')}}</th>
+                                <th>{{Sympies::current_price(number_format($customer->sum('DISCOUNT'),2))}}</th>
+                                <th>{{Sympies::current_price(number_format($customer->sum('NET_SALES'),2))}}</th>
+                                <th>{{Sympies::current_price(number_format($customer->sum('VAT_SALES'),2))}}</th>
+                                <th>{{Sympies::current_price(number_format($customer->sum('DELIVERY'),2))}}</th>
+                                <th>{{Sympies::current_price(number_format($customer->sum('GROSS_SALES'),2))}}</th>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- end panel-body -->
                     </div>
                     <!-- end tab-pane -->
                     <!-- begin tab-pane -->
-                    <div class="tab-pane fade" id="default-tab-2">
-                        <blockquote>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            <small>Someone famous in <cite title="Source Title">Source Title</cite></small>
-                        </blockquote>
-                        <h4>Lorem ipsum dolor sit amet</h4>
-                        <p>
-                            Nullam ac sapien justo. Nam augue mauris, malesuada non magna sed, feugiat blandit ligula.
-                            In tristique tincidunt purus id iaculis. Pellentesque volutpat tortor a mauris convallis,
-                            sit amet scelerisque lectus adipiscing.
-                        </p>
+                    <div class="tab-pane fade" id="stocks">
+                        <h3 class="m-t-10"><i class="fas fa-chart-line"></i> Sales on Purchases of Stocks</h3>
+                        <!-- begin panel-body -->
+                        <div class="panel-body">
+                            <table id="data-table-buttons" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th style="width: 30%">Stock Info</th>
+                                    <th>Quantity</th>
+                                    <th>Discount</th>
+                                    <th>Net Sales</th>
+                                    <th>VAT Sales</th>
+                                    <th>Delivery</th>
+                                    <th>Gross Sales</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($stock as $item)
+                                    <tr>
+                                        <td>
+                                            <strong>{{$item->PROD_NAME}}</strong><br>
+                                            <small>{{$item->SKU}}</small>
+                                        </td>
+                                        <td>{{$item->QUANTITY}}</td>
+                                        <td>{{Sympies::current_price(number_format($item->DISCOUNT,2))}}</td>
+                                        <td>{{Sympies::current_price(number_format($item->NET_SALES,2))}}</td>
+                                        <td>{{Sympies::current_price(number_format($item->VAT_SALES,2))}}</td>
+                                        <td>{{Sympies::current_price(number_format($item->DELIVERY,2))}}</td>
+                                        <td>{{Sympies::current_price(number_format($item->GROSS_SALES,2))}}</td>
+                                    </tr>
+                                @endforeach
+
+                                </tbody>
+                                <tfoot>
+                                <th style="width: 30%">Total</th>
+                                <th>{{collect($stock)->sum('QUANTITY')}}</th>
+                                <th>{{Sympies::current_price(number_format($stock->sum('DISCOUNT'),2))}}</th>
+                                <th>{{Sympies::current_price(number_format($stock->sum('NET_SALES'),2))}}</th>
+                                <th>{{Sympies::current_price(number_format($stock->sum('VAT_SALES'),2))}}</th>
+                                <th>{{Sympies::current_price(number_format($stock->sum('DELIVERY'),2))}}</th>
+                                <th>{{Sympies::current_price(number_format($stock->sum('GROSS_SALES'),2))}}</th>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- end panel-body -->
                     </div>
                     <!-- end tab-pane -->
                     <!-- begin tab-pane -->
-                    <div class="tab-pane fade" id="default-tab-3">
-                        <p>
-								<span class="fa-stack fa-4x pull-left m-r-10">
-									<i class="fa fa-square-o fa-stack-2x"></i>
-									<i class="fab fa-twitter fa-stack-1x"></i>
-								</span>
-                            Praesent tincidunt nulla ut elit vestibulum viverra. Sed placerat magna eget eros accumsan elementum.
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam quis lobortis neque.
-                            Maecenas justo odio, bibendum fringilla quam nec, commodo rutrum quam.
-                            Donec cursus erat in lacus congue sodales. Nunc bibendum id augue sit amet placerat.
-                            Quisque et quam id felis tempus volutpat at at diam. Vivamus ac diam turpis.Sed at lacinia augue.
-                            Nulla facilisi. Fusce at erat suscipit, dapibus elit quis, luctus nulla.
-                            Quisque adipiscing dui nec orci fermentum blandit.
-                            Sed at lacinia augue. Nulla facilisi. Fusce at erat suscipit, dapibus elit quis, luctus nulla.
-                            Quisque adipiscing dui nec orci fermentum blandit.
-                        </p>
+                    <div class="tab-pane fade" id="tax">
+                        <h3 class="m-t-10"><i class="fa fa-money-bill-alt"></i> Sales on Tax Applied For Every Purchases</h3>
+                        <!-- begin panel-body -->
+                        <div class="panel-body">
+                            <table id="data-table-buttons" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th style="width: 30%">Info</th>
+                                    <th>Quantity</th>
+                                    <th>Discount</th>
+                                    <th>Net Sales</th>
+                                    <th>VAT Sales</th>
+                                    <th>Delivery</th>
+                                    <th>Gross Sales</th>
+                                </tr>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th style="width: 30%">Info</th>
+                                    <th>Quantity</th>
+                                    <th>Discount</th>
+                                    <th>Net Sales</th>
+                                    <th>VAT Sales</th>
+                                    <th>Delivery</th>
+                                    <th>Gross Sales</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- end panel-body -->
+                    </div>
+                    <!-- end tab-pane -->
+                    <!-- begin tab-pane -->
+                    <div class="tab-pane fade" id="purchase">
+                        <h3 class="m-t-10"><i class="fa fa-truck"></i> Sales by Purchase </h3>
+                        <!-- begin panel-body -->
+                        <div class="panel-body">
+                            <table id="data-table-buttons" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th style="width: 30%">Info</th>
+                                    <th>Type</th>
+                                    <th>Rate</th>
+                                    <th>Date Issued</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                                <tfoot>
+                                <th style="width: 30%">Info</th>
+                                <th>Type</th>
+                                <th>Rate</th>
+                                <th>Date Issued</th>
+                                <th>Action</th>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- end panel-body -->
                     </div>
                     <!-- end tab-pane -->
                 </div>
                 <!-- end tab-content -->
 
-                <!-- begin panel-body -->
-                <div class="panel-body">
-                    <table id="data-table-buttons" class="table table-striped table-bordered">
-                        <thead>
-                        <tr>
-                            <th style="width: 30%">Info</th>
-                            <th>Type</th>
-                            <th>Rate</th>
-                            <th>Date Issued</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
 
-                        </tbody>
-                        <tfoot>
-                        <th style="width: 30%">Info</th>
-                        <th>Type</th>
-                        <th>Rate</th>
-                        <th>Date Issued</th>
-                        <th>Action</th>
-                        </tfoot>
-                    </table>
-                </div>
-                <!-- end panel-body -->
             </div>
             <!-- end panel -->
         </div>
@@ -162,7 +255,7 @@
 
     <script>
 
-        $('#data-table-buttons').DataTable({
+        $('table[id=data-table-buttons]').DataTable({
             'paging'      : true,
             'lengthChange': true,
             'searching'   : true,

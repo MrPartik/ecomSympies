@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\r_inventory_info;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class manageInventory extends Controller
 {
@@ -14,8 +16,20 @@ class manageInventory extends Controller
      */
     public function index()
     {
-        $inventory = r_inventory_info::with('tOrderItem','rProductInfo','tProductVariance')
-            ->get();
+        $inventory = collect(DB::SELECT("
+            SELECT 
+			PROD.PROD_NAME 
+			,PROD.PROD_DESC
+			,PROD.PROD_CODE
+			,PROD.PROD_CRITICAL 
+			,(SELECT IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE (INV.INV_TYPE='CAPITAL' OR INV.INV_TYPE='ADD') AND INV.PROD_ID=PROD.PROD_ID) CAPITAL
+			,(SELECT IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE='DISPOSE' AND INV.PROD_ID=PROD.PROD_ID) DISPOSED
+			,(SELECT IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE='ORDER' AND INV.PROD_ID=PROD.PROD_ID) 'ORDER'
+			,((SELECT IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE='CAPITAL' AND INV.PROD_ID=PROD.PROD_ID)
+					+(SELECT -IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE='DISPOSE' AND INV.PROD_ID=PROD.PROD_ID)
+					+(SELECT -IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE='ORDER' AND INV.PROD_ID=PROD.PROD_ID)) TOTAL
+					FROM r_product_infos PROD
+			"));
 
         return view('pages.inventory.table-inventory-remaining',compact('inventory'));
 

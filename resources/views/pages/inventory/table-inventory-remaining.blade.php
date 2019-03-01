@@ -1,17 +1,17 @@
 @extends('layouts.main')
 
-@section('title','Manage Inventory')
+@section('title','Remaining Inventory')
 
 @section('content')
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
         <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
-        <li class="breadcrumb-item"><a href="javascript:;">Manage Inventory</a></li>
+        <li class="breadcrumb-item"><a href="javascript:;">Remaining Inventory</a></li>
         <li class="breadcrumb-item active">List</li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">Manage Inventory <small>...</small></h1>
+    <h1 class="page-header">Remaining Inventory <small>...</small></h1>
     <!-- end page-header -->
     <div class="row">
         <!-- begin col-3 -->
@@ -134,49 +134,40 @@
                 <!-- end alert -->
                 <!-- begin panel-body -->
                 <div class="panel-body">
-                    <table id="data-table-buttons" class="table table-striped table-bordered">
+                    <table id="data-table-buttons" class="table table-bordered">
                         <thead>
                         <tr>
                             <th style="width: 20%">Product Info</th>
-                            <th style="width: 15%">Total Orders</th>
-                            <th>Total Disposed</th>
+                            <th>Product SKU</th>
+                            <th>Acquired</th>
+                            <th>Orders</th>
+                            <th>Disposed</th>
                             <th style="background: #7ff77f;">Total Inventory</th>
-                            <th>Affiliate</th>
-                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($inventory as $item)
-                            <tr>
-                                {{--<td>{{ $affInfo->where('AFF_ID', $item->AFF_ID)->first()->AFF_NAME }}</td>--}}
+                            <tr style="background: {{($item->PROD_CRITICAL>=$item->TOTAL)?'#ff8490':'#7ff77f'}}">
                                 <td>
                                     <strong style="margin-bottom:50px">{{ $item->PROD_NAME}}</strong>
                                     <br><i>{{ $item->PROD_DESC }}</i>
                                     <br><i style="color:orangered">Critical Value: {{ $item->PROD_CRITICAL }}</i>
                                 </td>
-                                <td>@if($item->TAXP_TYPE ==0 )Percent @else Fixed @endif </td>
-                                <td>{{ $item->TAXP_RATE  }}</td>
-                                <td>{{ (new DateTime($item->created_at))->format('D M d, Y | h:i A') }}</td>
-                                <td>
-                                    <center>
-                                        @if($item->TAXP_DISPLAY_STATUS==1)
-                                            <a class="btn btn-info" id='editTax'data-toggle="modal" vals="{{$item->TAXP_ID}}" href="#taxreferencesetup"><i class="fas fa-pencil-alt text-white"></i></a>
-                                            <a id=deact  vals="{{$item->TAXP_ID}}" class="btn btn-danger" data-toggle="modal" data-target="#deactivate"><i class="fa fa-ban text-white"></i></a>
-                                        @else
-                                            <a id=act  vals="{{$item->TAXP_ID}}" class="btn btn-success" data-toggle="modal" data-target="#activate"><i class="fas fa-undo text-white"></i></a>
-                                        @endif
-                                    </center>
-                                </td>
+                                <td><strong><center>{{$item->PROD_CODE}}</center></strong></td>
+                                <td><strong><center>{{$item->CAPITAL}}</center></strong></td>
+                                <td><strong><center>{{$item->ORDER}}</center></strong></td>
+                                <td><strong><center>{{$item->DISPOSED}}</center></strong></td>
+                                <td><strong><center>{{$item->TOTAL}}</center></strong></td>
                             </tr>
                         @endforeach
                         </tbody>
                         <tfoot>
                             <th style="width: 20%">Product Info</th>
-                            <th style="width: 15%">Total Orders</th>
-                            <th>Total Disposed</th>
-                            <th style="background: #7ff77f;">Total Inventory</th>
-                            <th>Affiliate</th>
-                            <th>Action</th>
+                            <th>Product SKU</th>
+                            <th><center>{{$inventory->sum('CAPITAL')}}</center></th>
+                            <th><center>{{$inventory->sum('ORDER')}}</center></th>
+                            <th><center>{{$inventory->sum('DISPOSED')}}</center></th>
+                            <th style="background: #7ff77f;"><center>{{$inventory->sum('TOTAL')}}</center></th>
                         </tfoot>
                     </table>
                 </div>
