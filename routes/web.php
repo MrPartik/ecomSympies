@@ -41,9 +41,10 @@ Route::group(['middleware' => ['authenticate']], function() {
 
     Route::resource('/dashboard', 'manageDashboard',['names'=>['index'=>'dashboard','create'=>'dashboard','edit'=>'dashboard']]);
     Route::resource('/product/list', 'manageProduct',['names'=>['index'=>'prodList','create'=>'prodList','edit'=>'prodList']]);
-
-
     Route::resource('/order','manageOrder',['names'=>['index'=>'order','create'=>'order','edit'=>'order']]);
+
+    Route::get('/sales','manageSales@sales');
+
 
 //    Route::get('order-pending','manageOrder@index');
 //    Route::get('order-complete','manageOrder@index');
