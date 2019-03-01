@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $INV_ID
  * @property string $PAY_RECIEVED_BY
  * @property float $PAY_AMOUNT_DUE
+ * @property float $PAY_SUB_TOTAL
+ * @property float $PAY_SALES_TAX
+ * @property float $PAY_DELIVERY_CHARGE
  * @property string $PAY_CAPTURED_AT
  * @property string $created_at
  * @property string $updated_at
@@ -18,14 +21,14 @@ class t_payment extends Model
 {
     /**
      * The table associated with the model.
-     * 
+     *
      * @var string
      */
     protected $table = 'T_PAYMENTS';
 
     /**
      * The primary key for the model.
-     * 
+     *
      * @var string
      */
     protected $primaryKey = 'PAY_ID';

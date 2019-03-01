@@ -13,6 +13,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $ORDI_QTY
  * @property float $ORDI_SOLD_PRICE
  * @property string $ORDI_VOUCHER_CODE
+ * @property string $PROD_NAME
+ * @property string $PROD_DESC
+ * @property float PROD_MY_PRICE
+ * @property string $PROD_SKU
  * @property string $created_at
  * @property string $updated_at
  * @property TOrder $tOrder
@@ -37,7 +41,7 @@ class t_order_item extends Model
     /**
      * @var array
      */
-    protected $fillable = ['ORD_ID', 'PROD_ID', 'PRODV_ID','ORDI_QTY','ORDI_NOTE', 'ORDI_SOLD_PRICE', 'created_at', 'updated_at'];
+    protected $fillable = ['ORD_ID', 'PROD_ID', 'PRODV_ID','ORDI_QTY','ORDI_NOTE', 'ORDI_SOLD_PRICE','PROD_NAME','PROD_DESC','PROD_MY_PRICE','PROD_SKU', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

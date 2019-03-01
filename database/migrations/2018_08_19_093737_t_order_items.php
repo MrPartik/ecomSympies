@@ -22,6 +22,10 @@ class TOrderItems extends Migration
             $table->unsignedInteger("PRODV_ID")->nullable();
             $table->integer("ORDI_QTY")->default(1);
             $table->text("ORDI_NOTE")->nullable();
+            $table->text("PROD_NAME");
+            $table->text("PROD_DESC");
+            $table->double("PROD_MY_PRICE",10,2);
+            $table->text("PROD_SKU");
             $table->double("ORDI_SOLD_PRICE",10,2);
             $table->timestamps();
 
