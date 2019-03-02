@@ -51,13 +51,13 @@ Absolutely no hidden fees! For your convenience, all our prices already include 
                 'PRODT_ID' => 6,
                 'AFF_ID' => 2,
                 'PROD_DESC' => '3-Stem White Roses',
-                'PROD_NOTE' => '<h2><strong>White roses are meant to reaffirm one&#39;s commitment, fidelity </strong><strong>and</strong><strong> loyalty. Write your message in our special Island Rose greeting card and we&#39;ll send it with long stem white roses. Express your deepest feelings - say it best with roses!<br />
+                'PROD_NOTE' => '<strong>White roses are meant to reaffirm one&#39;s commitment, fidelity </strong><strong>and</strong><strong> loyalty. Write your message in our special Island Rose greeting card and we&#39;ll send it with long stem white roses. Express your deepest feelings - say it best with roses!<br />
 Flowers are arranged in exclusive Island Rose packaging and delivered in special gift boxes.</strong><strong>Vase</strong><strong> is not included. Special add-on gift items are available upon checkout.</strong><br />
 <br />
 Absolutely no hidden fees! For your convenience, all our prices already include Service Charges, Taxes, and Delivery fees. Happy Shopping!&nbsp;<br />
 *Our priority is to deliver your flowers on time!&nbsp; If certain flowers unexpectedly become unavailable, Island Rose will replace them with flowers of equal or greater value.<br />
 <br />
-**Island Rose offers next day delivery nationwide! Same day delivery is available in Metro Manila.</h2>',
+**Island Rose offers next day delivery nationwide! Same day delivery is available in Metro Manila.',
                 'PROD_IMG' => 'uploads/2019-ISL-00002-2.jpg',
                 'PROD_CODE' => '2019-ISL-00002-2',
                 'PROD_NAME' => 'Pure White',
@@ -104,10 +104,8 @@ Flowers are arranged in exclusive Island Rose packaging and delivered in special
                 'PRODT_ID' => 6,
                 'AFF_ID' => 2,
                 'PROD_DESC' => 'White & Orange Roses In An Orange Keepsake Box',
-                'PROD_NOTE' => '<h2><strong>The sweetest rose combination for the special people in your life. Send a box of cheerful orange and white roses - a flawless fit for happy occasions!<br />
+                'PROD_NOTE' => '<strong>The sweetest rose combination for the special people in your life. Send a box of cheerful orange and white roses - a flawless fit for happy occasions!<br />
 Absolutely no hidden fees! For your convenience, all our prices already include Service Charges, Taxes, and Delivery Fees. Happy Shopping!&nbsp;</strong><br />
-&nbsp;</h2>
-
 <p>*Our priority is to deliver your flowers on time! If certain flowers unexpectedly become unavailable, Island Rose will replace them with flowers of equal or greater value.</p>
 
 <p>**Island Rose offers next day delivery nationwide! Same day delivery is available to most of Metro Manila except CAMANAVA (Caloocan, Malabon, Navotas, and Valenzuela).</p>',
@@ -132,7 +130,7 @@ Absolutely no hidden fees! For your convenience, all our prices already include 
                 'PRODT_ID' => 9,
                 'AFF_ID' => 2,
                 'PROD_DESC' => 'One Dozen White Roses and White Messenger Bear™',
-                'PROD_NOTE' => '<h2><strong>The Love and Blooms package is made up of a dozen white roses and a white Messenger Bear</strong><strong>&trade; .</strong><strong>&nbsp;</strong></h2>
+                'PROD_NOTE' => '<strong>The Love and Blooms package is made up of a dozen white roses and a white Messenger Bear</strong><strong>&trade; .</strong><strong>&nbsp;</strong>
 
 <p><br />
 The white rose variety used in this arrangement is imported from Europe and grown in the most sophisticated flower farm in the Philippines.&nbsp;<br />
@@ -189,7 +187,7 @@ The SweetHeart Blooms package comes in exclusive Island Rose packaging for deliv
                 'PRODT_ID' => 6,
                 'AFF_ID' => 2,
                 'PROD_DESC' => 'Five 3-Stem Rose Bouquets',
-                'PROD_NOTE' => '<h2><strong>The Group Hug package is made of five 3-stem bouquets in five different </strong><strong>colours</strong><strong>.&nbsp;</strong></h2>
+                'PROD_NOTE' => '<strong>The Group Hug package is made of five 3-stem bouquets in five different </strong><strong>colours</strong><strong>.&nbsp;</strong>
 
 <p><br />
 The rose varieties used in this arrangement are imported from Europe and grown in the most sophisticated flower farm in the Philippines.&nbsp;<br />
@@ -217,7 +215,7 @@ The Group Hug package comes in exclusive Island Rose packaging for delivery anyw
                 'PRODT_ID' => 6,
                 'AFF_ID' => 2,
                 'PROD_DESC' => 'Classic Black Rose Gift Box and Limited Edition Rajo! Greeting Cards',
-                'PROD_NOTE' => '<h2><strong>The Thoughts of Love package is made of the Classic Black Rose Gift Box and a set of 10 limited </strong><strong>edition</strong><strong> Rajo! Greeting Cards.&nbsp;</strong></h2>
+                'PROD_NOTE' => '<strong>The Thoughts of Love package is made of the Classic Black Rose Gift Box and a set of 10 limited </strong><strong>edition</strong><strong> Rajo! Greeting Cards.&nbsp;</strong>
 
 <p><br />
 The red and white rose varieties used in this arrangement are imported from Europe and grown in the most sophisticated flower farm in the Philippines.&nbsp;<br />
