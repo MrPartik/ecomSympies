@@ -150,7 +150,7 @@
                             <tr style="background: {{($item->PROD_CRITICAL>=$item->TOTAL)?'#ff8490':'#7ff77f'}}">
                                 <td>
                                     <strong style="margin-bottom:50px">{{ $item->PROD_NAME}}</strong>
-                                    <br><i>{{ $item->PROD_DESC }}</i>
+                                    <br><i style="display: -webkit-box;max-height: 3.2rem;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;white-space: normal;-webkit-line-clamp: 2;font-weight: 500;">{{ $item->PROD_DESC }}</i>
                                     <br><i style="color:orangered">Critical Value: {{ $item->PROD_CRITICAL }}</i>
                                 </td>
                                 <td><strong><center>{{$item->PROD_CODE}}</center></strong></td>
@@ -259,127 +259,32 @@
             ,   buttons: [
                 { extend: 'copy', className: 'btn-sm',
                     exportOptions: {
-                        columns: [0,1,2,3]
+                        columns: [1,2,3,4,5]
                     }
                 },
                 { extend: 'csv', className: 'btn-sm' ,
                     exportOptions: {
-                        columns: [0,1,2,3]
+                        columns: [1,2,3,4,5]
                     }
                 },
                 { extend: 'excel', className: 'btn-sm',
                     exportOptions: {
-                        columns: [0,1,2,3]
+                        columns: [1,2,3,4,5]
                     }
                 },
                 { extend: 'pdf', className: 'btn-sm',
                     exportOptions: {
-                        columns: [0,1,2,3]
+                        columns: [1,2,3,4,5]
                     }
                 },
                 { extend: 'print', className: 'btn-sm',
                     exportOptions: {
-                        columns: [0,1,2,3]
+                        columns: [1,2,3,4,5]
                     }
                 },
 
 
             ],
-        });
-
-
-        $("a[id='editTax']").on('click',function () {
-            $('.modal-title').html('Editing Tax Reference');
-            document.querySelector('#taxModal').reset();
-            $id = $(this).attr('vals');
-            $.ajax({
-                url: 'tax/'+$id
-                ,type: 'get'
-                ,data: {_token:CSRF_TOKEN }
-                ,dataType:'json'
-                ,success:function($data){
-
-                    $("input[name='taxname']").val($data.data[0].TAXP_NAME);
-                    $("textarea[name='taxdesc']").val($data.data[0].TAXP_DESC);
-                    $("select[name='taxtype']").val($data.data[0].TAXP_TYPE).trigger('change');
-                    $("input[name='taxrate']").val($data.data[0].TAXP_RATE);
-                    $('#taxModal').attr('action','{{url('tax')}}/'+$data.data[0].TAXP_ID);
-                    $("input[name='_method']").attr('value','PATCH');
-                }
-                ,error:function(){
-
-                }
-            });
-
-        });
-
-
-        $("a[id='deact']").on('click',function(){
-            $id = $(this).attr('vals');
-            // $("button[id='deactSave']").on('click',function () {
-            swal({
-                title: "This record will be deactivated?"
-                , text: "After this action, this record is not available, unless it is activated"
-                , type: "warning"
-                , showLoaderOnConfirm: true
-                , showCancelButton: true
-                , confirmButtonColor: '#9DD656'
-                , confirmButtonText: 'Yes!'
-                , cancelButtonText: "No!"
-                , closeOnConfirm: false
-                , closeOnCancel: true
-            }, function (isConfirm) {
-                if (isConfirm) {
-
-                    $.ajax({
-                        url: '/tax/actDeact'
-                        ,type: 'post'
-                        ,data: {id:$id,_token:CSRF_TOKEN, type:0  }
-                        ,success:function(){
-                            window.location.reload();
-                        }
-                        ,error:function(){
-
-                        }
-                    });
-
-                }
-            });
-            // });
-        });
-
-        $("a[id='act']").on('click',function(){
-            $id = $(this).attr('vals');
-            // $("button[id='actSave']").on('click',function () {
-
-            swal({
-                title: "This record will be activated?"
-                , text: "After this action, this record is now available, unless it is deactivated"
-                , type: "warning"
-                , showLoaderOnConfirm: true
-                , showCancelButton: true
-                , confirmButtonColor: '#9DD656'
-                , confirmButtonText: 'Yes!'
-                , cancelButtonText: "No!"
-                , closeOnConfirm: false
-                , closeOnCancel: true
-            }, function (isConfirm) {
-                if (isConfirm) {
-                    $.ajax({
-                        url: '/tax/actDeact'
-                        ,type: 'post'
-                        ,data: {id:$id,_token:CSRF_TOKEN, type:1  }
-                        ,success:function(){
-                            window.location.reload();
-                        }
-                        ,error:function(){
-
-                        }
-                    });
-                }
-            });
-
-            // });
         });
 
 
