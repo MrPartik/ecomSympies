@@ -147,7 +147,7 @@
                         </thead>
                         <tbody>
                         @foreach($inventory as $item)
-                            <tr style="background: {{($item->PROD_CRITICAL>=$item->TOTAL)?'#ff8490':'#7ff77f'}}">
+                            <tr style="background: {{($item->PROD_CRITICAL>=$item->TOTAL)?'#ffc1c7':'#d0ffd0'}}">
                                 <td>
                                     <strong style="margin-bottom:50px">{{ $item->PROD_NAME}}</strong>
                                     <br><i style="display: -webkit-box;max-height: 3.2rem;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;white-space: normal;-webkit-line-clamp: 2;font-weight: 500;">{{ $item->PROD_DESC }}</i>

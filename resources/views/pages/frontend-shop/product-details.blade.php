@@ -111,7 +111,7 @@
                             @if(Session::get('sympiesAccount'))
                                 <a href="#buy"  id="buyProd" class="btn btn-success" data-toggle="modal" tooltip="tooltip" title= "Click to Buy"><i class="fa fa-credit-card-alt"></i> Buy</a>
                             @else
-                                <a href="{{url('/loginSympiesAccount/1')}}"   class="btn btn-danger"   tooltip="tooltip" title= "Please login to make transaction"><i class="fa fa-key"></i> Login</a>
+                                <a href="#login" data-toggle="modal"   class="btn btn-success"   tooltip="tooltip" title= "Please login to make transaction"><i class="fa fa-credit-card-alt"></i> Buy</a>
                             @endif
 
                             <center>

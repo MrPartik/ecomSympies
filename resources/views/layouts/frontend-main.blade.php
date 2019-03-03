@@ -303,18 +303,22 @@
                             </li>
                             <li class="divider"></li> -->
                             <li>
-                                <a href="javascript:;">
-                                    <img src="{{asset('assets/img/user/user-1.jpg')}}" class="user-img" alt="" />
+                                <a href="#login" data-toggle="modal" >
+                                    <img src="{{asset('assets/img/user/user-12.jpg')}}" class="user-img" alt="" />
                                     <span class="hidden-md hidden-sm hidden-xs">
                                       {{(!is_null($account))?$account['NAME']:'Not Logged In'}}
-
                                     </span>
                                 </a>
                             </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a target = "_blank" href="{{url('login')}}">Affiliate</a>
-                            </li>
+                            @if(!is_null($account))
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="{{url("/logoutSympiesAccount/".$account['ID'])}}"  >
+                                        <span class="hidden-md hidden-sm hidden-xs">Logout
+                                    </span>
+                                    </a>
+                                </li>
+                            @endif
                         </ul>
                     </div>
                     <!-- END header-nav -->
@@ -411,20 +415,48 @@
     </div>
     <!-- END #page-container -->
 
-    <!-- begin theme-panel -->
-    <div class="theme-panel">
-        <a href="javascript:;" data-click="theme-panel-expand" class="theme-collapse-btn"><i class="fa fa-cog"></i></a>
-        <div class="theme-panel-content">
-            <ul class="theme-list clearfix">
-                <li><a href="javascript:;" class="bg-purple" data-theme="purple" data-theme-file="{{asset('assets/css/e-commerce/theme/purple.css')}}" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Purple">&nbsp;</a></li>
-                <li><a href="javascript:;" class="bg-blue" data-theme="blue" data-theme-file="{{asset('assets/css/e-commerce/theme/blue.css')}}" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Blue">&nbsp;</a></li>
-                <li class="active"><a href="javascript:;" class="bg-green" data-theme-file="{{asset('assets/css/e-commerce/theme/default.css')}}" data-theme="default" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Default">&nbsp;</a></li>
-                <li><a href="javascript:;" class="bg-orange" data-theme="orange" data-theme-file="{{asset('assets/css/e-commerce/theme/orange.css')}}" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Orange">&nbsp;</a></li>
-                <li><a href="javascript:;" class="bg-red" data-theme="red" data-theme-file="{{asset('assets/css/e-commerce/theme/red.css')}}" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Red">&nbsp;</a></li>
-            </ul>
+    <!-- #modal-dialog -->
+    <div class="modal fade" id="login">
+        <div class="modal-dialog" style="width:500px;">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #96ceff;">
+                    <h4 class="modal-title">Welcome! Please Login to continue</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row" style="padding: 20px;">
+
+                        <div class="col-md-12">
+                            <div class="alert alert-danger " id="danger" style="display: none;">
+                                Invalid Credentials
+                            </div>
+                            <div class="alert alert-success " id="success" style="display: none;">
+                                Redirecting...
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label>Username</label>
+                            <input class="form-control" id="username" name=username type="text" placeholder="Username" required>
+                        </div>
+                        <br>
+                        <div class="col-md-12" style="padding-top: 20px;">
+                            <label>Password</label>
+                            <input class="form-control" id="password" type="password" name=password placeholder="Password" required>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cance</a>
+                    <a href="javascript:;" type="submit" id="loginbtn" class="btn btn-success">Login</a>
+                </div>
+            </div>
         </div>
     </div>
-    <!-- end theme-panel -->
+    <!-- #modal-without-animation -->
+
+
 
 	<!-- ================== BEGIN BASE JS ================== -->
 	<script src="{{asset('assets/plugins/jquery/jquery-3.2.1.min.js')}}"></script>
@@ -440,6 +472,7 @@
     <script src="{{asset('assets/plugins/jquery-smart-wizard/src/js/jquery.smartWizard.js')}}"></script>
     <script src="{{asset('assets/js/demo/form-wizards-validation.demo.min.js')}}"></script>
     <script src="{{asset('assets/plugins/select2/dist/js/select2.min.js')}}"></script>
+    <script src="{{asset('assets/plugins/sweetalert/sweetalert.min.js')}}"></script>
 	<!-- ================== END BASE JS ================== -->
 
 	<script>
@@ -458,6 +491,42 @@
             )
         }
 
+
+        $("#password").on('keyup', function (e) {
+            if (e.keyCode == 13) {
+                $('a[id=loginbtn]').trigger('click');
+
+            }
+        });
+        $('a[id=loginbtn]').on('click',function () {
+                        $.ajax({
+                            url: "/loginSympiesAccount"
+                            ,data:{
+                                _token:CSRF_TOKEN
+                                ,actor: $('input[id=username]').val()
+                                ,password: $('input[id=password]').val()
+                            }
+                            ,type:'POST'
+                            ,success:function($data){
+                                if($data=='true'){
+                                    $('div[id=success]').show();
+                                    $('div[id=danger]').hide();
+                                    setTimeout(function(){
+                                        location.reload();
+                                    },500)
+
+                                }else{
+                                    $('div[id=success]').hide();
+                                    $('div[id=danger]').show();
+                                }
+                            }
+                            ,error:function(){
+                                swal("Error occured", $data, "error");
+
+                            }
+                        });
+
+        });
 
 	</script>
 

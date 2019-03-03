@@ -102,24 +102,58 @@ Route::resource('/','frontProductsController');
     //route for ordering process
         Route::post('/makeOrder','orderingFunctions@makeOrder');
 
-Route::get('/loginSympiesAccount/{id}',function($id){
+Route::post('/loginSympiesAccount',function(\Illuminate\Http\Request $request){
 
-    $account = Array(
-        "ID" => 3,
-        "NAME" => "John Patrick Loyola",
-        "CONTACT_NO" => "0930975810",
-        "HOME_ADDRESS" => "111 St. Anthony St. Repu. Ave. Brgy. Holy Spirit Quezon City, 1127",
-        "EMAIL" => "loyolapat04@gmail.com",
-    );
+    $login = 'http://192.168.22.7/zax/getLogin.php';
+    $profile = 'http://192.168.22.7/zax/getProfileDetails.php';
 
-    $get = Session::get('sympiesAccount');
-    Session::put('sympiesAccount', $account);
-    return redirect()->back();
+    $actor = $request->actor;
+    $password = $request->password;
+
+
+    $ch = curl_init();
+    curl_setopt($ch,CURLOPT_URL, $login);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, "username=$actor&&password=$password");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $login = curl_exec($ch);
+    curl_close($ch);
+
+
+
+    if($login=='true') {
+    $ch = curl_init();
+    curl_setopt($ch,CURLOPT_URL, $profile);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, "actor=$actor");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $result = json_decode(curl_exec($ch));
+    curl_close($ch);
+    $result = $result->profiledetails[0];
+        $account = Array(
+            "ID" => $result->rac_accountid,
+            "NAME" => $result->rac_username,
+            "CONTACT_NO" => $result->rac_pnumb,
+            "HOME_ADDRESS" => "",
+            "EMAIL" => $result->rac_email,
+        );
+        $get = Session::get('sympiesAccount');
+        Session::put('sympiesAccount', $account);
+    }
+
+    return $login;
+
 });
+
+
+
+
 
 Route::get('/logoutSympiesAccount/{id}',function($id){
 
-    Session::forget('sympiesAccount');
+    if(Session::get('sympiesAccount')['ID'] == $id)
+        Session::forget('sympiesAccount');
+    return redirect()->back();
 });
 
 
