@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Session;
 
 class isSympiesUser
 {
@@ -15,6 +16,10 @@ class isSympiesUser
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        if ( Session::get('sympiesAccount')){
+            return $next($request);
+        }
+        return 'Please Login as Sympies User';
+
     }
 }

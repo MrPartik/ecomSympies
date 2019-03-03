@@ -349,6 +349,7 @@ class manageProduct extends Controller
         {
             $prodDisc = r_product_info::where('PROD_ID',$request->prodID)->first();
             $prodDisc->PROD_DISCOUNT = $request->prodDiscount;
+            $prodDisc->updated_at = Carbon::now();
             $prodDisc->save();
             return redirect()->back()->with('success', 'Successfully product discount record is updated!');
         }catch (\Exception $e){

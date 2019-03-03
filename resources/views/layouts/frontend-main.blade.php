@@ -353,7 +353,7 @@
                             <li><i class="fa fa-li fa-angle-right"></i> <a href="#">Careers</a></li>
                             <li><i class="fa fa-li fa-angle-right"></i> <a href="#">Payment Method</a></li>
                             <li><i class="fa fa-li fa-angle-right"></i> <a href="#">Sales & Refund</a></li>
-                            <li><i class="fa fa-li fa-angle-right"></i> <a href="#">Sitemap</a></li>
+                            <li><i class="fa fa-li fa-angle-right"></i> <a href="{{url('/login')}}" target="_blank">Affiliate</a></li>
                             <li><i class="fa fa-li fa-angle-right"></i> <a href="#">Privacy & Policy</a></li>
                         </ul>
                     </div>

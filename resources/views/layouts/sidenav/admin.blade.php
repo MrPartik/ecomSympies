@@ -61,7 +61,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li class="{{Request::is('inventory-remaining')?'active':''}}"><a href="{{url('inventory-remaining')}}">Remaining Inventory</a></li>
-                    <li class="{{Request::is('inventory-manage')?'active':''}}"><a href="{{url('inventory-manage')}}">Manage Inventory</a></li>
+{{--                    <li class="{{Request::is('inventory-manage')?'active':''}}"><a href="{{url('inventory-manage')}}">Manage Inventory</a></li>--}}
                 </ul>
             </li>
 

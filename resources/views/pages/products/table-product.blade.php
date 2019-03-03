@@ -124,10 +124,7 @@
                                                         <a href="#disapprove" data-toggle="modal"  class="btn btn-danger" id="disap" vals="{{$item->PROD_ID}}"><i class="fa fa-thumbs-down"></i></a>
                                                     @endif
                                                 @endif
-                                                <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown">
-                                                    More
-                                                    <span class="sr-only">Toggle Dropdown</span>
-                                                </button>
+                                                <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown"></button>
                                                 <ul class="dropdown-menu" role="menu">
                                                         <li> <a  id='viewProduct' total="{{$total}}" href="#prodView" data-toggle="modal" vals="{{$item->PROD_ID}}" >View</a></li>
                                                         <li> <a  id='editProduct' href="{{action('manageProduct@edit',$item->PROD_ID)}}" >Edit Product Info</a></li>

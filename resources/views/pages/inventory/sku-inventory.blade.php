@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title','Remaining Inventory')
+@section('title','Stock Keeping Unit')
 
 @section('content')
     <!-- begin breadcrumb -->
@@ -11,7 +11,7 @@
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">Remaining Inventory <small>...</small></h1>
+    <h1 class="page-header">Stock Keeping Unit <small>...</small></h1>
     <!-- end page-header -->
     <div class="row">
         <!-- begin col-3 -->
@@ -112,26 +112,26 @@
                 <div class="panel-heading">
                     <div class="panel-heading-btn">
 
-                        {{--<a href="{{action('manageTax@create')}}" class="btn btn-xs btn-success"><i class="fa fa-plus-square"></i> Add item </a>--}}
+{{--                        <a href="{{action('manageTax@create')}}" class="btn btn-xs btn-success"><i class="fa fa-plus-square"></i> Add item </a>--}}
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     </div>
-                    <h4 class="panel-title">Manage Inventory</h4>
+                    <h4 class="panel-title">Stock Keeping Unit</h4>
                 </div>
                 <!-- end panel-heading -->
 
-                {{--<div class="panel-body bg-black text-white"> </div>--}}
-                <!-- begin alert -->
+            {{--<div class="panel-body bg-black text-white"> </div>--}}
+            <!-- begin alert -->
 
                 @if(session('success') || session('error') )
                     <div class="alert alert-{{(session('success')?'success':'danger')}} fade show">
-                    <button type="button" class="close" data-dismiss="alert">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    {{(session('success'))?session('success'):session('error')}}
-                </div>
-                @endif
-                <!-- end alert -->
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{(session('success'))?session('success'):session('error')}}
+                    </div>
+            @endif
+            <!-- end alert -->
                 <!-- begin panel-body -->
                 <div class="panel-body">
                     <table id="data-table-buttons" class="table table-bordered">
@@ -147,27 +147,27 @@
                         </thead>
                         <tbody>
                         @foreach($inventory as $item)
-                            <tr>
-                                <td data-toggle="tooltip" title="Product Information">
+                            <tr style="background: {{($item->PROD_CRITICAL>=$item->TOTAL)?'#ffc1c7':'#d0ffd0'}}">
+                                <td>
                                     <strong style="margin-bottom:50px">{{ $item->PROD_NAME}}</strong>
                                     <br><i style="display: -webkit-box;max-height: 3.2rem;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;white-space: normal;-webkit-line-clamp: 2;font-weight: 500;">{{ $item->PROD_DESC }}</i>
                                     <br><i style="color:orangered">Critical Value: {{ $item->PROD_CRITICAL }}</i>
                                 </td>
-                                <td data-toggle="tooltip" title="Product SKU"><strong><center><a href="{{url('inventory-remaining/'.$item->PROD_CODE)}}">{{$item->PROD_CODE}}</a></center></strong></td>
-                                <td data-toggle="tooltip" title="Total Acquired Inventory"><strong><center>{{$item->CAPITAL}}</center></strong></td>
-                                <td data-toggle="tooltip" title="Total Orders"><strong><center>{{$item->ORDER}}</center></strong></td>
-                                <td data-toggle="tooltip" title="Total Disposed or Dispatched"><strong><center>{{$item->DISPOSED}}</center></strong></td>
-                                <td style="background: {{($item->PROD_CRITICAL>=$item->TOTAL)?'#ffc1c7':'#d0ffd0'}}" data-toggle="tooltip" title="Total Inventory"><strong><center>{{$item->TOTAL}}</center></strong></td>
+                                <td><strong><center>{{$item->PROD_CODE}}</center></strong></td>
+                                <td><strong><center>{{$item->CAPITAL}}</center></strong></td>
+                                <td><strong><center>{{$item->ORDER}}</center></strong></td>
+                                <td><strong><center>{{$item->DISPOSED}}</center></strong></td>
+                                <td><strong><center>{{$item->TOTAL}}</center></strong></td>
                             </tr>
                         @endforeach
                         </tbody>
                         <tfoot>
-                            <th style="width: 20%">Product Info</th>
-                            <th>Product SKU</th>
-                            <th><center>{{$inventory->sum('CAPITAL')}}</center></th>
-                            <th><center>{{$inventory->sum('ORDER')}}</center></th>
-                            <th><center>{{$inventory->sum('DISPOSED')}}</center></th>
-                            <th style="background: #7ff77f;"><center>{{$inventory->sum('TOTAL')}}</center></th>
+                        <th style="width: 20%">Product Info</th>
+                        <th>Product SKU</th>
+                        <th><center>{{$inventory->sum('CAPITAL')}}</center></th>
+                        <th><center>{{$inventory->sum('ORDER')}}</center></th>
+                        <th><center>{{$inventory->sum('DISPOSED')}}</center></th>
+                        <th style="background: #7ff77f;"><center>{{$inventory->sum('TOTAL')}}</center></th>
                         </tfoot>
                     </table>
                 </div>
@@ -196,38 +196,38 @@
                                 <strong>Are you sure? you want to edit this record?</strong>
                                 <p>Please provide the following inputs to validate the record.</p>
                             </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Name</label>
-                                        <input class="form-control" name=taxname placeholder="Name" required>
-                                    </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input class="form-control" name=taxname placeholder="Name" required>
                                 </div>
+                            </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Rate</label>
-                                        <input class="form-control" name=taxrate type="number" placeholder="Rate" required>
-                                    </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Rate</label>
+                                    <input class="form-control" name=taxrate type="number" placeholder="Rate" required>
                                 </div>
+                            </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Type</label>
-                                        <select class="form-control " name="taxtype" style="width: 100%;" required>
-                                            <option selected="selected"  disabled>Please Select Type</option>
-                                            <option value=0 >Percentage</option>
-                                            <option value=1 >Fixed</option>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Type</label>
+                                    <select class="form-control " name="taxtype" style="width: 100%;" required>
+                                        <option selected="selected"  disabled>Please Select Type</option>
+                                        <option value=0 >Percentage</option>
+                                        <option value=1 >Fixed</option>
 
-                                        </select>
-                                    </div>
+                                    </select>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Description</label>
-                                        <textarea class="form-control" name=taxdesc style="resize:vertical; width:100%;height:107px" placeholder="Description" required></textarea>
-                                    </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea class="form-control" name=taxdesc style="resize:vertical; width:100%;height:107px" placeholder="Description" required></textarea>
                                 </div>
-                                <!-- /.row -->
+                            </div>
+                            <!-- /.row -->
                             <div class="col-md-12" >
                                 <div class="pull-right" style="margin-right: 10px;">
                                     <button class="btn btn-success" type="submit" >Save</button>

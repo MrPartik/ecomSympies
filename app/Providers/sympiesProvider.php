@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\r_currencies;
 use App\t_setup;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use vakata\database\Exception;
 
@@ -88,6 +89,7 @@ class sympiesProvider extends ServiceProvider
 
     public static function format($collection){
         if($collection)
+
             foreach ($collection as $item){
 
                 $discount = $item->PROD_DISCOUNT;
@@ -98,6 +100,8 @@ class sympiesProvider extends ServiceProvider
 
                 $item->PRICE = $price;
                 $item->DISCOUNT = $discount_price;
+
+
             }
 
         return $collection;

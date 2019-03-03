@@ -54,18 +54,28 @@ Route::group(['middleware' => ['authenticate']], function() {
     Route::get('orders','manageOrder@index');
 
     Route::get('inventory-remaining','manageInventory@index');
+    Route::get('inventory-manage','manageInventory@manageInventory');
+    Route::get('inventory-remaining/{sku}','manageInventory@skuInventory');
 
 
 
 
 });
+Route::get('/getProd/Affiliates/{id}','frontProductsController@getProdAffiliates');
+Route::get('/getProd/Category/{id}','frontProductsController@getProdCategory');
+Route::get('/product/details/{id}','frontProductsController@getProdDetails');
+Route::get('/summary-orders','frontProductsController@getOrders');
 
 Route::group(['middleware'=> ['isSympiesUser']],function(){
 
-    Route::get('/getProd/Affiliates/{id}','frontProductsController@getProdAffiliates');
-    Route::get('/getProd/Category/{id}','frontProductsController@getProdCategory');
-    Route::get('/product/details/{id}','frontProductsController@getProdDetails');
-    Route::get('/summary-orders','frontProductsController@getOrders');
+        // route for processing payment
+        Route::post('/checkout/execute', 'paymentController@payWithpaypal');
+        // route for check status of the payment
+        Route::get('/checkout/finished', 'paymentController@getPaymentStatus');
+        //route for ordering process
+        Route::post('/makeOrder', 'orderingFunctions@makeOrder');
+
+
 });
 
 Route::get('/get/user-invoice/{id}',function($id){
@@ -95,17 +105,10 @@ Route::get('/get/user-invoice/{id}',function($id){
 
 Route::resource('/','frontProductsController');
 
-    // route for processing payment
-        Route::post('/checkout/execute', 'paymentController@payWithpaypal');
-    // route for check status of the payment
-        Route::get('/checkout/finished', 'paymentController@getPaymentStatus');
-    //route for ordering process
-        Route::post('/makeOrder','orderingFunctions@makeOrder');
-
 Route::post('/loginSympiesAccount',function(\Illuminate\Http\Request $request){
 
-    $login = 'http://192.168.22.7/zax/getLogin.php';
-    $profile = 'http://192.168.22.7/zax/getProfileDetails.php';
+    $login = 'http://sympies.pupqc.net/getLogin.php';
+    $profile = 'http://sympies.pupqc.net/getProfileDetails.php';
 
     $actor = $request->actor;
     $password = $request->password;
@@ -118,8 +121,6 @@ Route::post('/loginSympiesAccount',function(\Illuminate\Http\Request $request){
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $login = curl_exec($ch);
     curl_close($ch);
-
-
 
     if($login=='true') {
     $ch = curl_init();
@@ -144,10 +145,6 @@ Route::post('/loginSympiesAccount',function(\Illuminate\Http\Request $request){
     return $login;
 
 });
-
-
-
-
 
 Route::get('/logoutSympiesAccount/{id}',function($id){
 

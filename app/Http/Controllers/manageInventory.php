@@ -35,6 +35,16 @@ class manageInventory extends Controller
 
     }
 
+    public function manageInventory(Request $request){
+
+        return view('pages.inventory.manage-inventory');
+    }
+
+    public function skuInventory($sku,Request $request){
+
+        return view('pages.inventory.sku-inventory');
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -53,6 +53,13 @@
                             <input name="_method" type="hidden" value="PATCH">
                             <div class="row">
 
+                                <div class="col-md-3">
+                                    <label>Product Code</label>
+                                    <div class="input-group m-b-10">
+                                        <div class="input-group-prepend"><span class="input-group-text">*</span></div>
+                                        <input class="form-control" name=prodcode readonly="readonly" required value="{{$prodInfo->PROD_CODE}}">
+                                    </div>
+                                </div>
                                 <div class="col-md-6">
                                     <label>Product Name</label>
                                     <div class="input-group m-b-10">
@@ -60,7 +67,7 @@
                                         <input value="{{$prodInfo->PROD_NAME}}" class="form-control" name=prodname placeholder="Product Name" required>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <label>Product Category</label>
                                     <select class="form-control productType" name="prodtype" style="width: 100%;" required >
                                         <option  value="" disabled>Please Select Product Category</option>
@@ -73,15 +80,9 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-3">
-                                    <label>Product Code</label>
-                                    <div class="input-group m-b-10">
-                                        <div class="input-group-prepend"><span class="input-group-text">*</span></div>
-                                        <input class="form-control" name=prodcode readonly="readonly" required value="{{$prodInfo->PROD_CODE}}">
-                                    </div>
-                                </div>
 
-                                <div class="col-md-3">
+                                @if(strtolower(\Illuminate\Support\Facades\Auth::user()->role)=='admin')
+                                <div class="col-md-6">
                                     <label>Affiliate</label>
                                     <select class="form-control " name="affiliate" style="width: 100%;" required>
                                         <option selected="selected" value=""  disabled>Please Select Affiliate</option>
@@ -90,6 +91,15 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="col-md-6">
+                                    <label>Product My Price (Sympies)</label>
+                                    <div class="input-group m-b-10">
+                                        <div class="input-group-prepend"><span class="input-group-text">*</span></div>
+                                        <input type="number" placeholder="0" min='0' name="prodmyprice" class="form-control" required value="{{$prodInfo->PROD_MY_PRICE}}">
+                                        <div class="input-group-append"><span class="input-group-text" id="markupstat">#</span></div>
+                                    </div>
+                                </div>
+                                @endif
                                 <div class="col-md-3">
                                     <label>Product Base Price (Affiliate)</label>
                                     <div class="input-group m-b-10">
@@ -98,17 +108,7 @@
                                         <div class="input-group-append"><span class="input-group-text">#</span></div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <label>Product My Price (Sympies)</label>
-                                    <div class="input-group m-b-10">
-                                        <div class="input-group-prepend"><span class="input-group-text">*</span></div>
-                                        <input type="number" placeholder="0" min='0' name="prodmyprice" class="form-control" required value="{{$prodInfo->PROD_MY_PRICE}}">
-                                        <div class="input-group-append"><span class="input-group-text" id="markupstat">#</span></div>
-                                    </div>
-                                </div>
-
-
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <label>Availablabiliy </label>
                                         <div class="input-group input-daterange  m-b-10">
                                             <input value="{{($prodInfo->PROD_AVAILABILITY)?(explode('to',$prodInfo->PROD_AVAILABILITY))[0]:''}}" type="text" class="form-control" name="start" placeholder="Date Start" />
@@ -126,7 +126,19 @@
                                     </div>
                                 </div>
 
-
+                                <div class="col-md-6">
+                                    <label>Product Image (optional)</label>
+                                    <div class="input-group m-b-10">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <a style="width:23px" href="{{($prodInfo->PROD_IMG==null||!file_exists($prodInfo->PROD_IMG))?asset('uPackage.png'):asset($prodInfo->PROD_IMG)}}" data-lightbox="gallery-group-1">
+                                                    <img style="height:100%;width: 100%"  src="{{($prodInfo->PROD_IMG==null||!file_exists($prodInfo->PROD_IMG))?asset('uPackage.png'):asset($prodInfo->PROD_IMG)}}" alt="" />
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <input class="form-control" name=prodimg type="file">
+                                    </div>
+                                </div>
                                 <div class="col-md-3">
                                     <label>Starting Inventory</label>
                                     <div class="input-group m-b-10">
@@ -141,21 +153,6 @@
                                         <div class="input-group-prepend"><span class="input-group-text">*</span></div>
                                         <input type="number" placeholder="0" name="inv_critical" class="form-control" required value="{{$prodInfo->PROD_CRITICAL}}">
                                         <div class="input-group-append"><span class="input-group-text">#</span></div>
-                                    </div>
-                                </div>
-
-
-                                <div class="col-md-6">
-                                    <label>Product Image (optional)</label>
-                                    <div class="input-group m-b-10">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <a style="width:23px" href="{{($prodInfo->PROD_IMG==null||!file_exists($prodInfo->PROD_IMG))?asset('uPackage.png'):asset($prodInfo->PROD_IMG)}}" data-lightbox="gallery-group-1">
-                                                    <img style="height:100%;width: 100%"  src="{{($prodInfo->PROD_IMG==null||!file_exists($prodInfo->PROD_IMG))?asset('uPackage.png'):asset($prodInfo->PROD_IMG)}}" alt="" />
-                                                </a>
-                                            </span>
-                                        </div>
-                                        <input class="form-control" name=prodimg type="file">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
