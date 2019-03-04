@@ -107,8 +107,8 @@ Route::resource('/','frontProductsController');
 
 Route::post('/loginSympiesAccount',function(\Illuminate\Http\Request $request){
 
-    $login = 'http://sympies.pupqc.net/getLogin.php';
-    $profile = 'http://sympies.pupqc.net/getProfileDetails.php';
+    $login = 'http://localhost/zax/getLogin.php';
+    $profile = 'http://localhost/zax/getProfileDetails.php';
 
     $actor = $request->actor;
     $password = $request->password;

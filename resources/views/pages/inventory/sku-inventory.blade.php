@@ -6,12 +6,12 @@
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
         <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
-        <li class="breadcrumb-item"><a href="javascript:;">Remaining Inventory</a></li>
+        <li class="breadcrumb-item"><a href="javascript:;">Stock Keeping Unit</a></li>
         <li class="breadcrumb-item active">List</li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">Stock Keeping Unit <small>...</small></h1>
+    <h1 class="page-header">Stock Keeping Unit <small> {{$prod->PROD_CODE}}</small></h1>
     <!-- end page-header -->
     <div class="row">
         <!-- begin col-3 -->
@@ -120,7 +120,19 @@
                 </div>
                 <!-- end panel-heading -->
 
-            {{--<div class="panel-body bg-black text-white"> </div>--}}
+            <div class="panel-body bg-black text-white">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 class="text-white">{{$prod->PROD_NAME}}</h3>
+                        <i style="font-size: 12px" class="text-white"> {{$prod->PROD_NAME}}</i>
+                        <br><span style="font-size: 15px" class="text-white"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <span>P</span>
+                    </div>
+                </div>
+
+            </div>
             <!-- begin alert -->
 
                 @if(session('success') || session('error') )
@@ -137,23 +149,22 @@
                     <table id="data-table-buttons" class="table table-bordered">
                         <thead>
                         <tr>
-                            <th style="width: 20%">Product Info</th>
-                            <th>Product SKU</th>
+                            <th style="width: 20%">Product Variance Info</th>
+                            <th>Product Variance SKU</th>
                             <th>Acquired</th>
                             <th>Orders</th>
                             <th>Disposed</th>
-                            <th style="background: #7ff77f;">Total Inventory</th>
+                            <th>Total Variance Inventory</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($inventory as $item)
-                            <tr style="background: {{($item->PROD_CRITICAL>=$item->TOTAL)?'#ffc1c7':'#d0ffd0'}}">
+                        @foreach($prodvar as $item)
+                            <tr  >
                                 <td>
-                                    <strong style="margin-bottom:50px">{{ $item->PROD_NAME}}</strong>
-                                    <br><i style="display: -webkit-box;max-height: 3.2rem;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;white-space: normal;-webkit-line-clamp: 2;font-weight: 500;">{{ $item->PROD_DESC }}</i>
-                                    <br><i style="color:orangered">Critical Value: {{ $item->PROD_CRITICAL }}</i>
+                                    <strong style="margin-bottom:50px">{{ $item->PRODV_NAME}}</strong>
+                                    <br><i style="display: -webkit-box;max-height: 3.2rem;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;white-space: normal;-webkit-line-clamp: 2;font-weight: 500;">{{ $item->PRODV_DESC }}</i>
                                 </td>
-                                <td><strong><center>{{$item->PROD_CODE}}</center></strong></td>
+                                <td><strong><center>{{$item->PRODV_SKU}}</center></strong></td>
                                 <td><strong><center>{{$item->CAPITAL}}</center></strong></td>
                                 <td><strong><center>{{$item->ORDER}}</center></strong></td>
                                 <td><strong><center>{{$item->DISPOSED}}</center></strong></td>
@@ -162,12 +173,12 @@
                         @endforeach
                         </tbody>
                         <tfoot>
-                        <th style="width: 20%">Product Info</th>
-                        <th>Product SKU</th>
-                        <th><center>{{$inventory->sum('CAPITAL')}}</center></th>
-                        <th><center>{{$inventory->sum('ORDER')}}</center></th>
-                        <th><center>{{$inventory->sum('DISPOSED')}}</center></th>
-                        <th style="background: #7ff77f;"><center>{{$inventory->sum('TOTAL')}}</center></th>
+                        <th style="width: 20%">Product Variance Info</th>
+                        <th>Product Variance SKU</th>
+                        <th><center>{{$prodvar->sum('CAPITAL')}}</center></th>
+                        <th><center>{{$prodvar->sum('ORDER')}}</center></th>
+                        <th><center>{{$prodvar->sum('DISPOSED')}}</center></th>
+                        <th><center>{{$prodvar->sum('TOTAL')}}</center></th>
                         </tfoot>
                     </table>
                 </div>

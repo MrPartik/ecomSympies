@@ -151,9 +151,9 @@
                                 <td data-toggle="tooltip" title="Product Information">
                                     <strong style="margin-bottom:50px">{{ $item->PROD_NAME}}</strong>
                                     <br><i style="display: -webkit-box;max-height: 3.2rem;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;white-space: normal;-webkit-line-clamp: 2;font-weight: 500;">{{ $item->PROD_DESC }}</i>
-                                    <br><i style="color:orangered">Critical Value: {{ $item->PROD_CRITICAL }}</i>
+                                    {{--<br><i style="color:orangered">Critical Value: {{ $item->PROD_CRITICAL }}</i>--}}
                                 </td>
-                                <td data-toggle="tooltip" title="Product SKU"><strong><center><a href="{{url('inventory-remaining/'.$item->PROD_CODE)}}">{{$item->PROD_CODE}}</a></center></strong></td>
+                                <td data-toggle="tooltip" title="Product SKU - {{\App\t_product_variance::where('PROD_ID',$item->PROD_ID)->count()}}"><strong><center><a target="_blank" href="{{url('inventory-remaining/'.$item->PROD_CODE)}}">{{$item->PROD_CODE}}</a></center></strong></td>
                                 <td data-toggle="tooltip" title="Total Acquired Inventory"><strong><center>{{$item->CAPITAL}}</center></strong></td>
                                 <td data-toggle="tooltip" title="Total Orders"><strong><center>{{$item->ORDER}}</center></strong></td>
                                 <td data-toggle="tooltip" title="Total Disposed or Dispatched"><strong><center>{{$item->DISPOSED}}</center></strong></td>

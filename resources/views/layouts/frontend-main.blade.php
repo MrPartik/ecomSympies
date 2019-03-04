@@ -303,7 +303,7 @@
                             </li>
                             <li class="divider"></li> -->
                             <li>
-                                <a href="#login" data-toggle="modal" >
+                                <a href="{{(!is_null($account))?'javascript:;':'#login'}}" data-toggle="modal" >
                                     <img src="{{asset('assets/img/user/user-12.jpg')}}" class="user-img" alt="" />
                                     <span class="hidden-md hidden-sm hidden-xs">
                                       {{(!is_null($account))?$account['NAME']:'Not Logged In'}}
