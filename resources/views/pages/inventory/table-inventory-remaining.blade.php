@@ -167,11 +167,78 @@
                                         </center>
                                     </strong>
                                 </td>
-                                <td data-toggle="tooltip" title="Total Acquired Inventory"><strong><center>{{$item->CAPITAL}}</center></strong></td>
+                                <td data-toggle="tooltip" title="Total Acquired Inventory"><strong><center><a href="#acquire{{$item->PROD_ID}}" data-toggle="modal" style="color:green">{{$item->CAPITAL}}</a></center></strong></td>
                                 <td data-toggle="tooltip" title="Total Orders"><strong><center>{{$item->ORDER}}</center></strong></td>
-                                <td data-toggle="tooltip" title="Total Disposed or Dispatched"><strong><center>{{$item->DISPOSED}}</center></strong></td>
+                                <td data-toggle="tooltip" title="Total Disposed or Dispatched"><strong><center><a href="#dispose{{$item->PROD_ID}}" data-toggle="modal" style="color:darkred">{{$item->DISPOSED}}</a></center></strong></td>
                                 <td style="background: {{($item->PROD_CRITICAL>=$item->TOTAL)?'#ffc1c7':'#d0ffd0'}}" data-toggle="tooltip" title="Total Inventory"><strong><center>{{$item->TOTAL}}</center></strong></td>
                             </tr>
+                            <div class="modal fade" id="acquire{{$item->PROD_ID}}">
+                                <div class="modal-dialog" style="width:500px;">
+                                    <div class="modal-content">
+                                        <div class="modal-header" style="background: #96ceff;">
+                                            <h4 class="modal-title">Acquire/ Add Stocks</h4>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <form method="post" action="{{url('/inventory-acquire/product')}}">
+                                                {{csrf_field()}}
+                                            <div class="row" style="padding-left:10px;padding-right: 10px;">
+                                                <div class="alert alert-success " style="width: 100%;">
+                                                    <strong>{{$item->PROD_NAME}}</strong><br>
+                                                    <small>{{$item->PROD_DESC}}</small>
+                                                </div>
+                                                    <input name="PROD_ID" style="display: none;" value="{{$item->PROD_ID}}">
+                                                    <div class="col-md-12" style="padding-bottom: 50px;">
+                                                        <label>Quantity</label>
+                                                        <input class="form-control" name=qty type="number" placeholder="Quantity" required>
+                                                    </div>
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <div class="col-md-12" style="position: absolute;bottom: 10px;left: 70%;">
+                                                    <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cancel</a>
+                                                    <button  type="submit" class="btn btn-success">Save</button>
+                                                </div>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="dispose{{$item->PROD_ID}}">
+                                <div class="modal-dialog" style="width:500px;">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-danger" >
+                                            <h4 class="modal-title">Dispose/ Remove Stocks</h4>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <form method="post" action="{{url('/inventory-dispose/product')}}">
+                                                {{csrf_field()}}
+                                                <div class="row" style="padding-left:10px;padding-right: 10px;">
+                                                    <div class="alert alert-danger " style="width: 100%;">
+                                                        <strong>{{$item->PROD_NAME}}</strong><br>
+                                                        <small>{{$item->PROD_DESC}}</small>
+                                                    </div>
+                                                    <input name="PROD_ID" style="display: none;" value="{{$item->PROD_ID}}">
+                                                    <div class="col-md-12" style="padding-bottom: 50px;">
+                                                        <label>Quantity</label>
+                                                        <input class="form-control" name=qty type="number" placeholder="Quantity" required>
+                                                    </div>
+                                                    <br>
+                                                    <br>
+                                                    <br>
+                                                    <div class="col-md-12" style="position: absolute;bottom: 10px;left: 70%;">
+                                                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cancel</a>
+                                                        <button  type="submit" class="btn btn-success">Save</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @endforeach
                         </tbody>
                         <tfoot>
@@ -190,68 +257,7 @@
         </div>
         <!-- end col-10 -->
     </div>
-    <!-- end row -->
-    <div class="modal modal-message fade" id="taxreferencesetup" >
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Product Tax</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <div class="modal-body">
 
-                    <form method="post" id="taxModal" action="{{url('tax')}}"  enctype="multipart/form-data">
-                        {{csrf_field()}}
-                        <input type="hidden" name="_method" value="POST" />
-                        <div class="row">
-
-                            <div class="col-md-12" style="padding-bottom: 20px;">
-                                <strong>Are you sure? you want to edit this record?</strong>
-                                <p>Please provide the following inputs to validate the record.</p>
-                            </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Name</label>
-                                        <input class="form-control" name=taxname placeholder="Name" required>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Rate</label>
-                                        <input class="form-control" name=taxrate type="number" placeholder="Rate" required>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Type</label>
-                                        <select class="form-control " name="taxtype" style="width: 100%;" required>
-                                            <option selected="selected"  disabled>Please Select Type</option>
-                                            <option value=0 >Percentage</option>
-                                            <option value=1 >Fixed</option>
-
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Description</label>
-                                        <textarea class="form-control" name=taxdesc style="resize:vertical; width:100%;height:107px" placeholder="Description" required></textarea>
-                                    </div>
-                                </div>
-                                <!-- /.row -->
-                            <div class="col-md-12" >
-                                <div class="pull-right" style="margin-right: 10px;">
-                                    <button class="btn btn-success" type="submit" >Save</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 @endsection

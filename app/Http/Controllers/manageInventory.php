@@ -47,7 +47,7 @@ class manageInventory extends Controller
 					+(SELECT IFNULL(SUM(QPRODV.PRODV_INIT_QTY),0) FROM t_product_variances QPRODV WHERE QPRODV.PROD_ID = PRODV.PROD_ID AND QPRODV.PRODV_ID = PRODV.PRODV_ID)) CAPITAL
 			,(SELECT IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE='DISPOSE' AND INV.PROD_ID=PRODV.PROD_ID AND INV.PRODV_ID = PRODV.PRODV_ID) DISPOSED
 			,(SELECT IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE='ORDER' AND INV.PROD_ID=PRODV.PROD_ID AND INV.PRODV_ID = PRODV.PRODV_ID) 'ORDER'
-			,((SELECT IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE='CAPITAL' AND INV.PROD_ID=PRODV.PROD_ID AND INV.PRODV_ID = PRODV.PRODV_ID)
+			,((SELECT IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE (INV.INV_TYPE='CAPITAL' OR INV.INV_TYPE='ADD') AND INV.PROD_ID=PRODV.PROD_ID AND INV.PRODV_ID = PRODV.PRODV_ID)
 					+(SELECT -IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE='DISPOSE' AND INV.PROD_ID=PRODV.PROD_ID AND INV.PRODV_ID = PRODV.PRODV_ID)
 					+(SELECT -IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE='ORDER' AND INV.PROD_ID=PRODV.PROD_ID AND INV.PRODV_ID = PRODV.PRODV_ID)
 					+(SELECT IFNULL(SUM(QPRODV.PRODV_INIT_QTY),0) FROM t_product_variances QPRODV WHERE QPRODV.PROD_ID = PRODV.PROD_ID AND QPRODV.PRODV_ID = PRODV.PRODV_ID)) TOTAL  
@@ -123,5 +123,53 @@ class manageInventory extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function productAcquire(Request $request){
+        $inv = new r_inventory_info();
+
+        $inv->PROD_ID = $request->PROD_ID;
+        $inv->INV_QTY = $request->qty;
+        $inv->INV_TYPE = 'ADD';
+        $inv->save();
+
+        return redirect()->back();
+
+    }
+    public function productDispose(Request $request){
+        $inv = new r_inventory_info();
+
+        $inv->PROD_ID = $request->PROD_ID;
+        $inv->INV_QTY = $request->qty;
+        $inv->INV_TYPE = 'DISPOSE';
+        $inv->save();
+
+        return redirect()->back();
+
+    }
+
+    public function productVAcquire(Request $request){
+        $inv = new r_inventory_info();
+
+        $inv->PROD_ID = $request->PROD_ID;
+        $inv->PRODV_ID = $request->PRODV_ID;
+        $inv->INV_QTY = $request->qty;
+        $inv->INV_TYPE = 'ADD';
+        $inv->save();
+
+        return redirect()->back();
+
+    }
+    public function productVDispose(Request $request){
+        $inv = new r_inventory_info();
+
+        $inv->PROD_ID = $request->PROD_ID;
+        $inv->PRODV_ID = $request->PRODV_ID;
+        $inv->INV_QTY = $request->qty;
+        $inv->INV_TYPE = 'DISPOSE';
+        $inv->save();
+
+        return redirect()->back();
+
     }
 }

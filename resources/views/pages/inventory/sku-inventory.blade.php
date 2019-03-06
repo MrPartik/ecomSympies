@@ -128,8 +128,7 @@
                         <br><span style="font-size: 15px" class="text-white"></span>
                     </div>
                     <div class="col-md-6">
-                        <span>Total Remaining Inventory, including the products and its variance. </span>
-                        <span>{{Sympies::returnProdInventory()->where('PROD_ID',$prod->PROD_ID)->sum('CAPITAL')}}</span>
+                        <span>Total Remaining Inventory, including the products and its variance. </span><span style="font-size: 26px;background: gray;font-weight: bolder;padding: 2px;">{{Sympies::returnProdInventory()->where('PROD_ID',$prod->PROD_ID)->sum('TOTAL')}}</span>
                     </div>
                 </div>
 
@@ -166,10 +165,80 @@
                                     <br><i style="display: -webkit-box;max-height: 3.2rem;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;white-space: normal;-webkit-line-clamp: 2;font-weight: 500;">{{ $item->PRODV_DESC }}</i>
                                 </td>
                                 <td><strong><center>{{$item->PRODV_SKU}}</center></strong></td>
-                                <td><strong><center>{{$item->CAPITAL}}</center></strong></td>
-                                <td><strong><center>{{$item->ORDER}}</center></strong></td>
-                                <td><strong><center>{{$item->DISPOSED}}</center></strong></td>
+                                <td data-toggle="tooltip" title="Total Acquired Inventory"><strong><center><a href="#acquire{{$item->PRODV_ID}}" data-toggle="modal" style="color:green">{{$item->CAPITAL}}</a></center></strong></td>
+                                <td data-toggle="tooltip" title="Total Orders"><strong><center>{{$item->ORDER}}</center></strong></td>
+                                <td data-toggle="tooltip" title="Total Disposed or Dispatched"><strong><center><a href="#dispose{{$item->PRODV_ID}}" data-toggle="modal" style="color:darkred">{{$item->DISPOSED}}</a></center></strong></td>
                                 <td><strong><center>{{$item->TOTAL}}</center></strong></td>
+
+                                <div class="modal fade" id="acquire{{$item->PRODV_ID}}">
+                                    <div class="modal-dialog" style="width:500px;">
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="background: #96ceff;">
+                                                <h4 class="modal-title">Acquire/ Add Stocks</h4>
+                                            </div>
+                                            <div class="modal-body">
+
+                                                <form method="post" action="{{url('/inventory-acquire/variance')}}">
+                                                    {{csrf_field()}}
+                                                    <div class="row" style="padding-left:10px;padding-right: 10px;">
+                                                        <div class="alert alert-success " style="width: 100%;">
+                                                            <strong>{{$item->PRODV_NAME}}</strong><br>
+                                                            <small>{{$item->PRODV_DESC}}</small>
+                                                        </div>
+                                                        <input name="PROD_ID" style="display: none;" value="{{$prod->PROD_ID}}">
+                                                        <input name="PRODV_ID" style="display: none;" value="{{$item->PRODV_ID}}">
+                                                        <div class="col-md-12" style="padding-bottom: 50px;">
+                                                            <label>Quantity</label>
+                                                            <input class="form-control" name=qty type="number" placeholder="Quantity" required>
+                                                        </div>
+                                                        <br>
+                                                        <br>
+                                                        <br>
+                                                        <div class="col-md-12" style="position: absolute;bottom: 10px;left: 70%;">
+                                                            <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cancel</a>
+                                                            <button  type="submit" class="btn btn-success">Save</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="dispose{{$item->PRODV_ID}}">
+                                    <div class="modal-dialog" style="width:500px;">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-danger" >
+                                                <h4 class="modal-title">Dispose/ Remove Stocks</h4>
+                                            </div>
+                                            <div class="modal-body">
+
+                                                <form method="post" action="{{url('/inventory-dispose/variance')}}">
+                                                    {{csrf_field()}}
+                                                    <div class="row" style="padding-left:10px;padding-right: 10px;">
+                                                        <div class="alert alert-danger " style="width: 100%;">
+                                                            <strong>{{$item->PRODV_NAME}}</strong><br>
+                                                            <small>{{$item->PRODV_DESC}}</small>
+                                                        </div>
+                                                        <input name="PROD_ID" style="display: none;" value="{{$prod->PROD_ID}}">
+                                                        <input name="PRODV_ID" style="display: none;" value="{{$item->PRODV_ID}}">
+                                                        <div class="col-md-12" style="padding-bottom: 50px;">
+                                                            <label>Quantity</label>
+                                                            <input class="form-control" name=qty type="number" placeholder="Quantity" required>
+                                                        </div>
+                                                        <br>
+                                                        <br>
+                                                        <br>
+                                                        <div class="col-md-12" style="position: absolute;bottom: 10px;left: 70%;">
+                                                            <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cancel</a>
+                                                            <button  type="submit" class="btn btn-success">Save</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </tr>
                         @endforeach
                         </tbody>

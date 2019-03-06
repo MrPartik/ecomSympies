@@ -53,14 +53,14 @@
 
                 </ul>
             </li>
-            <li class="has-sub {{(Request::is('inventory-remaining')||Request::is('inventory-manage'))?'active':'' }}">
+            <li class="has-sub {{(Request::is('inventory-remaining')||Request::is('inventory-manage')||Route::is('sku'))?'active':'' }}">
                 <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="fa fa-chart-pie"></i>
                     <span>Inventory</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="{{Request::is('inventory-remaining')?'active':''}}"><a href="{{url('inventory-remaining')}}">Remaining Inventory</a></li>
+                    <li class="{{Request::is('inventory-remaining')||Route::is('sku')?'active':''}}"><a href="{{url('inventory-remaining')}}">Remaining Inventory</a></li>
 {{--                    <li class="{{Request::is('inventory-manage')?'active':''}}"><a href="{{url('inventory-manage')}}">Manage Inventory</a></li>--}}
                 </ul>
             </li>

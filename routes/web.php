@@ -55,7 +55,13 @@ Route::group(['middleware' => ['authenticate']], function() {
 
     Route::get('inventory-remaining','manageInventory@index');
     Route::get('inventory-manage','manageInventory@manageInventory');
-    Route::get('inventory-remaining/{sku}','manageInventory@skuInventory');
+    Route::get('inventory-remaining/{sku}','manageInventory@skuInventory')->name('sku');
+
+    Route::post('inventory-acquire/product','manageInventory@productAcquire');
+    Route::post('inventory-dispose/product','manageInventory@productDispose');
+
+    Route::post('inventory-acquire/variance','manageInventory@productVAcquire');
+    Route::post('inventory-dispose/variance','manageInventory@productVDispose');
 
 
 

@@ -448,7 +448,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cance</a>
+                    <a href="javascript:;" class="btn btn-white" data-dismiss="modal"><Cancel></Cancel></a>
                     <a href="javascript:;" type="submit" id="loginbtn" class="btn btn-success">Login</a>
                 </div>
             </div>
