@@ -128,7 +128,8 @@
                         <br><span style="font-size: 15px" class="text-white"></span>
                     </div>
                     <div class="col-md-6">
-                        <span>P</span>
+                        <span>Total Remaining Inventory, including the products and its variance. </span>
+                        <span>{{Sympies::returnProdInventory()->where('PROD_ID',$prod->PROD_ID)->sum('CAPITAL')}}</span>
                     </div>
                 </div>
 

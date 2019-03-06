@@ -7,6 +7,7 @@ use App\t_setup;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use vakata\database\Exception;
+use Illuminate\Support\Facades\DB;
 
 class sympiesProvider extends ServiceProvider
 {
@@ -30,6 +31,29 @@ class sympiesProvider extends ServiceProvider
         //
     }
 
+    public static function returnProdInventory(){
+        $inventory = collect(DB::SELECT("SELECT 
+			PROD.PROD_ID
+			,PROD.PROD_NAME 
+			,PROD.PROD_DESC
+			,PROD.PROD_CODE
+			,PROD.PROD_IMG
+			,PROD.PROD_CRITICAL 
+			,((SELECT IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE (INV.INV_TYPE='CAPITAL' OR INV.INV_TYPE='ADD') AND INV.PROD_ID=PROD.PROD_ID)
+					+(SELECT IFNULL(SUM(PRODV.PRODV_INIT_QTY),0) FROM t_product_variances PRODV WHERE PRODV.PROD_ID = PROD.PROD_ID)
+					+(SELECT IFNULL(SUM(QPROD.PROD_INIT_QTY),0) FROM r_product_infos QPROD WHERE QPROD.PROD_ID = PROD.PROD_ID)) CAPITAL
+			,(SELECT IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE='DISPOSE' AND INV.PROD_ID=PROD.PROD_ID) DISPOSED
+			,(SELECT IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE='ORDER' AND INV.PROD_ID=PROD.PROD_ID) 'ORDER'
+			,((SELECT IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE='CAPITAL' AND INV.PROD_ID=PROD.PROD_ID)
+					+(SELECT -IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE='DISPOSE' AND INV.PROD_ID=PROD.PROD_ID)
+					+(SELECT -IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE='ORDER' AND INV.PROD_ID=PROD.PROD_ID)
+					+(SELECT IFNULL(SUM(PRODV.PRODV_INIT_QTY),0) FROM t_product_variances PRODV WHERE PRODV.PROD_ID = PROD.PROD_ID)
+					+(SELECT IFNULL(SUM(PROD_INIT_QTY),0) FROM r_product_infos
+					t_infos WHERE PROD_ID = PROD.PROD_ID)) TOTAL
+					FROM r_product_infos PROD
+					"));
+        return $inventory;
+    }
     public static  function isAvailable ($val){
         $start = "";
         $end = "";

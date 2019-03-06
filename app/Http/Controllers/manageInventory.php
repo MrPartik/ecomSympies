@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Providers\sympiesProvider;
 use App\r_inventory_info;
 use App\r_product_info;
 use App\t_product_variance;
@@ -19,27 +20,8 @@ class manageInventory extends Controller
      */
     public function index()
     {
-        $inventory = collect(DB::SELECT("SELECT 
-			PROD.PROD_ID
-			,PROD.PROD_NAME 
-			,PROD.PROD_DESC
-			,PROD.PROD_CODE
-			,PROD.PROD_IMG
-			,PROD.PROD_CRITICAL 
-			,((SELECT IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE (INV.INV_TYPE='CAPITAL' OR INV.INV_TYPE='ADD') AND INV.PROD_ID=PROD.PROD_ID)
-					+(SELECT IFNULL(SUM(PRODV.PRODV_INIT_QTY),0) FROM t_product_variances PRODV WHERE PRODV.PROD_ID = PROD.PROD_ID)
-					+(SELECT IFNULL(SUM(QPROD.PROD_INIT_QTY),0) FROM r_product_infos QPROD WHERE QPROD.PROD_ID = PROD.PROD_ID)) CAPITAL
-			,(SELECT IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE='DISPOSE' AND INV.PROD_ID=PROD.PROD_ID) DISPOSED
-			,(SELECT IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE='ORDER' AND INV.PROD_ID=PROD.PROD_ID) 'ORDER'
-			,((SELECT IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE='CAPITAL' AND INV.PROD_ID=PROD.PROD_ID)
-					+(SELECT -IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE='DISPOSE' AND INV.PROD_ID=PROD.PROD_ID)
-					+(SELECT -IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE='ORDER' AND INV.PROD_ID=PROD.PROD_ID)
-					+(SELECT IFNULL(SUM(PRODV.PRODV_INIT_QTY),0) FROM t_product_variances PRODV WHERE PRODV.PROD_ID = PROD.PROD_ID)
-					+(SELECT IFNULL(SUM(PROD_INIT_QTY),0) FROM r_produc
-					t_infos WHERE PROD_ID = PROD.PROD_ID)) TOTAL
-					FROM r_product_infos PROD
-					"));
 
+        $inventory = sympiesProvider::returnProdInventory();
         return view('pages.inventory.table-inventory-remaining',compact('inventory'));
 
     }
@@ -52,7 +34,7 @@ class manageInventory extends Controller
     public function skuInventory($sku,Request $request){
         try {
             $prod = r_product_info::where('PROD_CODE', $sku)->first();
-            $prodvar = collect(DB::SELECT("
+            $prodvar = collect(DB::SELECT("    
         SELECT 
 			PRODV.PRODV_ID
 			,PRODV.PRODV_NAME
