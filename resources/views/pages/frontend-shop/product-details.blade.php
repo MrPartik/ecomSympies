@@ -226,30 +226,18 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="cart-summary" colspan="4">
-                                                        <div style="float: left">
+                                                        <div style="float: left; width: 25%">
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                     <div class="form-group">
-                                                                        <label class="control-label col-md-4">
-                                                                            Email <span class="text-danger">*</span>
-                                                                            <small>Reciever</small>
-                                                                        </label>
-                                                                        <div class="col-md-8">
-                                                                            <input type="text" class="form-control" name="to_email" value="" placeholder="" required />
-                                                                        </div>
+                                                                            <input type="text" class="form-control" name="to_email" value="" placeholder="Receiver`s Email" required />
                                                                     </div>
                                                                 </div>
                                                                 <br>
                                                                 <div class="col-md-12" style="margin-top: 10px;">
                                                                     <div class="form-group">
-                                                                        <label class="control-label col-md-4">
-                                                                            Contact <span class="text-danger">*</span>
-                                                                            <small>Reciever</small>
-                                                                        </label>
-                                                                        <div class="col-md-8">
-                                                                            <input type="text" class="form-control" name="to_contact" value="" placeholder="" required/>
+                                                                            <input type="text" class="form-control" name="to_contact" value="" placeholder="Receiver`s Contact Number" required/>
                                                                         </div>
-                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>

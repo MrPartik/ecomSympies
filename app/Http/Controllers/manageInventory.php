@@ -9,6 +9,7 @@ use App\t_product_variance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use vakata\database\Exception;
+use Illuminate\Support\Facades\Auth;
 
 
 class manageInventory extends Controller
@@ -21,7 +22,12 @@ class manageInventory extends Controller
     public function index()
     {
 
+        $prodInfo = r_product_info::all();
+        (Auth::user()->role=='admin')?'':$prodInfo=$prodInfo->where('AFF_ID',Auth::user()->AFF_ID);
+
         $inventory = sympiesProvider::returnProdInventory();
+        $inventory = $inventory->whereIn('PROD_ID',$prodInfo->pluck('PROD_ID')->toArray());
+
         return view('pages.inventory.table-inventory-remaining',compact('inventory'));
 
     }

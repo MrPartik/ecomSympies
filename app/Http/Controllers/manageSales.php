@@ -4,11 +4,31 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\r_product_info;
+use App\t_order_item;
+use App\t_order;
+use Illuminate\Support\Facades\Auth;
 
 class manageSales extends Controller
 {
     //
     public function sales(){
+
+
+        $prodInfo = r_product_info::all();
+        (Auth::user()->role=='admin')?'':$prodInfo=$prodInfo->where('AFF_ID',Auth::user()->AFF_ID);
+
+        $prodInfo = r_product_info::all();
+        (Auth::user()->role=='admin')?'':$prodInfo=$prodInfo->where('AFF_ID',Auth::user()->AFF_ID);
+
+        $order_item = t_order_item::with('tOrder','rProductInfo')
+            ->get();
+        $order_item = $order_item->whereIn('PROD_ID',$prodInfo->pluck('PROD_ID')->toArray());
+
+        $order = t_order::all();
+        $order = $order->whereIn('ORD_ID',$order_item->pluck('ORD_ID')->toArray());
+
+
 
         $customer = collect(DB::SELECT("
         SELECT  ORD.ORD_FROM_NAME FROM_NAME
@@ -25,6 +45,7 @@ class manageSales extends Controller
         WHERE ORD.ORD_STATUS ='Completed'
         GROUP BY ORD.ORD_FROM_NAME
         "));
+        $customer = $customer->whereIn('FROM_NAME',$order->pluck('ORD_FROM_NAME')->toArray());
 
         $stock = collect(DB::SELECT("
         SELECT ORDI.PROD_SKU SKU
@@ -42,6 +63,7 @@ class manageSales extends Controller
         WHERE ORD.ORD_STATUS ='Completed'
         GROUP BY ORDI.PROD_SKU,ORDI.PROD_NAME
         "));
+        $stock = $stock->whereIn('SKU',$order_item->pluck('PROD_SKU')->toArray());
 
         return view('pages.sales.sales',compact('customer','stock'));
 

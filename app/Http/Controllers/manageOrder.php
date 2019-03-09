@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\r_product_info;
 use App\t_order;
 use App\t_order_item;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use vakata\database\Exception;
 
 class manageOrder extends Controller
@@ -17,9 +19,15 @@ class manageOrder extends Controller
      */
     public function index()
     {
-        $order = t_order::all();
+        $prodInfo = r_product_info::all();
+        (Auth::user()->role=='admin')?'':$prodInfo=$prodInfo->where('AFF_ID',Auth::user()->AFF_ID);
+
         $order_item = t_order_item::with('tOrder','rProductInfo')
             ->get();
+        $order_item = $order_item->whereIn('PROD_ID',$prodInfo->pluck('PROD_ID')->toArray());
+
+        $order = t_order::all();
+        $order = $order->whereIn('ORD_ID',$order_item->pluck('ORD_ID')->toArray());
 
         return view('pages.orders.table-orders',compact('order','order_item'));
 

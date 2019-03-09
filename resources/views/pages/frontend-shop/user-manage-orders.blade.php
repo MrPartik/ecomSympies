@@ -31,6 +31,19 @@
                         <div class="panel panel-inverse">
                             <div class="panel-heading" style="background: {{$color}}; color:black">
                                 <h4 class="panel-title">
+                                    <div class="pull-right" style="margin-top:3px">
+                                        @php
+                                            $pending_at = $item->created_at;
+                                            $today = \Carbon\Carbon::today();
+                                            $timediff = strtotime($today) - strtotime($pending_at);
+                                        @endphp
+                                        @if($status=='Pending' && $timediff < 86400)
+                                            <button class="btn btn-warning" data-toggle="tooltip" title="Cancellation Request"><i class="fa fa-times"></i></button>
+                                        @endif
+                                        @if($status=='Completed')
+                                            <button class="btn btn-danger" data-toggle="tooltip" title="Refund Request"><i class="fa fa-exchange"></i></button>
+                                        @endif
+                                    </div>
                                     <a data-toggle="collapse" href="#order-{{$item->ORD_ID}}">
                                         <i class="fa fa-truck"></i>
                                         {{ (new DateTime($item->created_at))->format('D M d, Y | h:i A') }} - {{$item->ORD_TO_EMAIL}}, {{$item->ORD_SYMP_TRANS_CODE}}  - {{ucwords($item->ORD_STATUS)}}
