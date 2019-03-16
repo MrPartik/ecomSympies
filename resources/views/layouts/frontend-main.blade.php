@@ -1,5 +1,6 @@
 @php
-    $account = Session::get('sympiesAccount');
+    $account = \Session::get('sympiesAccount');
+
 @endphp
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->

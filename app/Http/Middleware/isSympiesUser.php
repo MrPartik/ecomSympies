@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Session;
+use phpDocumentor\Reflection\Types\Null_;
 
 class isSympiesUser
 {
@@ -16,7 +17,7 @@ class isSympiesUser
      */
     public function handle($request, Closure $next)
     {
-        if ( Session::get('sympiesAccount')){
+        if ( session()->has('sympiesAccount')){
             return $next($request);
         }
         return 'Please Login as Sympies User';
