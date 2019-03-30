@@ -83,6 +83,10 @@
 <script src="{{asset('assets/plugins/parsley/dist/parsley.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery-smart-wizard/src/js/jquery.smartWizard.js')}}"></script>
 <script src="{{asset('assets/js/demo/form-wizards-validation.demo.min.js')}}"></script>
+
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
 <script>
     function padDigits(number, digits) {
         return Array(Math.max(digits - String(number).length + 1, 0)).join(0) + number;

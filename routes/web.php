@@ -44,6 +44,7 @@ Route::group(['middleware' => ['authenticate']], function() {
     Route::resource('/order','manageOrder',['names'=>['index'=>'order','create'=>'order','edit'=>'order']]);
 
     Route::get('/sales','manageSales@sales');
+    Route::get('/salesJSON','manageSales@stockSalesJSON');
 
 
 //    Route::get('order-pending','manageOrder@index');
@@ -113,8 +114,8 @@ Route::resource('/','frontProductsController');
 
 Route::post('/loginSympiesAccount',function(\Illuminate\Http\Request $request){
 
-    $login = 'http://localhost/zax/getLogin.php';
-    $profile = 'http://localhost/zax/getProfileDetails.php';
+    $login = 'http://sympies.pupqc.net/aaa/getLogin.php';
+    $profile = 'http://sympies.pupqc.net/aaa/getProfileDetails.php';
 
     $actor = $request->actor;
     $password = $request->password;
@@ -166,5 +167,6 @@ Route::get('/logoutSympiesAccount/{id}',function($id){
     return $get;
 });
 
+Route::get('/mail','mailer@sendEmailReminder');
 
 

@@ -45,7 +45,7 @@
                                         {{$item->PRICE}}
                                     </span>
 
-                                    <div class="item-discount-price" style="text-decoration:line-through; ">{{$item->DISCOUNT}}</div>
+                                    @if($item->DISCOUNT)<div class="item-discount-price" style="text-decoration:line-through; ">{{$item->DISCOUNT}}</div>@endif
                                 </div>
                                 <a href="{{url('product/details/'.$item->PROD_ID)}}" class="btn btn-outline btn-lg fadeInRightBig animated">View</a>
                             </div>
@@ -93,7 +93,8 @@
                         <div class="item item-thumbnail">
                             <a href="{{url('product/details/'.$item->PROD_ID)}}" class="item-image">
                                 <img src="{{($item->PROD_IMG==null||!file_exists($item->PROD_IMG))?asset('uPackage.png'):asset($item->PROD_IMG)}}" alt="" />
-                                    <div class="discount" >{{$discount=$item->PROD_DISCOUNT}}% OFF</div>
+                                @php $discount=0 @endphp
+                                @if($discount)<div class="item-discount-price" style="text-decoration:line-through; ">{{$discount= $item->DISCOUNT}}</div>@endif
                             </a>
                             <div class="item-info">
                                 <h4 class="item-title">
@@ -187,7 +188,8 @@
                             <div class="item item-thumbnail">
                                 <a href="{{url('product/details/'.$item->PROD_ID)}}" class="item-image">
                                     <img src="{{($item->PROD_IMG==null||!file_exists($item->PROD_IMG))?asset('uPackage.png'):asset($item->PROD_IMG)}}" alt="" />
-                                    <div class="discount" >{{$discount=$item->PROD_DISCOUNT}}% OFF</div>
+                                    @php $discount=0 @endphp
+                                    @if($discount)<div class="item-discount-price" style="text-decoration:line-through; ">{{$discount= $item->DISCOUNT}}</div>@endif
                                 </a>
                                 <div class="item-info">
                                     <h4 class="item-title">
@@ -453,6 +455,7 @@
                             $start="";
                             $end="";
                             $pic="/uPackage.png";
+                            $discText= " ";
                             if($i%3==1)
                                 $start="<div class='item-row'>";
                             if($i%3==0 || $data.count )
@@ -460,8 +463,10 @@
                             if(val.PROD_IMG)
                                 $pic=val.PROD_IMG;
 
+                            if(val.PROD_DISCOUNT)
+                                $discText = "<div class='discount' >"+val.PROD_DISCOUNT+"% OFF</div>";
 
-                            $datas += $start+"<div class='item item-thumbnail'> <a href='/product/details/"+val.PROD_ID+"' class='item-image'> <img src='"+$pic+"' />  <div class='discount' >"+val.PROD_DISCOUNT+"% OFF</div> </a> <div class='item-info'> <h4 class='item-title'>  <a href='/product/details/"+val.PROD_ID+"'>"+val.PROD_NAME+"<br /> <span style='color:gray'>"+val.r_affiliate_info.AFF_NAME+"</span></a>" +
+                            $datas += $start+"<div class='item item-thumbnail'> <a href='/product/details/"+val.PROD_ID+"' class='item-image'> <img src='"+$pic+"' />"+$discText+"</a> <div class='item-info'> <h4 class='item-title'>  <a href='/product/details/"+val.PROD_ID+"'>"+val.PROD_NAME+"<br /> <span style='color:gray'>"+val.r_affiliate_info.AFF_NAME+"</span></a>" +
                                 "</h4> <p class='item-desc'  title='"+val.PROD_DESC+"'>"+val.PROD_DESC+"</p> <div class='item-price'>"+val.PRICE+"</div>" +
                                 "<div class='item-discount-price'>"+val.DISCOUNT+"</div></div> </div>"+$end;
                             $i++;
@@ -511,7 +516,10 @@
                             if(val.PROD_IMG)
                                 $pic=val.PROD_IMG;
 
-                            $datas += $start+"<div class='item item-thumbnail'> <a href='/product/details/"+val.PROD_ID+"' class='item-image'> <img src='"+$pic+"' />  <div class='discount' >"+val.PROD_DISCOUNT+"% OFF</div> </a> <div class='item-info'> <h4 class='item-title'>  <a href='/product/details/"+val.PROD_ID+"'>"+val.PROD_NAME+"<br /> <span style='color:gray'>"+val.r_affiliate_info.AFF_NAME+"</span></a>" +
+
+                            $discText = "<div class='discount' >"+val.PROD_DISCOUNT+"% OFF</div>";
+
+                            $datas += $start+"<div class='item item-thumbnail'> <a href='/product/details/"+val.PROD_ID+"' class='item-image'> <img src='"+$pic+"' />"+$discText+"</a> <div class='item-info'> <h4 class='item-title'>  <a href='/product/details/"+val.PROD_ID+"'>"+val.PROD_NAME+"<br /> <span style='color:gray'>"+val.r_affiliate_info.AFF_NAME+"</span></a>" +
                                 "</h4> <p class='item-desc'  title='"+val.PROD_DESC+"'>"+val.PROD_DESC+"</p> <div class='item-price'>"+val.PRICE+"</div>" +
                                 "<div class='item-discount-price'>"+val.DISCOUNT+"</div></div> </div>"+$end;
                             $i++;

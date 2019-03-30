@@ -60,18 +60,7 @@
                             <span class="d-sm-block d-none">Stocks</span>
                         </a>
                     </li>
-                    <li class="nav-items">
-                        <a href="#tax" data-toggle="tab" class="nav-link">
-                            <span class="d-sm-none">Tax</span>
-                            <span class="d-sm-block d-none">Tax</span>
-                        </a>
-                    </li>
-                    <li class="nav-items">
-                        <a href="#purchase" data-toggle="tab" class="nav-link">
-                            <span class="d-sm-none">Purchase</span>
-                            <span class="d-sm-block d-none">Purchase</span>
-                        </a>
-                    </li>
+
                 </ul>
                 <!-- end nav-tabs -->
                 <!-- begin tab-content -->
@@ -169,75 +158,7 @@
                         <!-- end panel-body -->
                     </div>
                     <!-- end tab-pane -->
-                    <!-- begin tab-pane -->
-                    <div class="tab-pane fade" id="tax">
-                        <h3 class="m-t-10"><i class="fa fa-money-bill-alt"></i> Sales on Tax Applied For Every Purchases</h3>
-                        <!-- begin panel-body -->
-                        <div class="panel-body">
-                            <table id="data-table-buttons" class="table table-striped table-bordered">
-                                <thead>
-                                <tr>
-                                    <th style="width: 30%">Info</th>
-                                    <th>Quantity</th>
-                                    <th>Discount</th>
-                                    <th>Net Sales</th>
-                                    <th>VAT Sales</th>
-                                    <th>Delivery</th>
-                                    <th>Gross Sales</th>
-                                </tr>
-                                </tr>
-                                </thead>
-                                <tbody>
 
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th style="width: 30%">Info</th>
-                                    <th>Quantity</th>
-                                    <th>Discount</th>
-                                    <th>Net Sales</th>
-                                    <th>VAT Sales</th>
-                                    <th>Delivery</th>
-                                    <th>Gross Sales</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <!-- end panel-body -->
-                    </div>
-                    <!-- end tab-pane -->
-                    <!-- begin tab-pane -->
-                    <div class="tab-pane fade" id="purchase">
-                        <h3 class="m-t-10"><i class="fa fa-truck"></i> Sales by Purchase </h3>
-                        <!-- begin panel-body -->
-                        <div class="panel-body">
-                            <table id="data-table-buttons" class="table table-striped table-bordered">
-                                <thead>
-                                <tr>
-                                    <th style="width: 30%">Info</th>
-                                    <th>Type</th>
-                                    <th>Rate</th>
-                                    <th>Date Issued</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                                <tfoot>
-                                <th style="width: 30%">Info</th>
-                                <th>Type</th>
-                                <th>Rate</th>
-                                <th>Date Issued</th>
-                                <th>Action</th>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <!-- end panel-body -->
-                    </div>
-                    <!-- end tab-pane -->
-                </div>
-                <!-- end tab-content -->
 
 
             </div>

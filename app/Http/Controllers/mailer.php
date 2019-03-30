@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\sympiesMailer;
 
 class mailer extends Controller
 {
-    public function sendEmailReminder(Request $request, $id)
+    public function sendEmailReminder()
     {
-        $user = User::findOrFail($id);
+        $objDemo = new \stdClass();
+        $objDemo->demo_one = 'Demo One Value';
+        $objDemo->demo_two = 'Demo Two Value';
+        $objDemo->sender = ' ';
+        $objDemo->receiver = 'ReceiverUserName';
 
-        Mail::send('emails.reminder', ['user' => $user], function ($message) use ($user) {
-            $message->from('hello@app.com', 'Your Application');
-
-            $message->to($user->email, $user->name)->subject('Your Reminder!');
-        });
+        Mail::to("kataga.pupqc@gmail.com")->send(new sympiesMailer($objDemo));
     }
 }

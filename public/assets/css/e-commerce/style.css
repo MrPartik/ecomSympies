@@ -7,108 +7,108 @@ Website: http://www.seantheme.com/color-admin-v4.0/frontend/e-commerce/
 ::  1.0 General Reset & Setup
 -------------------------------------------
     1.1 Reset and overrides
-    
+
 ::  2.0 Top Navbar
 -------------------------------------------
     2.1 Top Navbar Element Setting
 
 ::  3.0 Header
 -------------------------------------------
-     3.1 Header Element Setting 
-     3.2 Header Logo Setting 
-     3.3 Header Nav Setting 
-     3.4 Header Cart Setting 
-     3.5 Header Dropdown Setting 
-     3.6 Header Inverse Setting 
-     3.7 Navbar Toggle Setting 
-     3.8 Header Cart Setting 
-     
+     3.1 Header Element Setting
+     3.2 Header Logo Setting
+     3.3 Header Nav Setting
+     3.4 Header Cart Setting
+     3.5 Header Dropdown Setting
+     3.6 Header Inverse Setting
+     3.7 Navbar Toggle Setting
+     3.8 Header Cart Setting
+
 ::  4.0 Footer
 -------------------------------------------
-    4.1 Footer Setting 
-    
+    4.1 Footer Setting
+
 ::  5.0 Footer Copyright
 -------------------------------------------
-    5.1 Footer Copyright Setting 
-    
+    5.1 Footer Copyright Setting
+
 ::  6.0 Footer Policy, Social & Subscription
 -------------------------------------------
-    6.1 Footer Policy Element Setting 
-    6.2 Social & Subscription Element Setting 
+    6.1 Footer Policy Element Setting
+    6.2 Social & Subscription Element Setting
 
 ::  7.0 Page Element Setting
 -------------------------------------------
-    7.1 Section Container Setting 
-    7.2 Breadcrumb Setting 
-    7.3 Page Header Setting 
-    
+    7.1 Section Container Setting
+    7.2 Breadcrumb Setting
+    7.3 Page Header Setting
+
 ::  8.0 Pace Page Loader Setting
 -------------------------------------------
-    8.1 Pace Loader Element Setting 
-    
+    8.1 Pace Loader Element Setting
+
 ::  9.0 Home Page Element Setting
 -------------------------------------------
-    9.1 Carousel Element Setting 
-    9.2 Item Element Setting 
-    9.3 Promotion Element Setting 
-    9.4 Category Element Setting 
-    
+    9.1 Carousel Element Setting
+    9.2 Item Element Setting
+    9.3 Promotion Element Setting
+    9.4 Category Element Setting
+
 ::  10.0 Search Results Page
 -------------------------------------------
-    10.1 Search Container Element Setting 
-    10.2 Search Toolbar Setting 
-    10.3 Search Item Container Setting 
+    10.1 Search Container Element Setting
+    10.2 Search Toolbar Setting
+    10.3 Search Item Container Setting
 
 ::  11.0 Checkout Page
 -------------------------------------------
-    11.1 Checkout Element Setting 
-    11.2 Checkout Payment Type Setting 
-    11.3 Checkout Question List Setting 
-    11.4 Checkout Step Setting 
-    11.5 Checkout Table Cart Setting 
-    11.6 Checkout Cart Qty Setting 
-    11.7 Checkout Summary Setting 
-    11.8 Checkout Message Setting 
+    11.1 Checkout Element Setting
+    11.2 Checkout Payment Type Setting
+    11.3 Checkout Question List Setting
+    11.4 Checkout Step Setting
+    11.5 Checkout Table Cart Setting
+    11.6 Checkout Cart Qty Setting
+    11.7 Checkout Summary Setting
+    11.8 Checkout Message Setting
 
 ::  12.0 Product Page
 -------------------------------------------
-    12.1 Product Element Setting 
-    12.2 Product Thumbnail Setting 
-    12.3 Product Image Setting 
-    12.4 Product Info Setting 
-    12.5 Product Availability Setting 
-    12.6 Product Info List Setting 
-    12.7 Product Category Setting 
-    12.8 Product Price Setting 
-    12.9 Product Warranty Setting 
-    12.10 Product Discount Setting 
-    12.11 Product Social Setting 
-    12.12 Product Tab Setting 
-    12.13 Product Desc Setting 
-    12.14 Product Table Setting 
-    12.15 Product Review Setting 
+    12.1 Product Element Setting
+    12.2 Product Thumbnail Setting
+    12.3 Product Image Setting
+    12.4 Product Info Setting
+    12.5 Product Availability Setting
+    12.6 Product Info List Setting
+    12.7 Product Category Setting
+    12.8 Product Price Setting
+    12.9 Product Warranty Setting
+    12.10 Product Discount Setting
+    12.11 Product Social Setting
+    12.12 Product Tab Setting
+    12.13 Product Desc Setting
+    12.14 Product Table Setting
+    12.15 Product Review Setting
 
 ::  13.0 About Us Page
 -------------------------------------------
-    13.1 About Us Element Setting 
-    13.2 About Us Content Setting 
+    13.1 About Us Element Setting
+    13.2 About Us Content Setting
 
 ::  14.0 My Account Page
 -------------------------------------------
-    14.1 My Account Page Element Setting 
-    
+    14.1 My Account Page Element Setting
+
 ::  15.0 Bootstrap Component Setting
 -------------------------------------------
-    15.1 Component - Panel 
-    15.2 Component - Panel - Panel Expand 
-    15.3 Component - Panel - Panel loading 
-         15.3.1 Component - Button - Default 
-         15.3.2 Component - Button - White 
-         15.3.3 Component - Button - Inverse 
-         15.3.4 Component - Button - Primary 
-         15.3.5 Component - Button - Success 
-         15.3.6 Component - Button - Warning 
-         15.3.7 Component - Button - Danger 
+    15.1 Component - Panel
+    15.2 Component - Panel - Panel Expand
+    15.3 Component - Panel - Panel loading
+         15.3.1 Component - Button - Default
+         15.3.2 Component - Button - White
+         15.3.3 Component - Button - Inverse
+         15.3.4 Component - Button - Primary
+         15.3.5 Component - Button - Success
+         15.3.6 Component - Button - Warning
+         15.3.7 Component - Button - Danger
          15.3.8 Component - Button - Info
     15.4 Component - Modal Setting
     15.5 Component - Button
@@ -120,7 +120,7 @@ Website: http://www.seantheme.com/color-admin-v4.0/frontend/e-commerce/
     15.11 Component - Dropdown Menu Container Setting
     15.12 Component - Dropdown Brand List Setting
     15.13 Component - Theme Panel
-    
+
 ::  16.0 Predefined CSS Setting
 -------------------------------------------
     16.1 Predefined Classes
@@ -415,8 +415,8 @@ a:active {
 .header.header-inverse .header-nav .nav > li > a {
     color: #fff;
 }
-.header.header-inverse .header-nav .nav > li.active > a, 
-.header.header-inverse .header-nav .nav > li.active > a:hover, 
+.header.header-inverse .header-nav .nav > li.active > a,
+.header.header-inverse .header-nav .nav > li.active > a:hover,
 .header.header-inverse .header-nav .nav > li.active > a:focus {
     color: #00acac;
 }
@@ -558,7 +558,7 @@ a:active {
 .footer p {
 	line-height: 20px;
 }
-.footer abbr[data-original-title], 
+.footer abbr[data-original-title],
 .footer abbr[title] {
 	text-decoration: none;
 }
@@ -1962,7 +1962,7 @@ a:active {
 }
 .product-thumbnail-list > li.active a {
     border-color: #212121;
-} 
+}
 .product-thumbnail-list > li a img {
     max-width: 100%;
     max-height: 100%;
@@ -1993,13 +1993,13 @@ a:active {
 .product-info-header {
     padding-bottom: 15px;
     margin-bottom: 15px;
-    border-bottom: 1px solid #D8E0E4;      
+    border-bottom: 1px solid #D8E0E4;
 }
 .product-title {
     margin: 0;
     font-size: 20px;
     font-weight: 600;
-    line-height: 24px;        
+    line-height: 24px;
 }
 .product-title .label {
     padding: 5px 6px;
@@ -2012,7 +2012,7 @@ a:active {
 
 /* 12.5 Product Availability Setting */
 
-.product-availability { 
+.product-availability {
     font-size: 18px;
 }
 
@@ -2025,7 +2025,7 @@ a:active {
     margin: 0 0 15px;
     padding: 0 0 15px;
     line-height: 20px;
-    border-bottom: 1px solid #D8E0E4;  
+    border-bottom: 1px solid #D8E0E4;
 }
 .product-info-list > li {
     position: relative;
@@ -2089,7 +2089,7 @@ a:active {
 .product-warranty {
     padding-bottom: 15px;
     margin-bottom: 15px;
-    border-bottom: 1px solid #D8E0E4;      
+    border-bottom: 1px solid #D8E0E4;
 }
 
 
@@ -2114,7 +2114,7 @@ a:active {
 .product-social {
     margin: 0 0 15px;
     padding: 0 0 15px;
-    border-bottom: 1px solid #D8E0E4;  
+    border-bottom: 1px solid #D8E0E4;
 }
 .product-social:before,
 .product-social:after {
@@ -2189,8 +2189,8 @@ a:active {
     border-bottom: 1px solid #666;
     background: none;
 }
-.product-tab .nav-tabs > li.active > a, 
-.product-tab .nav-tabs > li.active > a:focus, 
+.product-tab .nav-tabs > li.active > a,
+.product-tab .nav-tabs > li.active > a:focus,
 .product-tab .nav-tabs > li.active > a:hover {
     border-color: transparent;
     border-bottom: 1px solid #212121;
@@ -2482,7 +2482,7 @@ a:active {
 }
 .account-container .account-body .nav.nav-list > li > a {
     padding: 0;
-    color: #777;                
+    color: #777;
 }
 .account-container .account-body .nav.nav-list > li + li {
     margin-top: 5px;
@@ -2762,10 +2762,10 @@ a:active {
     background: #b6c2c9;
     border-color: #b6c2c9;
 }
-.btn-default:hover, 
-.btn-default:focus, 
-.btn-default:active, 
-.btn-default.active, 
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-default.active,
 .open .dropdown-toggle.btn-default {
     background: #929ba1;
     border-color: #929ba1;
@@ -2796,9 +2796,9 @@ a:active {
 .btn.btn-white.btn-white-without-border:focus {
     border-color: #eee;
 }
-.btn-white:hover, 
-.btn-white:focus, 
-.btn-white:active, 
+.btn-white:hover,
+.btn-white:focus,
+.btn-white:active,
 .btn-white.active,
 .open .dropdown-toggle.btn-white {
     background: #e2e7eb;
@@ -2817,10 +2817,10 @@ a:active {
     background: #2d353c;
     border-color: #2d353c;
 }
-.btn-inverse:hover, 
-.btn-inverse:focus, 
-.btn-inverse:active, 
-.btn-inverse.active, 
+.btn-inverse:hover,
+.btn-inverse:focus,
+.btn-inverse:active,
+.btn-inverse.active,
 .open .dropdown-toggle.btn-inverse {
     background: #242a30;
     border-color: #242a30;
@@ -2838,10 +2838,10 @@ a:active {
     background: #348fe2;
     border-color: #348fe2;
 }
-.btn-primary:hover, 
-.btn-primary:focus, 
-.btn-primary:active, 
-.btn-primary.active, 
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
 .open .dropdown-toggle.btn-primary {
     background: #2a72b5;
     border-color: #2a72b5;
@@ -2859,10 +2859,10 @@ a:active {
     background: #00acac;
     border-color: #00acac;
 }
-.btn.btn-success:hover, 
-.btn.btn-success:focus, 
-.btn.btn-success:active, 
-.btn.btn-success.active, 
+.btn.btn-success:hover,
+.btn.btn-success:focus,
+.btn.btn-success:active,
+.btn.btn-success.active,
 .open .dropdown-toggle.btn-success {
     background: #008a8a;
     border-color: #008a8a;
@@ -2880,10 +2880,10 @@ a:active {
     background: #f59c1a;
     border-color: #f59c1a;
 }
-.btn-warning:hover, 
-.btn-warning:focus, 
-.btn-warning:active, 
-.btn-warning.active, 
+.btn-warning:hover,
+.btn-warning:focus,
+.btn-warning:active,
+.btn-warning.active,
 .open .dropdown-toggle.btn-warning {
     background: #c47d15;
     border-color: #c47d15;
@@ -2901,10 +2901,10 @@ a:active {
     background: #ff5b57;
     border-color: #ff5b57;
 }
-.btn-danger:hover, 
-.btn-danger:focus, 
-.btn-danger:active, 
-.btn-danger.active, 
+.btn-danger:hover,
+.btn-danger:focus,
+.btn-danger:active,
+.btn-danger.active,
 .open .dropdown-toggle.btn-danger {
     background: #cc4946;
     border-color: #cc4946;
@@ -2922,10 +2922,10 @@ a:active {
     background: #49b6d6;
     border-color: #49b6d6;
 }
-.btn-info:hover, 
-.btn-info:focus, 
-.btn-info:active, 
-.btn-info.active, 
+.btn-info:hover,
+.btn-info:focus,
+.btn-info:active,
+.btn-info.active,
 .open .dropdown-toggle.btn-info {
     background: #3a92ab;
     border-color: #3a92ab;
@@ -2988,8 +2988,8 @@ a:active {
     -moz-border-radius: 3px;
     border-radius: 3px;
 }
-.btn:focus, 
-.btn:active:focus, 
+.btn:focus,
+.btn:active:focus,
 .btn.active:focus {
     outline: none;
 }
@@ -3038,7 +3038,7 @@ a:active {
     left: 25px;
     right: auto;
 }
-.btn > .pull-left, 
+.btn > .pull-left,
 .btn > .pull-right {
     line-height: 1.428571429;
 }
@@ -3122,22 +3122,22 @@ label {
 
 /* 15.9 Component - Pagination & pager */
 
-.pager li > a, 
+.pager li > a,
 .pager li > span,
 .pagination > li > a {
     border-color: #e2e7eb;
     color: #242a30;
 }
-.pager.pager-without-border li > a, 
+.pager.pager-without-border li > a,
 .pager.pager-without-border li > span,
 .pagination.pagination-without-border > li > a {
     border-color: #fff;
 }
-.pagination > .disabled > span, 
-.pagination > .disabled > span:hover, 
-.pagination > .disabled > span:focus, 
-.pagination > .disabled > a, 
-.pagination > .disabled > a:hover, 
+.pagination > .disabled > span,
+.pagination > .disabled > span:hover,
+.pagination > .disabled > span:focus,
+.pagination > .disabled > a,
+.pagination > .disabled > a:hover,
 .pagination > .disabled > a:focus,
 .pager > .disabled > span,
 .pager > .disabled > a {
@@ -3155,18 +3155,18 @@ label {
 .pagination > li:first-child > a {
     margin-left: 0;
 }
-.pagination-sm > li > a, 
+.pagination-sm > li > a,
 .pagination-sm > li > span {
     font-size: 10px;
     margin-left: 4px;
 }
-.pagination-lg > li > a, 
+.pagination-lg > li > a,
 .pagination-lg > li > span {
     font-size: 14px;
     margin-left: 6px;
 }
-.pager li > a:hover, 
-.pager li > a:focus, 
+.pager li > a:hover,
+.pager li > a:focus,
 .pager li > span:hover,
 .pager li > span:focus,
 .pagination > li > a:hover,
@@ -3177,9 +3177,9 @@ label {
 }
 .pagination > .active > a,
 .pagination > .active > span,
-.pagination > .active > a:hover, 
-.pagination > .active > span:hover, 
-.pagination > .active > a:focus, 
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
 .pagination > .active > span:focus {
     background: #242a30 !important;
     border-color: #242a30 !important;
@@ -3646,34 +3646,34 @@ dropdown-brand-list > li + li {
 .f-w-600 { font-weight: 600 !important; }
 .f-w-700 { font-weight: 700 !important; }
 
-.table-valign-middle th, 
-.table-valign-middle td { 
+.table-valign-middle th,
+.table-valign-middle td {
     vertical-align: middle !important;
 }
 .table-th-valign-middle th,
-.table-td-valign-middle td { 
+.table-td-valign-middle td {
     vertical-align: middle !important;
 }
-.table-valign-top th, 
-.table-valign-top td { 
+.table-valign-top th,
+.table-valign-top td {
     vertical-align: top !important;
 }
 .table-th-valign-top th,
-.table-td-valign-top td { 
+.table-td-valign-top td {
     vertical-align: top !important;
 }
-.table-valign-bottom th, 
-.table-valign-bottom td { 
+.table-valign-bottom th,
+.table-valign-bottom td {
     vertical-align: bottom !important;
 }
 .table-th-valign-bottom th,
-.table-td-valign-bottom td { 
+.table-td-valign-bottom td {
     vertical-align: bottom !important;
 }
 .vertical-box {
-    display: table; 
-    table-layout: fixed; 
-    border-spacing: 0; 
+    display: table;
+    table-layout: fixed;
+    border-spacing: 0;
     height: 100%;
     width: 100%;
 }
@@ -3714,7 +3714,7 @@ dropdown-brand-list > li + li {
 .panel-expand .page-content-full-height .content {
     -webkit-transform: none;
 }
-.no-rounded-corner { 
+.no-rounded-corner {
     -webkit-border-radius: 0 !important;
     -moz-border-radius: 0 !important;
     border-radius: 0 !important;
@@ -3735,38 +3735,38 @@ dropdown-brand-list > li + li {
 }
 .text-inverse { color: #2d353c !important; }
 a.text-inverse:hover,
-a.text-inverse:focus { 
-    color: #575d63 !important; 
+a.text-inverse:focus {
+    color: #575d63 !important;
 }
 .text-success { color: #00acac !important; }
 a.text-success:hover,
-a.text-success:focus { 
-    color: #33bdbd !important; 
+a.text-success:focus {
+    color: #33bdbd !important;
 }
 .text-info { color: #49b6d6 !important; }
 a.text-info:hover,
-a.text-info:focus { 
-    color: #6dc5de !important; 
+a.text-info:focus {
+    color: #6dc5de !important;
 }
 .text-primary { color: #348fe2 !important; }
 a.text-primary:hover,
-a.text-primary:focus { 
-    color: #5da5e8 !important; 
+a.text-primary:focus {
+    color: #5da5e8 !important;
 }
 .text-warning { color: #f59c1a !important; }
 a.text-warning:hover,
-a.text-warning:focus { 
-    color: #f7b048 !important; 
+a.text-warning:focus {
+    color: #f7b048 !important;
 }
 .text-danger { color: #ff5b57 !important; }
 a.text-danger:hover,
-a.text-danger:focus { 
-    color: #ff7c79 !important; 
+a.text-danger:focus {
+    color: #ff7c79 !important;
 }
 .text-white { color: #fff !important; }
 a.text-white:hover,
-a.text-white:focus { 
-    color: #f0f3f4 !important; 
+a.text-white:focus {
+    color: #f0f3f4 !important;
 }
 
 .bg-white { background: #ffffff !important; }
