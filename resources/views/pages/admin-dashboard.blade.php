@@ -134,7 +134,9 @@
 
             Highcharts.stockChart('stockGraph', {
 
-
+                rangeSelector: {
+                    selected: 4
+                },
                 plotOptions: {
                     series: {
                         type: 'line',
