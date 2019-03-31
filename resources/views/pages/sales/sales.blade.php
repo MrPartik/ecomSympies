@@ -74,7 +74,7 @@
                                 <thead>
                                 <tr>
                                     <th style="width: 30%">Customer Name</th>
-                                    <th>Quantity</th>
+                                    <th>Orders</th>
                                     <th>Discount</th>
                                     <th>Net Sales</th>
                                     <th>VAT Sales</th>
@@ -119,7 +119,7 @@
                                 <thead>
                                 <tr>
                                     <th style="width: 30%">Stock Info</th>
-                                    <th>Quantity</th>
+                                    <th>Orders</th>
                                     <th>Discount</th>
                                     <th>Net Sales</th>
                                     <th>VAT Sales</th>

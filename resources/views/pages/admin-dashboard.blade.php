@@ -19,9 +19,97 @@
         <!-- begin page-header -->
         <h1 class="page-header">Dashboard <small></small></h1>
         <!-- end page-header -->
+        <div class="row">
+            <!-- begin col-3 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="widget widget-stats bg-success">
+                    <div class="stats-icon"><i class="fa fa-shopping-basket"></i></div>
+                    <div class="stats-info">
+                        <h4>TOTAL PRODUCTS</h4>
+                        <p>
+                            {{
+                               \App\r_product_info::where('PROD_DISPLAY_STATUS',1)
+                               ->count()
+                           }}
+                        </p>
+                    </div>
+                    <div class="stats-link">
+                        <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- end col-3 -->
+            <!-- begin col-3 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="widget widget-stats bg-purple">
+                    <div class="stats-icon"><i class="fa fa-link"></i></div>
+                    <div class="stats-info">
+                        <h4>NEW STOCKS TODAY</h4>
+                        <p>
+                            {{
+                                \App\r_inventory_info::whereDate('created_at',\Carbon\Carbon::today())
+                                ->whereOr('INV_TYPE','ADD')
+                                ->whereOr('INV_TYPE','CAPITAL')
+                                ->where('INV_TYPE','<>','ORDER')
+                                ->where('INV_TYPE','<>','DISPOSE')
+                                ->sum('INV_QTY')
+                            }}
+                        </p>
+                    </div>
+                    <div class="stats-link">
+                        <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- end col-3 -->
+            <!-- begin col-3 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="widget widget-stats bg-grey-darker">
+                    <div class="stats-icon"><i class="fa fa-truck"></i></div>
+                    <div class="stats-info">
+                        <h4>NEW ORDERS TODAY</h4>
+                        <p>
+                            {{
+                                \App\r_inventory_info::whereDate('created_at',\Carbon\Carbon::today())
+                                ->where('INV_TYPE','<>','ADD')
+                                ->where('INV_TYPE','<>','CAPITAL')
+                                ->where('INV_TYPE','ORDER')
+                                ->where('INV_TYPE','<>','DISPOSE')
+                                ->sum('INV_QTY')
+                            }}
+                        </p>
+                    </div>
+                    <div class="stats-link">
+                        <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- end col-3 -->
+            <!-- begin col-3 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="widget widget-stats bg-black-lighter">
+                    <div class="stats-icon"><i class="fas fa-users"></i></div>
+                    <div class="stats-info">
+                        <h4>TOTAL AFFILIATES</h4>
+                        <p>
+                            {{
+                                \App\r_affiliate_info::where('AFF_DISPLAY_STATUS',1)
+                                ->count()
+                            }}
+                        </p>
+                    </div>
+                    <div class="stats-link">
+                        <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- end col-3 -->
+        </div>
         <!-- begin row -->
         <div class="row">
-            <div id="stockGraph" style="width: 100%"></div>
+            <div class="col-md-12"
+                <div id="stockGraph" style="width: 100%"></div>
+            </div>
         </div>
         <!-- end row -->
 
@@ -30,46 +118,77 @@
 @section('extrajs')
 
     <script>
-        $(document).ready(function() {
-            Dashboard.init();
-        });
+        {{--setTimeout(function() {--}}
+            {{--$.gritter.add({--}}
+                {{--title: 'Welcome back, {{Auth::user()->name}}!',--}}
+                {{--text: 'Please check your dashboard.',--}}
+                {{--image: '{{ Avatar::create(Auth::user()->name)->toBase64() }}',--}}
+                {{--sticky: false,--}}
+                {{--time: '',--}}
+                {{--class_name: 'my-sticky-class'--}}
+            {{--});--}}
+        {{--}, 1000);--}}
 
 
-
-        $.getJSON('{{url('/salesJSON')}}', function (data) {
+        $.getJSON('{{url('/salesJSON')}}',function(data){
 
             Highcharts.stockChart('stockGraph', {
-                rangeSelector: {
-                    selected: 1
-                },
 
+
+                plotOptions: {
+                    series: {
+                        type: 'line',
+                        showInNavigator: true
+                    }
+                },
+                type: 'line',
                 title: {
-                    text: 'Gross Sales'
+                    text: 'Sales'
                 },
 
-                series: [{
-                    name: 'Gross Sale Price',
-                    data: data, 
-                    type:'area',
-                    tooltip: {
-                        valueDecimals: 2
-                    },
-                    fillColor: {
-                        linearGradient: {
-                            x1: 0,
-                            y1: 0,
-                            x2: 0,
-                            y2: 1
+                series: [
+                    {
+                        name: 'Gross Sales',
+                        data: $(data).map(function() { array = []; array.push([this[0],this[1]]); return array; }).get(),
+                        type: 'line',
+                        marker: {
+                            enabled: true,
+                            radius: 3
                         },
-                        stops: [
-                            [0, Highcharts.getOptions().colors[0]],
-                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                        ]
+                        shadow: true,
+                        tooltip: {
+                            valueDecimals: 2
+                        }
                     },
-                    threshold: null
-                }]
+                    {
+                        name: 'Tax Sales',
+                        data: $(data).map(function() { array = []; array.push([this[0],this[2]]); return array; }).get(),
+                        type: 'line',
+                        marker: {
+                            enabled: true,
+                            radius: 3
+                        },
+                        shadow: true,
+                        tooltip: {
+                            valueDecimals: 2
+                        }
+                    },
+                    {
+                        name: 'Net Sales',
+                        data: $(data).map(function() { array = []; array.push([this[0],this[3]]); return array; }).get(),
+                        type: 'line',
+                        marker: {
+                            enabled: true,
+                            radius: 3
+                        },
+                        shadow: true,
+                        tooltip: {
+                            valueDecimals: 2
+                        }
+                    },
+                ]
+            })
             });
-        });
 
 
     </script>

@@ -44,7 +44,8 @@ Route::group(['middleware' => ['authenticate']], function() {
     Route::resource('/order','manageOrder',['names'=>['index'=>'order','create'=>'order','edit'=>'order']]);
 
     Route::get('/sales','manageSales@sales');
-    Route::get('/salesJSON','manageSales@stockSalesJSON');
+    Route::get('/grossSalesJSON','manageSales@grossSalesJSON');
+    Route::get('/salesJSON','manageSales@SalesJSON');
 
 
 //    Route::get('order-pending','manageOrder@index');

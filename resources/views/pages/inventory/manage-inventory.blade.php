@@ -99,7 +99,6 @@
         </div>
         <!-- end col-3 -->
     </div>
-    <!-- end row -->
     <!-- begin row -->
     <div class="row">
 

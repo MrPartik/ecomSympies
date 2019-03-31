@@ -56,41 +56,32 @@ class manageSales extends Controller
 
     }
 
-    public function stockSalesJSON(){
+    public function SalesJSON(){
 
         $stockJSON = array();
 
-        $prodInfo = r_product_info::all();
-        (Auth::user()->role=='admin')?'':$prodInfo=$prodInfo->where('AFF_ID',Auth::user()->AFF_ID);
-
-        $prodInfo = r_product_info::all();
-        (Auth::user()->role=='admin')?'':$prodInfo=$prodInfo->where('AFF_ID',Auth::user()->AFF_ID);
-
-        $order_item = t_order_item::with('tOrder','rProductInfo')
-            ->get();
-        $order_item = $order_item->whereIn('PROD_ID',$prodInfo->pluck('PROD_ID')->toArray());
-
-        $order = t_order::all();
-        $order = $order->whereIn('ORD_ID',$order_item->pluck('ORD_ID')->toArray());
-
-        $stocks = collect(DB::SELECT("SELECT 
-				SUM(PAY.PAY_AMOUNT_DUE) GROSS_SALES 
-        ,date(PAY.created_at) created_at
+        $stocks = collect(DB::SELECT("
+        SELECT 
+       
+        SUM(PAY.PAY_SALES_TAX) TAX_SALES 
+        ,SUM(PAY.PAY_AMOUNT_DUE) GROSS_SALES 
+        ,SUM(PAY.PAY_SUB_TOTAL) NET_SALES 
+        ,date(PAY.PAY_CAPTURED_AT) created_at
         FROM t_orders ORD
         INNER JOIN t_invoices INV  ON INV.ORD_ID = ORD.ORD_ID
         INNER JOIN t_order_items ORDI ON ORD.ORD_ID = ORDI.ORD_ID
         INNER JOIN t_payments PAY ON INV.INV_ID = PAY.INV_ID
         WHERE ORD.ORD_STATUS ='Completed'
-		GROUP BY date(PAY.created_at) "));
+		GROUP BY date(PAY.PAY_CAPTURED_AT) "));
 
-//        $stocks = $stocks->whereIn('SKU',$order_item->pluck('PROD_SKU')->toArray());
 
         foreach($stocks as $item){
-            $stock = array(strtotime($item->created_at)*1000,$item->GROSS_SALES);
+            $stock = array(strtotime($item->created_at)*1000,$item->GROSS_SALES,$item->TAX_SALES,$item->NET_SALES);
             array_push($stockJSON,$stock);
         }
         return json_encode($stockJSON);
     }
+
 
 
     public function customerSales(){

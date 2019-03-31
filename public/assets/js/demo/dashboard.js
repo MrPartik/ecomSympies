@@ -86,13 +86,13 @@ var handleInteractiveChart = function () {
         }).appendTo("body").fadeIn(200);
     }
 	if ($('#interactive-chart').length !== 0) {
-	
-        var data1 = [ 
-            [1, 40], [2, 50], [3, 60], [4, 60], [5, 60], [6, 65], [7, 75], [8, 90], [9, 100], [10, 105], 
-            [11, 110], [12, 110], [13, 120], [14, 130], [15, 135],[16, 145], [17, 132], [18, 123], [19, 135], [20, 150] 
+
+        var data1 = [
+            [1, 40], [2, 50], [3, 60], [4, 60], [5, 60], [6, 65], [7, 75], [8, 90], [9, 100], [10, 105],
+            [11, 110], [12, 110], [13, 120], [14, 130], [15, 135],[16, 145], [17, 132], [18, 123], [19, 135], [20, 150]
         ];
         var data2 = [
-            [1, 10],  [2, 6], [3, 10], [4, 12], [5, 18], [6, 20], [7, 25], [8, 23], [9, 24], [10, 25], 
+            [1, 10],  [2, 6], [3, 10], [4, 12], [5, 18], [6, 20], [7, 25], [8, 23], [9, 24], [10, 25],
             [11, 18], [12, 30], [13, 25], [14, 25], [15, 30], [16, 27], [17, 20], [18, 18], [19, 31], [20, 23]
         ];
         var xLabel = [
@@ -100,8 +100,8 @@ var handleInteractiveChart = function () {
             [11,''],[12,'May&nbsp;25'],[13,''],[14,''],[15,'May&nbsp;28'],[16,''],[17,''],[18,'May&nbsp;31'],[19,''],[20,'']
         ];
         $.plot($("#interactive-chart"), [{
-			data: data1, 
-			label: "Page Views", 
+			data: data1,
+			label: "Page Views",
 			color: COLOR_BLUE,
 			lines: { show: true, fill:false, lineWidth: 2 },
 			points: { show: true, radius: 3, fillColor: COLOR_WHITE },
@@ -116,8 +116,8 @@ var handleInteractiveChart = function () {
 		}], {
 			xaxis: {  ticks:xLabel, tickDecimals: 0, tickColor: COLOR_BLACK_TRANSPARENT_2 },
 			yaxis: {  ticks: 10, tickColor: COLOR_BLACK_TRANSPARENT_2, min: 0, max: 200 },
-			grid: { 
-				hoverable: true, 
+			grid: {
+				hoverable: true,
 				clickable: true,
 				tickColor: COLOR_BLACK_TRANSPARENT_2,
 				borderWidth: 1,
@@ -140,13 +140,13 @@ var handleInteractiveChart = function () {
                     previousPoint = item.dataIndex;
                     $("#tooltip").remove();
                     var y = item.datapoint[1].toFixed(2);
-                    
+
                     var content = item.series.label + " " + y;
                     showTooltip(item.pageX, item.pageY, content);
                 }
             } else {
                 $("#tooltip").remove();
-                previousPoint = null;            
+                previousPoint = null;
             }
             event.preventDefault();
         });
@@ -201,14 +201,14 @@ var handleDashboardSparkline = function() {
         options.lineColor = COLOR_RED;
         options.highlightLineColor = COLOR_RED;
         options.highlightSpotColor = COLOR_RED;
-        
+
         var countWidth = $('#sparkline-unique-visitor').width();
         if (countWidth >= 200) {
             options.width = '200px';
         } else {
             options.width = '100%';
         }
-        
+
         $('#sparkline-unique-visitor').sparkline(value, options);
         options.lineColor = COLOR_ORANGE;
         options.highlightLineColor = COLOR_ORANGE;
@@ -231,9 +231,9 @@ var handleDashboardSparkline = function() {
         options.highlightSpotColor = COLOR_GREY;
         $('#sparkline-return-visitors').sparkline(value, options);
     }
-    
+
     renderDashboardSparkline();
-    
+
     $(window).on('resize', function() {
         $('#sparkline-unique-visitor').empty();
         $('#sparkline-bounce-rate').empty();
@@ -265,18 +265,18 @@ var handleDashboardTodolist = function() {
 };
 
 var handleDashboardGritterNotification = function() {
-    $(window).on('load', function() {
-        setTimeout(function() {
-            $.gritter.add({
-                title: 'Welcome back, Admin!',
-                text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempus lacus ut lectus rutrum placerat.',
-                image: '../assets/img/user/user-2.jpg',
-                sticky: true,
-                time: '',
-                class_name: 'my-sticky-class'
-            });
-        }, 1000);
-    });
+    // $(window).on('load', function() {
+    //     setTimeout(function() {
+    //         $.gritter.add({
+    //             title: 'Welcome back, Admin!',
+    //             text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempus lacus ut lectus rutrum placerat.',
+    //             image: '../assets/img/user/user-2.jpg',
+    //             sticky: true,
+    //             time: '',
+    //             class_name: 'my-sticky-class'
+    //         });
+    //     }, 1000);
+    // });
 };
 
 var Dashboard = function () {

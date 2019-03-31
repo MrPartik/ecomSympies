@@ -95,6 +95,7 @@ class manageOrder extends Controller
                 $order->ORD_COMPLETE = Carbon::now();
                 $order->ORD_CANCELLED = NULL;
                 $order->updated_at = Carbon::now();
+
                 $order->save();
 
             }else if($type==6){

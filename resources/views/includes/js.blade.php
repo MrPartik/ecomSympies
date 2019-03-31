@@ -23,7 +23,13 @@
 <script src="{{asset('assets/plugins/jquery-jvectormap/jquery-jvectormap.min.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery-jvectormap/jquery-jvectormap-world-mill-en.js')}}"></script>
 <script src="{{asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js')}}"></script>
-<script src="{{asset('assets/js/demo/dashboard.min.js')}}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js"></script>
+<script src="{{asset('assets/plugins/nvd3/build/nv.d3.js')}}"></script>
+<script src="{{asset('assets/plugins/bootstrap-calendar/js/bootstrap_calendar.min.js')}}"></script>
+<script src="{{asset('assets/plugins/gritter/js/jquery.gritter.js')}}"></script>
+
+<script src="{{asset('assets/js/demo/dashboard-v2.min.js')}}"></script>
 <script src="{{asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js')}}"></script>
 <script src="{{asset('assets/plugins/ionRangeSlider/js/ion-rangeSlider/ion.rangeSlider.min.js')}}"></script>
 <script src="{{asset('assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js')}}"></script>
@@ -86,6 +92,7 @@
 
 <script src="https://code.highcharts.com/stock/highstock.js"></script>
 <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/stock/highcharts-more.js"></script>
 <script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
 <script>
     function padDigits(number, digits) {
