@@ -93,8 +93,8 @@
                         <div class="item item-thumbnail">
                             <a href="{{url('product/details/'.$item->PROD_ID)}}" class="item-image">
                                 <img src="{{($item->PROD_IMG==null||!file_exists($item->PROD_IMG))?asset('uPackage.png'):asset($item->PROD_IMG)}}" alt="" />
-                                @php $discount=0 @endphp
-                                @if($discount)<div class="item-discount-price" style="text-decoration:line-through; ">{{$discount= $item->DISCOUNT}}</div>@endif
+                                @php $discount=$item->DISCOUNT @endphp
+                                @if($discount!=0)<div class="item-discount-price" style="text-decoration:line-through; ">{{$discount}}</div>@endif
                             </a>
                             <div class="item-info">
                                 <h4 class="item-title">
@@ -178,43 +178,6 @@
                         <!-- BEGIN category-item -->
                         <div class="category-item list">
 
-                            @php $i=1 @endphp
-                            @foreach($Allprod as $item)
-                            <!-- BEGIN item-row -->
-                            @if( $i%3==1)
-                            <div class="item-row" >
-                            @endif
-                               <!-- BEGIN item -->
-                            <div class="item item-thumbnail">
-                                <a href="{{url('product/details/'.$item->PROD_ID)}}" class="item-image">
-                                    <img src="{{($item->PROD_IMG==null||!file_exists($item->PROD_IMG))?asset('uPackage.png'):asset($item->PROD_IMG)}}" alt="" />
-                                    @php $discount=0 @endphp
-                                    @if($discount)<div class="item-discount-price" style="text-decoration:line-through; ">{{$discount= $item->DISCOUNT}}</div>@endif
-                                </a>
-                                <div class="item-info">
-                                    <h4 class="item-title">
-                                        <a href="{{url('product/details/'.$item->PROD_ID)}}">{{$item->PROD_NAME}}<br />
-                                            <span style="color:gray">{{$item->rAffiliateInfo->AFF_NAME}}</span>
-                                        </a>
-                                    </h4>
-                                    <p class="item-desc"  title="{{$item->PROD_DESC}}">{{$item->PROD_DESC}}</p>
-                                    <div class="item-price">
-                                        {{$item->PRICE}}
-                                    </div>
-                                    <div class="item-discount-price">
-                                        {{$item->DISCOUNT}}
-                                    </div>
-                                </div>
-                            </div>
-                                <!-- END item -->
-
-                            @if($i%3==0 || count($Allprod)==$i )
-                            </div>
-                            <!-- END item-row -->
-                             @endif
-
-                             @php $i++ @endphp
-                             @endforeach
                         </div>
                         <!-- END category-item -->
                     </div>
@@ -435,6 +398,9 @@
 
         {{--btn_getProdAff--}}
         <script>
+            $(document).ready(function(){
+                $('#btn_getProdAff[value=0]').trigger('click');
+            });
             $('a[id=btn_getProdAff]').on('click',function(){
                 $btn = $(this);
                 $id = $($btn).attr('value');
@@ -505,6 +471,7 @@
                         $($btn).closest('li').closest('ul').closest('div').closest('.category-container').find('.category-detail').find('.category-item').html(" ");
                         var $i=1;
                         $datas = "<div >";
+                        $discText= " ";
                         $.each($data,function(id,val){
                             $start="";
                             $end="";
@@ -515,9 +482,8 @@
                                 $end="</div>";
                             if(val.PROD_IMG)
                                 $pic=val.PROD_IMG;
-
-
-                            $discText = "<div class='discount' >"+val.PROD_DISCOUNT+"% OFF</div>";
+                            if(val.PROD_DISCOUNT)
+                                $discText = "<div class='discount' >"+val.PROD_DISCOUNT+"% OFF</div>";
 
                             $datas += $start+"<div class='item item-thumbnail'> <a href='/product/details/"+val.PROD_ID+"' class='item-image'> <img src='"+$pic+"' />"+$discText+"</a> <div class='item-info'> <h4 class='item-title'>  <a href='/product/details/"+val.PROD_ID+"'>"+val.PROD_NAME+"<br /> <span style='color:gray'>"+val.r_affiliate_info.AFF_NAME+"</span></a>" +
                                 "</h4> <p class='item-desc'  title='"+val.PROD_DESC+"'>"+val.PROD_DESC+"</p> <div class='item-price'>"+val.PRICE+"</div>" +

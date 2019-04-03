@@ -123,7 +123,7 @@
             <div class="panel-body bg-black text-white">
                 <div class="row">
                     <div class="col-md-6">
-                        <h3 class="text-white">{{$prod->PROD_NAME}}</h3>
+                        <a  href="{{url('inventory-remaining')}}"><h3 class="text-white">{{$prod->PROD_NAME}}</h3></a>
                         <i style="font-size: 12px" class="text-white"> {{$prod->PROD_NAME}}</i>
                         <br><span style="font-size: 15px" class="text-white"></span>
                     </div>

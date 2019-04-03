@@ -1312,7 +1312,7 @@ a:active,a:focus,a:hover {
 }
 
 .category-item.list .item-row+.item-row .item {
-    border-top: 1px solid #ccc
+    /* border-top: 1px solid #ccc */
 }
 
 .category-item.list .item {
@@ -1321,11 +1321,12 @@ a:active,a:focus,a:hover {
     border: none;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
-    border-radius: 0
+    border-radius: 10px;
+    border: 1px solid #cccccc;
 }
 
 .category-item.list .item+.item {
-    border-left: 1px solid #ccc
+    /* border-left: 1px solid #ccc */
 }
 
 .search-container:after,.search-container:before {

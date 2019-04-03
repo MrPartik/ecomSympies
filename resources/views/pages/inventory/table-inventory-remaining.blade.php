@@ -160,7 +160,7 @@
                                     <strong>
                                         <center>
                                             @if($countSKU)
-                                                <a target="_blank" href="{{url('inventory-remaining/'.$item->PROD_CODE)}}">{{$item->PROD_CODE}}</a>
+                                                <a  href="{{url('inventory-remaining/'.$item->PROD_CODE)}}">{{$item->PROD_CODE}}</a>
                                             @else
                                                 {{$item->PROD_CODE}}
                                             @endif
@@ -190,7 +190,7 @@
                                                     <input name="PROD_ID" style="display: none;" value="{{$item->PROD_ID}}">
                                                     <div class="col-md-12" style="padding-bottom: 50px;">
                                                         <label>Quantity</label>
-                                                        <input class="form-control" name=qty type="number" placeholder="Quantity" required>
+                                                        <input min=0  class="form-control" name=qty type="number" placeholder="Quantity" required>
                                                     </div>
                                                 <br>
                                                 <br>
@@ -221,10 +221,10 @@
                                                         <strong>{{$item->PROD_NAME}}</strong><br>
                                                         <small>{{$item->PROD_DESC}}</small>
                                                     </div>
-                                                    <input name="PROD_ID" style="display: none;" value="{{$item->PROD_ID}}">
+                                                    <input   name="PROD_ID" style="display: none;" value="{{$item->PROD_ID}}">
                                                     <div class="col-md-12" style="padding-bottom: 50px;">
                                                         <label>Quantity</label>
-                                                        <input class="form-control" name=qty type="number" placeholder="Quantity" required>
+                                                        <input min=0  class="form-control" name=qty type="number" placeholder="Quantity" required>
                                                     </div>
                                                     <br>
                                                     <br>
