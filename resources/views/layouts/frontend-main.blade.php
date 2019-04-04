@@ -500,6 +500,7 @@
             }
         });
         $('a[id=loginbtn]').on('click',function () {
+            $('div[id=success]').show();
                         $.ajax({
                             url: "/loginSympiesAccount"
                             ,data:{
@@ -521,7 +522,7 @@
                                     $('div[id=danger]').show();
                                 }
                             }
-                            ,error:function(){
+                            ,error:function($data){
                                 swal("Error occured", $data, "error");
 
                             }
