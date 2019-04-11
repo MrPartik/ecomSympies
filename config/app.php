@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Sympies'),
 
     /*
     |--------------------------------------------------------------------------
@@ -104,7 +104,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY'),
+    'key' => env('APP_KEY',base64_decode('Tw0X0J3WXtpOn1yq7ypee/spLAzgQC2J1PDaluosKWk=')),
 
     'cipher' => 'AES-256-CBC',
 

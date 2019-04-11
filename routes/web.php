@@ -155,9 +155,18 @@ Route::post('/loginSympiesAccount',function(\Illuminate\Http\Request $request){
 });
 
 Route::get('/logoutSympiesAccount/{id}',function($id){
+<<<<<<< HEAD
     $get = Session::get('sympiesAccount');
     if($get['ID']==$id)
         Session::forget('sympiesAccount');
+=======
+
+
+    $get = Session::get('sympiesAccount');
+    if($get['ID']===$id)
+        Session::forget('sympiesAccount');
+
+>>>>>>> efa78162a48012b15588344d139ee9bb841ad192
     return redirect()->back();
 });
 

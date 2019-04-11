@@ -319,7 +319,8 @@
                         <div class="item item-thumbnail">
                             <a href="{{url('product/details/'.$item->PROD_ID)}}" class="item-image">
                                 <img src="{{($item->PROD_IMG==null||!file_exists($item->PROD_IMG))?asset('uPackage.png'):asset($item->PROD_IMG)}}" alt="" />
-                                @if($item->DISCOUNT!="")<div class="item-discount-price" style="text-decoration:line-through; ">{{$item->DISCOUNT}}</div>@endif
+                                @php $discount=$item->PROD_DISCOUNT @endphp
+                                @if($discount!=0)<div class='discount' >{{$discount}}% OFF</div>@endif
                             </a>
                             <div class="item-info">
                                 <h4 class="item-title">
@@ -328,6 +329,7 @@
                                     </a>
                                 </h4>
                                 <p class="item-desc" title="{{$item->PROD_DESC}}">{{$item->PROD_DESC}}</p>
+
                                 <div class="item-price">
                                     {{$item->PRICE}}
                                 </div>
