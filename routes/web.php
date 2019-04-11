@@ -113,10 +113,11 @@ Route::get('/get/user-invoice/{id}',function($id){
 
 Route::resource('/','frontProductsController');
 
+
 Route::post('/loginSympiesAccount',function(\Illuminate\Http\Request $request){
 
-    $login = 'http://sympies.pupqc.net/aaa/getLogin.php';
-    $profile = 'http://sympies.pupqc.net/aaa/getProfileDetails.php';
+    $login = 'http://sympies.pupqc.net/getLogin.php';
+    $profile = 'http://sympies.pupqc.net/getProfileDetails.php';
 
     $actor = $request->actor;
     $password = $request->password;
@@ -130,7 +131,7 @@ Route::post('/loginSympiesAccount',function(\Illuminate\Http\Request $request){
     $login = curl_exec($ch);
     curl_close($ch);
 
-    if($login=='true') {
+    if($login) {
     $ch = curl_init();
     curl_setopt($ch,CURLOPT_URL, $profile);
     curl_setopt($ch, CURLOPT_POST, 1);
@@ -163,5 +164,31 @@ Route::get('/logoutSympiesAccount/{id}',function($id){
 });
 
 Route::get('/mail','mailer@sendEmailReminder');
+
+
+Route::get('/getAllCategories',function(){
+   $prodcat = \Illuminate\Support\Facades\DB::SELECT('SELECT parent.PRODT_TITLE PARENT
+,SUM(((SELECT IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE (INV.INV_TYPE=\'CAPITAL\' OR INV.INV_TYPE=\'ADD\') AND INV.PROD_ID=PROD.PROD_ID)
++(SELECT -IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE=\'DISPOSE\' AND INV.PROD_ID=PROD.PROD_ID)
++(SELECT -IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE=\'ORDER\' AND INV.PROD_ID=PROD.PROD_ID)
++(SELECT IFNULL(SUM(PRODV.PRODV_INIT_QTY),0) FROM t_product_variances PRODV WHERE PRODV.PROD_ID = PROD.PROD_ID)
++(SELECT IFNULL(SUM(PROD_INIT_QTY),0) FROM r_product_infos t_infos WHERE PROD_ID = PROD.PROD_ID))) TOTAL
+
+FROM r_product_types parent
+INNER JOIN r_product_types child ON parent.PRODT_ID = child.PRODT_PARENT
+INNER JOIN r_product_infos PROD ON child.PRODT_ID = PROD.PRODT_ID
+GROUP BY parent.PRODT_TITLE 
+
+');
+
+
+    return json_encode(array('categories'=>$prodcat));
+});
+
+Route::get('/getAllProducts',function (){
+    return \App\Providers\sympiesProvider::filterAvailable(\App\r_product_info::with('rAffiliateInfo', 'rProductType')
+        ->where('PROD_IS_APPROVED', '1')
+        ->where('PROD_DISPLAY_STATUS', 1)->get());
+});
 
 
