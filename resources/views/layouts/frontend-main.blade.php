@@ -501,6 +501,7 @@
         });
         $('a[id=loginbtn]').on('click',function () {
             $('div[id=success]').show();
+            $('div[id=danger]').hide();
                         $.ajax({
                             url: "/loginSympiesAccount"
                             ,data:{
