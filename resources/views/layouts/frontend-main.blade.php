@@ -123,105 +123,6 @@
                                 @if(Session::get('sympiesAccount'))
                                     <li class="{{Request::is('/summary-orders')?'active':''}}" ><a href="{{url('/summary-orders')}}">Manage Orders</a></li>
                             @endif
-                                {{--<li class="dropdown dropdown-full-width dropdown-hover">--}}
-                                    {{--<a href="#" data-toggle="dropdown">--}}
-                                        {{--Our Store --}}
-                                        {{--<i class="fa fa-angle-down"></i>--}}
-                                        {{--<span class="arrow top"></span>--}}
-                                    {{--</a>--}}
-                                    {{--<!-- BEGIN dropdown-menu -->--}}
-                                    {{--<div class="dropdown-menu p-0">--}}
-                                        {{--<!-- BEGIN dropdown-menu-container -->--}}
-                                        {{--<div class="dropdown-menu-container">--}}
-                                            {{--<!-- BEGIN dropdown-menu-sidebar -->--}}
-                                            {{--<div class="dropdown-menu-sidebar">--}}
-                                                {{--<h4 class="title">Shop By Categories</h4>--}}
-                                                {{--<ul class="dropdown-menu-list">--}}
-                                                    {{--<li><a href="product.html">Mobile Phone <i class="fa fa-angle-right pull-right"></i></a></li>--}}
-                                                    {{--<li><a href="product.html">Tablet <i class="fa fa-angle-right pull-right"></i></a></li>--}}
-                                                    {{--<li><a href="product.html">Laptop <i class="fa fa-angle-right pull-right"></i></a></li>--}}
-                                                    {{--<li><a href="product.html">Desktop <i class="fa fa-angle-right pull-right"></i></a></li>--}}
-                                                    {{--<li><a href="product.html">TV <i class="fa fa-angle-right pull-right"></i></a></li>--}}
-                                                    {{--<li><a href="product.html">Speaker <i class="fa fa-angle-right pull-right"></i></a></li>--}}
-                                                    {{--<li><a href="product.html">Gadget <i class="fa fa-angle-right pull-right"></i></a></li>--}}
-                                                {{--</ul>--}}
-                                            {{--</div>--}}
-                                            {{--<!-- END dropdown-menu-sidebar -->--}}
-                                            {{--<!-- BEGIN dropdown-menu-content -->--}}
-                                            {{--<div class="dropdown-menu-content">--}}
-                                                {{--<h4 class="title">Shop By Popular Phone</h4>--}}
-                                                {{--<div class="row">--}}
-                                                    {{--<div class="col-md-3">--}}
-                                                        {{--<ul class="dropdown-menu-list">--}}
-                                                            {{--<li><a href="product_detail.html"><i class="fa fa-fw fa-angle-right text-muted"></i> iPhone 7</a></li>--}}
-                                                            {{--<li><a href="product_detail.html"><i class="fa fa-fw fa-angle-right text-muted"></i> iPhone 6s</a></li>--}}
-                                                            {{--<li><a href="product_detail.html"><i class="fa fa-fw fa-angle-right text-muted"></i> iPhone 6</a></li>--}}
-                                                            {{--<li><a href="product_detail.html"><i class="fa fa-fw fa-angle-right text-muted"></i> iPhone 5s</a></li>--}}
-                                                            {{--<li><a href="product_detail.html"><i class="fa fa-fw fa-angle-right text-muted"></i> iPhone 5</a></li>--}}
-                                                        {{--</ul>--}}
-                                                    {{--</div>--}}
-                                                    {{--<div class="col-md-3">--}}
-                                                        {{--<ul class="dropdown-menu-list">--}}
-                                                            {{--<li><a href="product_detail.html"><i class="fa fa-fw fa-angle-right text-muted"></i> Galaxy S7</a></li>--}}
-                                                            {{--<li><a href="product_detail.html"><i class="fa fa-fw fa-angle-right text-muted"></i> Galaxy A9</a></li>--}}
-                                                            {{--<li><a href="product_detail.html"><i class="fa fa-fw fa-angle-right text-muted"></i> Galaxy J3</a></li>--}}
-                                                            {{--<li><a href="product_detail.html"><i class="fa fa-fw fa-angle-right text-muted"></i> Galaxy Note 5</a></li>--}}
-                                                            {{--<li><a href="product_detail.html"><i class="fa fa-fw fa-angle-right text-muted"></i> Galaxy S7</a></li>--}}
-                                                        {{--</ul>--}}
-                                                    {{--</div>--}}
-                                                    {{--<div class="col-md-3">--}}
-                                                        {{--<ul class="dropdown-menu-list">--}}
-                                                            {{--<li><a href="product_detail.html"><i class="fa fa-fw fa-angle-right text-muted"></i> Lumia 730</a></li>--}}
-                                                            {{--<li><a href="product_detail.html"><i class="fa fa-fw fa-angle-right text-muted"></i> Lumia 735</a></li>--}}
-                                                            {{--<li><a href="product_detail.html"><i class="fa fa-fw fa-angle-right text-muted"></i> Lumia 830</a></li>--}}
-                                                            {{--<li><a href="product_detail.html"><i class="fa fa-fw fa-angle-right text-muted"></i> Lumia 820</a></li>--}}
-                                                            {{--<li><a href="product_detail.html"><i class="fa fa-fw fa-angle-right text-muted"></i> Lumia Icon</a></li>--}}
-                                                        {{--</ul>--}}
-                                                    {{--</div>--}}
-                                                    {{--<div class="col-md-3">--}}
-                                                        {{--<ul class="dropdown-menu-list">--}}
-                                                            {{--<li><a href="product_detail.html"><i class="fa fa-fw fa-angle-right text-muted"></i> Xperia X</a></li>--}}
-                                                            {{--<li><a href="product_detail.html"><i class="fa fa-fw fa-angle-right text-muted"></i> Xperia Z5</a></li>--}}
-                                                            {{--<li><a href="product_detail.html"><i class="fa fa-fw fa-angle-right text-muted"></i> Xperia M5</a></li>--}}
-                                                            {{--<li><a href="product_detail.html"><i class="fa fa-fw fa-angle-right text-muted"></i> Xperia C5</a></li>--}}
-                                                            {{--<li><a href="product_detail.html"><i class="fa fa-fw fa-angle-right text-muted"></i> Xperia C4</a></li>--}}
-                                                        {{--</ul>--}}
-                                                    {{--</div>--}}
-                                                {{--</div>--}}
-                                                {{--<h4 class="title">Shop By Brand</h4>--}}
-                                                {{--<ul class="dropdown-brand-list m-b-0">--}}
-                                                    {{--<li><a href="product.html"><img src="../assets/img/brand/brand-apple.png" alt="" /></a></li>--}}
-                                                    {{--<li><a href="product.html"><img src="../assets/img/brand/brand-samsung.png" alt="" /></a></li>--}}
-                                                    {{--<li><a href="product.html"><img src="../assets/img/brand/brand-htc.png" alt="" /></a></li>--}}
-                                                    {{--<li><a href="product.html"><img src="../assets/img/brand/brand-microsoft.png" alt="" /></a></li>--}}
-                                                    {{--<li><a href="product.html"><img src="../assets/img/brand/brand-nokia.png" alt="" /></a></li>--}}
-                                                    {{--<li><a href="product.html"><img src="../assets/img/brand/brand-blackberry.png" alt="" /></a></li>--}}
-                                                    {{--<li><a href="product.html"><img src="../assets/img/brand/brand-sony.png" alt="" /></a></li>--}}
-                                                {{--</ul>--}}
-                                            {{--</div>--}}
-                                            {{--<!-- END dropdown-menu-content -->--}}
-                                        {{--</div>--}}
-                                        {{--<!-- END dropdown-menu-container -->--}}
-                                    {{--</div>--}}
-                                    {{--<!-- END dropdown-menu -->--}}
-                                {{--</li>--}}
-                                <!-- <li class="dropdown dropdown-hover">
-                                    <a href="#" data-toggle="dropdown">
-                                        Accessories
-                                        <i class="fa fa-angle-down"></i>
-                                        <span class="arrow top"></span>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="product.html">Mobile Phone</a></li>
-                                        <li><a href="product.html">Tablet</a></li>
-                                        <li><a href="product.html">TV</a></li>
-                                        <li><a href="product.html">Desktop</a></li>
-                                        <li><a href="product.html">Laptop</a></li>
-                                        <li><a href="product.html">Speaker</a></li>
-                                        <li><a href="product.html">Gadget</a></li>
-                                    </ul>
-                                </li> -->
-                                <!-- <li><a href="product.html">New Arrival</a></li>  -->
                                 <li class="dropdown dropdown-hover">
                                     <a href="#" data-toggle="dropdown">
                                         <i class="fa fa-search search-btn"></i>
@@ -432,7 +333,7 @@
                                 Invalid Credentials
                             </div>
                             <div class="alert alert-success " id="success" style="display: none;">
-                                Redirecting...
+                                Loading`...
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -500,6 +401,8 @@
             }
         });
         $('a[id=loginbtn]').on('click',function () {
+            $('div[id=success]').show();
+            $('div[id=danger]').hide();
                         $.ajax({
                             url: "/loginSympiesAccount"
                             ,data:{
@@ -510,8 +413,6 @@
                             ,type:'POST'
                             ,success:function($data){
                                 if($data=='true'){
-                                    $('div[id=success]').show();
-                                    $('div[id=danger]').hide();
                                     setTimeout(function(){
                                         location.reload();
                                     },500)

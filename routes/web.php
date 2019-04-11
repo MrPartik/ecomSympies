@@ -156,16 +156,12 @@ Route::post('/loginSympiesAccount',function(\Illuminate\Http\Request $request){
 
 Route::get('/logoutSympiesAccount/{id}',function($id){
 
-    $account = Array(
-        "ID" => 2,
-        "NAME" =>"username",
-        "CONTACT_NO" => "099999999",
-        "HOME_ADDRESS" => "",
-        "EMAIL" => "loyolapat04buyer@gmail.com",
-    );
-    Session::put('sympiesAccount', $account);
+
     $get = Session::get('sympiesAccount');
-    return $get;
+    if($get['ID']===$id)
+        Session::forget('sympiesAccount');
+
+    return redirect()->back();
 });
 
 Route::get('/mail','mailer@sendEmailReminder');

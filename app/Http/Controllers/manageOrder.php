@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\r_product_info;
+use App\t_invoice;
 use App\t_order;
 use App\t_order_item;
+use App\t_payment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -63,6 +65,16 @@ class manageOrder extends Controller
                     $order->ORD_CANCELLED = NULL;
                     $order->updated_at = Carbon::now();
                     $order->save();
+
+                    $inv = t_invoice::where('ORD_ID',$id)->first();
+                    $inv->INV_STATUS = 'Completed';
+                    $inv->updated_at = Carbon::now();
+                    $inv->save();
+
+                    $pay = t_payment::where('INV_ID',$inv->INV_ID)->first();
+                    $pay->PAY_CAPTURED_AT = Carbon::now();
+                    $pay->updated_at = Carbon::now();
+                    $pay->save();
                 }
             }else if($type==2){
                 foreach($ids as $id){
@@ -72,6 +84,17 @@ class manageOrder extends Controller
                     $order->ORD_CANCELLED = NULL;
                     $order->updated_at = Carbon::now();
                     $order->save();
+
+                    $inv = t_invoice::where('ORD_ID',$id)->first();
+                    $inv->INV_STATUS = 'Void';
+                    $inv->updated_at = Carbon::now();
+                    $inv->save();
+
+                    $pay = t_payment::where('INV_ID',$inv->INV_ID)->first();
+                    $pay->PAY_CAPTURED_AT = NULL;
+                    $pay->updated_at = Carbon::now();
+                    $pay->save();
+
                 }
             }else if($type==3){
                 $order = t_order::where('ORD_ID',$id)->first();
@@ -81,6 +104,15 @@ class manageOrder extends Controller
                 $order->updated_at = Carbon::now();
                 $order->save();
 
+                $inv = t_invoice::where('ORD_ID',$id)->first();
+                $inv->INV_STATUS = 'Refunded';
+                $inv->updated_at = Carbon::now();
+                $inv->save();
+
+                $pay = t_payment::where('INV_ID',$inv->INV_ID)->first();
+                $pay->PAY_CAPTURED_AT = NULL;
+                $pay->updated_at = Carbon::now();
+                $pay->save();
             }else if($type==4){
                 $order = t_order::where('ORD_ID',$id)->first();
                 $order->ORD_STATUS = 'Void';
@@ -89,14 +121,34 @@ class manageOrder extends Controller
                 $order->updated_at = Carbon::now();
                 $order->save();
 
+                $inv = t_invoice::where('ORD_ID',$id)->first();
+                $inv->INV_STATUS = 'Void';
+                $inv->updated_at = Carbon::now();
+                $inv->save();
+
+                $pay = t_payment::where('INV_ID',$inv->INV_ID)->first();
+                $pay->PAY_CAPTURED_AT = NULL;
+                $pay->updated_at = Carbon::now();
+                $pay->save();
+
             }else if($type==5){
                 $order = t_order::where('ORD_ID',$id)->first();
                 $order->ORD_STATUS = 'Completed';
                 $order->ORD_COMPLETE = Carbon::now();
                 $order->ORD_CANCELLED = NULL;
                 $order->updated_at = Carbon::now();
-
                 $order->save();
+
+
+                $inv = t_invoice::where('ORD_ID',$id)->first();
+                $inv->INV_STATUS = 'Completed';
+                $inv->updated_at = Carbon::now();
+                $inv->save();
+
+                $pay = t_payment::where('INV_ID',$inv->INV_ID)->first();
+                $pay->PAY_CAPTURED_AT = Carbon::now();
+                $pay->updated_at = Carbon::now();
+                $pay->save();
 
             }else if($type==6){
                 $order = t_order::where('ORD_ID',$id)->first();
@@ -106,6 +158,16 @@ class manageOrder extends Controller
                 $order->updated_at = Carbon::now();
                 $order->save();
 
+                $inv = t_invoice::where('ORD_ID',$id)->first();
+                $inv->INV_STATUS = 'Cancelled';
+                $inv->updated_at = Carbon::now();
+                $inv->save();
+
+                $pay = t_payment::where('INV_ID',$inv->INV_ID)->first();
+                $pay->PAY_CAPTURED_AT = NULL;
+                $pay->updated_at = Carbon::now();
+                $pay->save();
+
             }else if($type==6.1){
                 $order = t_order::where('ORD_ID',$id)->first();
                 $order->ORD_STATUS = 'Pending';
@@ -114,13 +176,26 @@ class manageOrder extends Controller
                 $order->updated_at = Carbon::now();
                 $order->save();
 
+
+                $inv = t_invoice::where('ORD_ID',$id)->first();
+                $inv->INV_STATUS = 'Pending';
+                $inv->updated_at = Carbon::now();
+                $inv->save();
+
+
             }else if($type==3.1){
                 $order = t_order::where('ORD_ID',$id)->first();
                 $order->ORD_STATUS = 'Pending';
                 $order->ORD_COMPLETE = NULL;
                 $order->ORD_CANCELLED = NULL;
-                $order->updated_at = Carbon::now();
+                $order->updated_at = Carbon::now()  ;
                 $order->save();
+
+                $inv = t_invoice::where('ORD_ID',$id)->first();
+                $inv->INV_STATUS = 'Pending';
+                $inv->updated_at = Carbon::now();
+                $inv->save();
+
             }
 
     }
