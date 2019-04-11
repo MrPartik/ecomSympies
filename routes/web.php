@@ -173,11 +173,11 @@ Route::get('/getAllCategories',function(){
 +(SELECT -IFNULL(SUM(INV.INV_QTY),0) FROM r_inventory_infos INV WHERE INV.INV_TYPE=\'ORDER\' AND INV.PROD_ID=PROD.PROD_ID)
 +(SELECT IFNULL(SUM(PRODV.PRODV_INIT_QTY),0) FROM t_product_variances PRODV WHERE PRODV.PROD_ID = PROD.PROD_ID)
 +(SELECT IFNULL(SUM(PROD_INIT_QTY),0) FROM r_product_infos t_infos WHERE PROD_ID = PROD.PROD_ID))) TOTAL
-
+,parent.PRODT_ICON ICON
 FROM r_product_types parent
 INNER JOIN r_product_types child ON parent.PRODT_ID = child.PRODT_PARENT
 INNER JOIN r_product_infos PROD ON child.PRODT_ID = PROD.PRODT_ID
-GROUP BY parent.PRODT_TITLE 
+GROUP BY parent.PRODT_TITLE,parent.PRODT_ICON
 
 ');
 

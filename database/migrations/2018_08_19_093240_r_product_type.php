@@ -21,6 +21,7 @@ class RProductType extends Migration
             $table->increments("PRODT_ID");
             $table->string("PRODT_TITLE");
             $table->text("PRODT_DESC");
+            $table->string("PRODT_ICON")->nullable();
             $table->unsignedInteger("PRODT_PARENT")->nullable();
             $table->boolean("PRODT_DISPLAY_STATUS")->default(1);
             $table->timestamps();

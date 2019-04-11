@@ -33,7 +33,7 @@ class r_product_type extends Model
     /**
      * @var array
      */
-    protected $fillable = ['PRODT_TITLE', 'PRODT_DESC', 'PRODT_PARENT', 'PRODT_DISPLAY_STATUS', 'created_at', 'updated_at'];
+    protected $fillable = ['PRODT_TITLE', 'PRODT_DESC', 'PRODT_PARENT','PRODT_ICON', 'PRODT_DISPLAY_STATUS', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
