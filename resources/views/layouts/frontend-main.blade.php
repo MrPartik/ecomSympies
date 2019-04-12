@@ -333,7 +333,7 @@
                                 Invalid Credentials
                             </div>
                             <div class="alert alert-success " id="success" style="display: none;">
-                                Loading`...
+                                Loading ...
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -422,7 +422,7 @@
                                     $('div[id=danger]').show();
                                 }
                             }
-                            ,error:function(){
+                            ,error:function($data){
                                 swal("Error occured", $data, "error");
 
                             }
