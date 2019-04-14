@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+sdropdrop
+=======
 <?php
 
 /*
@@ -191,3 +194,4 @@ Route::get('/getAllProducts',function (){
 });
 
 
+>>>>>>> 450bbcde9a13c5eb6f4e0f29c27634e7a772e3f0
