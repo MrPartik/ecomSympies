@@ -87,11 +87,11 @@
                                     <tr>
                                         <td>{{$item->FROM_NAME}}</td>
                                         <td>{{$item->QUANTITY}}</td>
-                                        <td>{{Sympies::current_price(number_format($item->DISCOUNT,2))}}</td>
-                                        <td>{{Sympies::current_price(number_format($item->NET_SALES,2))}}</td>
-                                        <td>{{Sympies::current_price(number_format($item->VAT_SALES,2))}}</td>
-                                        <td>{{Sympies::current_price(number_format($item->DELIVERY,2))}}</td>
-                                        <td>{{Sympies::current_price(number_format($item->GROSS_SALES,2))}}</td>
+                                        <td>{{(number_format($item->DISCOUNT,2))}}</td>
+                                        <td>{{(number_format($item->NET_SALES,2))}}</td>
+                                        <td>{{(number_format($item->VAT_SALES,2))}}</td>
+                                        <td>{{(number_format($item->DELIVERY,2))}}</td>
+                                        <td>{{(number_format($item->GROSS_SALES,2))}}</td>
                                     </tr>
                                 @endforeach
 
@@ -99,11 +99,11 @@
                                 <tfoot>
                                 <th style="width: 30%">Total</th>
                                 <th>{{collect($customer)->sum('QUANTITY')}}</th>
-                                <th>{{Sympies::current_price(number_format($customer->sum('DISCOUNT'),2))}}</th>
-                                <th>{{Sympies::current_price(number_format($customer->sum('NET_SALES'),2))}}</th>
-                                <th>{{Sympies::current_price(number_format($customer->sum('VAT_SALES'),2))}}</th>
-                                <th>{{Sympies::current_price(number_format($customer->sum('DELIVERY'),2))}}</th>
-                                <th>{{Sympies::current_price(number_format($customer->sum('GROSS_SALES'),2))}}</th>
+                                <th>{{(number_format($customer->sum('DISCOUNT'),2))}}</th>
+                                <th>{{(number_format($customer->sum('NET_SALES'),2))}}</th>
+                                <th>{{(number_format($customer->sum('VAT_SALES'),2))}}</th>
+                                <th>{{(number_format($customer->sum('DELIVERY'),2))}}</th>
+                                <th>{{(number_format($customer->sum('GROSS_SALES'),2))}}</th>
                                 </tfoot>
                             </table>
                         </div>
@@ -131,15 +131,14 @@
                                 @foreach($stock as $item)
                                     <tr>
                                         <td>
-                                            <strong>{{$item->PROD_NAME}}</strong><br>
-                                            <small>{{$item->SKU}}</small>
+                                            <strong>{{$item->PROD_NAME}}</strong><br> <small>{{$item->SKU}}</small>
                                         </td>
                                         <td>{{$item->QUANTITY}}</td>
-                                        <td>{{Sympies::current_price(number_format($item->DISCOUNT,2))}}</td>
-                                        <td>{{Sympies::current_price(number_format($item->NET_SALES,2))}}</td>
-                                        <td>{{Sympies::current_price(number_format($item->VAT_SALES,2))}}</td>
-                                        <td>{{Sympies::current_price(number_format($item->DELIVERY,2))}}</td>
-                                        <td>{{Sympies::current_price(number_format($item->GROSS_SALES,2))}}</td>
+                                        <td>{{(number_format($item->DISCOUNT,2))}}</td>
+                                        <td>{{(number_format($item->NET_SALES,2))}}</td>
+                                        <td>{{(number_format($item->VAT_SALES,2))}}</td>
+                                        <td>{{(number_format($item->DELIVERY,2))}}</td>
+                                        <td>{{(number_format($item->GROSS_SALES,2))}}</td>
                                     </tr>
                                 @endforeach
 
@@ -147,11 +146,11 @@
                                 <tfoot>
                                 <th style="width: 30%">Total</th>
                                 <th>{{collect($stock)->sum('QUANTITY')}}</th>
-                                <th>{{Sympies::current_price(number_format($stock->sum('DISCOUNT'),2))}}</th>
-                                <th>{{Sympies::current_price(number_format($stock->sum('NET_SALES'),2))}}</th>
-                                <th>{{Sympies::current_price(number_format($stock->sum('VAT_SALES'),2))}}</th>
-                                <th>{{Sympies::current_price(number_format($stock->sum('DELIVERY'),2))}}</th>
-                                <th>{{Sympies::current_price(number_format($stock->sum('GROSS_SALES'),2))}}</th>
+                                <th>{{(number_format($stock->sum('DISCOUNT'),2))}}</th>
+                                <th>{{(number_format($stock->sum('NET_SALES'),2))}}</th>
+                                <th>{{(number_format($stock->sum('VAT_SALES'),2))}}</th>
+                                <th>{{(number_format($stock->sum('DELIVERY'),2))}}</th>
+                                <th>{{(number_format($stock->sum('GROSS_SALES'),2))}}</th>
                                 </tfoot>
                             </table>
                         </div>
@@ -186,33 +185,11 @@
             "aaSorting": [[3, "desc" ]]
             ,dom: 'lBfrtip'
             ,   buttons: [
-                { extend: 'copy', className: 'btn-sm',
-                    exportOptions: {
-                        columns: [0,1,2,3]
-                    }
-                },
-                { extend: 'csv', className: 'btn-sm' ,
-                    exportOptions: {
-                        columns: [0,1,2,3]
-                    }
-                },
-                { extend: 'excel', className: 'btn-sm',
-                    exportOptions: {
-                        columns: [0,1,2,3]
-                    }
-                },
-                { extend: 'pdf', className: 'btn-sm',
-                    exportOptions: {
-                        columns: [0,1,2,3]
-                    }
-                },
-                { extend: 'print', className: 'btn-sm',
-                    exportOptions: {
-                        columns: [0,1,2,3]
-                    }
-                },
-
-
+                { extend: 'copy', className: 'btn-sm',footer:true},
+                { extend: 'csv', className: 'btn-sm' ,footer:true},
+                { extend: 'excel', className: 'btn-sm',footer:true},
+                { extend: 'pdf', className: 'btn-sm',footer:true},
+                { extend: 'print', className: 'btn-sm',footer:true},
             ],
         });
 
