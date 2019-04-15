@@ -38,10 +38,10 @@
                                             $timediff = strtotime($today) - strtotime($pending_at);
                                         @endphp
                                         @if($status=='Pending' && $timediff < 86400)
-                                            <button class="btn btn-warning" data-toggle="tooltip" title="Cancellation Request"><i class="fa fa-times"></i></button>
+                                            <button data-target="#reqRefund-{{$item->ORD_ID}}" class="btn btn-warning" data-toggle="modal" title="Cancellation Request"><i class="fa fa-times"></i></button>
                                         @endif
                                         @if($status=='Completed')
-                                            <button class="btn btn-danger" data-toggle="tooltip" title="Refund Request"><i class="fa fa-exchange"></i></button>
+                                            <button data-target="#reqCancel-{{$item->ORD_ID}}"  class="btn btn-danger" data-toggle="modal" title="Refund Request"><i class="fa fa-exchange"></i></button>
                                         @endif
                                     </div>
                                     <a data-toggle="collapse" href="#order-{{$item->ORD_ID}}">
@@ -72,9 +72,85 @@
                                                 Price: {{Sympies::current_price(number_format($ord_item->ORDI_SOLD_PRICE,2))}}
                                             </div>
                                         </div>
+
                                     @endforeach
                                 </div>
                             </div>
+
+                            <div class="modal fade" id="reqCancel-{{$item->ORD_ID}}">
+                                <div class="modal-dialog" style="width:500px;">
+                                    <div class="modal-content">
+                                        <div class="modal-header" style="background: #ff2e2f; color:white;">
+                                            <h4 class="modal-title">Request for Refund</h4>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <form method="post" action="{{url('/inventory-acquire/product')}}">
+                                                {{csrf_field()}}
+                                                <div class="row" style="padding-left:10px;padding-right: 10px;">
+                                                    <div class="col-md-12">
+                                                        <div class="alert alert-success " style="width: 100%;">
+                                                            <strong>{{$ord_item->PROD_NAME}}</strong><br>
+                                                            <small>{{$ord_item->PROD_DESC}}</small>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="alert " style="font-weight: bolder; width: 100%;background:rgba(0,0,0,0.74);color:white">
+                                                            <strong>{{Sympies::current_price(number_format($ord_item->ORDI_SOLD_PRICE,2))}}</strong>
+                                                        </div>
+                                                    </div>
+                                                    <input name="ORD_ID" style="display: none;" value="{{$ord_item->PROD_ID}}">
+                                                    <input name="ORD_STATUS" style="display: none;" value="Request Refund">
+
+                                                    <div class="col-md-12" style="   bottom: 10px; ">
+                                                        <button  type="submit" class="btn btn-success">Save</button>
+                                                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cancel</a>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="reqRefund-{{$item->ORD_ID}}">
+                                <div class="modal-dialog" style="width:500px;">
+                                    <div class="modal-content">
+                                        <div class="modal-header" style="background: #ff904b; color:white;">
+                                            <h4 class="modal-title">Request for Refund</h4>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <form method="post" action="{{url('/inventory-acquire/product')}}">
+                                                {{csrf_field()}}
+                                                <div class="row" style="padding-left:10px;padding-right: 10px;">
+                                                    <div class="col-md-12">
+                                                        <div class="alert alert-success " style="width: 100%;">
+                                                            <strong>{{$ord_item->PROD_NAME}}</strong><br>
+                                                            <small>{{$ord_item->PROD_DESC}}</small>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="alert " style="font-weight: bolder; width: 100%;background:rgba(0,0,0,0.74);color:white">
+                                                            <strong>{{Sympies::current_price(number_format($ord_item->ORDI_SOLD_PRICE,2))}}</strong>
+                                                        </div>
+                                                    </div>
+                                                    <input name="ORD_ID" style="display: none;" value="{{$ord_item->PROD_ID}}">
+                                                    <input name="ORD_STATUS" style="display: none;" value="Request Cancellation">
+
+                                                    <div class="col-md-12" style="   bottom: 10px; ">
+                                                        <button  type="submit" class="btn btn-success">Save</button>
+                                                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cancel</a>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
                         <!-- END panel -->
                     @endforeach

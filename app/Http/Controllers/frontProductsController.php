@@ -29,7 +29,6 @@ class frontProductsController extends Controller
 
         $cat = r_product_type::with('rProductType')->where('PRODT_DISPLAY_STATUS',1)->get();
 
-//        dd($Allprod = collect($Allprod));
             $Allprod = sympiesProvider::format($Allprod);
             return view('pages.frontend-shop.list-front-products', compact('Allprod', 'aff', 'cat','a'));
     }
@@ -100,6 +99,32 @@ class frontProductsController extends Controller
         //
     }
 
+    public function search(Request $request){
+        $search = $request->get('search');
+        $price_from = $request->get('price_from');
+        $price_to = $request->get('price_to');
+
+        $Allprod = sympiesProvider::filterAvailable(r_product_info::with('rAffiliateInfo', 'rProductType')
+            ->where('PROD_IS_APPROVED', '1')
+            ->where('PROD_DISPLAY_STATUS', 1)->get());
+
+        $searchResult =sympiesProvider::filterAvailable(r_product_info::with('rAffiliateInfo', 'rProductType')
+            ->orWhere('PROD_NAME','like','%'.$search.'%')
+            ->orWhere('PROD_DESC','like','%'.$search.'%')
+            ->get());
+
+        $Allprod = sympiesProvider::format($Allprod);
+        $searchResult = collect(sympiesProvider::format($searchResult))
+            ->where('UNFORMAT_PRICE','>=',$price_from)
+            ->where('UNFORMAT_PRICE','<=',$price_to);
+        $aff = r_affiliate_info::where('AFF_DISPLAY_STATUS',1)->get();
+
+        $cat = r_product_type::with('rProductType')->where('PRODT_DISPLAY_STATUS',1)->get();
+
+
+        return view('pages.frontend-shop.product-search',compact('search','Allprod','searchResult','aff','cat','price_from','price_to'));
+
+    }
     public function getProdAffiliates($id){
 
         if($id!=0)

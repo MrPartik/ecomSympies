@@ -49,7 +49,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li class="{{Route::is('prodList')?'active':''}}"><a href="{{url('product/list')}}">Product List</a></li>
-                    <li class="{{Route::is('prodCat')?'active':''}}"><a href="{{url('product/category')}}">Product Category</a></li>
+{{--                    <li class="{{Route::is('prodCat')?'active':''}}"><a href="{{url('product/category')}}">Product Category</a></li>--}}
 
                 </ul>
             </li>

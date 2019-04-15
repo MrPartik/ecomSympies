@@ -119,10 +119,12 @@ class sympiesProvider extends ServiceProvider
                 $discount = $item->PROD_DISCOUNT;
                 $total= $item->PROD_MY_PRICE;
 
+                $unformat_price = (($total!='NAN')?(($discount)?$total-($total*($discount/100)):$total):$total);
                 $price = sympiesProvider::current_price(($total!='NAN')?number_format(($discount)?$total-($total*($discount/100)):$total,2):$total);
                 $discount_price = sympiesProvider::current_price(($discount)?number_format($total,2):'');
 
                 $item->PRICE = $price;
+                $item->UNFORMAT_PRICE = $unformat_price;
                 $item->DISCOUNT = $discount_price;
 
 

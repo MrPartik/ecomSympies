@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-sdropdrop
-=======
+
 <?php
 
 /*
@@ -134,7 +132,7 @@ Route::post('/loginSympiesAccount',function(\Illuminate\Http\Request $request){
     $login = curl_exec($ch);
     curl_close($ch);
 
-    if($login) {
+    if($login=='true') {
     $ch = curl_init();
     curl_setopt($ch,CURLOPT_URL, $profile);
     curl_setopt($ch, CURLOPT_POST, 1);
@@ -180,8 +178,7 @@ Route::get('/getAllCategories',function(){
 FROM r_product_types parent
 INNER JOIN r_product_types child ON parent.PRODT_ID = child.PRODT_PARENT
 INNER JOIN r_product_infos PROD ON child.PRODT_ID = PROD.PRODT_ID
-GROUP BY parent.PRODT_TITLE,parent.PRODT_ICON
-');
+GROUP BY parent.PRODT_TITLE,parent.PRODT_ICON');
 
 
     return json_encode(array('feedcontent'=>$prodcat));
@@ -193,5 +190,4 @@ Route::get('/getAllProducts',function (){
         ->where('PROD_DISPLAY_STATUS', 1)->get());
 });
 
-
->>>>>>> 450bbcde9a13c5eb6f4e0f29c27634e7a772e3f0
+Route::get('/search','frontProductsController@search');

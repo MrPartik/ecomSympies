@@ -411,7 +411,6 @@
 
 
 
-        {{--btn_getProdAff--}}p
         <script>
             $('a[id=btn_getProdCat]').on('click',function(){
                 $btn = $(this);
