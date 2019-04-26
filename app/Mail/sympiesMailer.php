@@ -23,9 +23,9 @@ class sympiesMailer extends Mailable
      *
      * @return void
      */
-    public function __construct($demo)
+    public function __construct()
     {
-        $this->demo = $demo;
+
     }
 
     /**
@@ -35,17 +35,6 @@ class sympiesMailer extends Mailable
      */
     public function build()
     {
-        return $this->from('loyolapat04@gmail.com')
-            ->view('mailer.sympiesMailer')
-            ->text('mailer.sympiesMailerPlain')
-            ->with(
-                [
-                    'testVarOne' => '1',
-                    'testVarTwo' => '2',
-                ]);
-//            ->attach(public_path('/images').'/demo.jpg', [
-//                'as' => 'demo.jpg',
-//                'mime' => 'image/jpeg',
-//            ]);
+        return $this->view('mailer.sympiesMailerPlain');
     }
 }

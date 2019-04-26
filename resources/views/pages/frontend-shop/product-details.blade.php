@@ -226,19 +226,27 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="cart-summary" colspan="4">
-                                                        <div style="float: left; width: 25%">
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group">
+                                                        <div style="float: left; width: 50%">
+                                                            <div class="panel-body panel-form">
+                                                                <form class="form-horizontal form-bordered">
+
+                                                                    <div class="form-group row">
+                                                                        <label class="col-md-4 col-form-label">Receiver's  Email</label>
+                                                                        <div class="col-md-8">
                                                                             <input type="text" class="form-control" name="to_email" value="" placeholder="Receiver`s Email" required />
-                                                                    </div>
-                                                                </div>
-                                                                <br>
-                                                                <div class="col-md-12" style="margin-top: 10px;">
-                                                                    <div class="form-group">
-                                                                            <input type="text" class="form-control" name="to_contact" value="" placeholder="Receiver`s Contact Number" required/>
                                                                         </div>
-                                                                </div>
+                                                                    </div>
+                                                                    <br>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-md-4 col-form-label">Receiver's Contact No.</label>
+                                                                        <div class="col-md-8">
+                                                                            <div class="row row-space-10">
+
+                                                                                <input type="text" class="form-control" name="to_contact" value="" placeholder="Receiver`s Contact Number" required/>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
                                                             </div>
                                                         </div>
                                                         <div class="summary-container">
@@ -296,7 +304,7 @@
                                         </tr>
                                         </table>
                                         <!-- PayPal Logo -->
-                                        <a href="javascript:;" data-dismiss="modal"   title=""  class="btn btn-danger btn-lg p-l-30 p-r-30 m-l-10">Continue Shopping</a>
+                                        <a href="javascript:;" data-dismiss="modal"   title=""  class="btn btn-danger btn-lg p-l-30 p-r-30 m-l-10">Check Another</a>
                                         <input type="submit" title="Pay using paypal"  class="btn btn-inverse btn-lg p-l-30 p-r-30 m-l-10" value="Checkout">
                                     </div>
                                     <!-- END checkout-body -->

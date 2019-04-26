@@ -43,8 +43,8 @@ a:active,a:focus,a:hover {
 }
 
 .top-nav {
-    background: #242A30;
-    z-index: 1040
+    background: #27B18F;
+    z-index: 1040;
 }
 
 .top-nav .nav>li>a {

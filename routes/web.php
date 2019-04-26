@@ -54,6 +54,9 @@ Route::group(['middleware' => ['authenticate']], function() {
 //    Route::get('order-cancel','manageOrder@index');
 //    Route::get('order-refund','manageOrder@index');
 //    Route::get('order-void','manageOrder@index');
+
+
+
     Route::get('orders','manageOrder@index');
 
     Route::get('inventory-remaining','manageInventory@index');
@@ -117,8 +120,8 @@ Route::resource('/','frontProductsController');
 
 Route::post('/loginSympiesAccount',function(\Illuminate\Http\Request $request){
 
-    $login = 'http://sympies.pupqc.net/getLogin.php';
-    $profile = 'http://sympies.pupqc.net/getProfileDetails.php';
+    $login = 'http://172.20.10.5/zax/getLogin.php';
+    $profile = 'http://172.20.10.5/zax/getProfileDetails.php';
 
     $actor = $request->actor;
     $password = $request->password;

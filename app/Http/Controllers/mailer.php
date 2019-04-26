@@ -11,12 +11,7 @@ class mailer extends Controller
 {
     public function sendEmailReminder()
     {
-        $objDemo = new \stdClass();
-        $objDemo->demo_one = 'Demo One Value';
-        $objDemo->demo_two = 'Demo Two Value';
-        $objDemo->sender = ' ';
-        $objDemo->receiver = 'ReceiverUserName';
 
-        Mail::to("kataga.pupqc@gmail.com")->send(new sympiesMailer($objDemo));
+        Mail::to("kataga.pupqc@gmail.com")->send(new sympiesMailer);
     }
 }

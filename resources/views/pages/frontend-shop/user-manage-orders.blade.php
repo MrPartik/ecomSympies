@@ -38,11 +38,11 @@
                                             $timediff = strtotime($today) - strtotime($pending_at);
                                         @endphp
                                         @if($status=='Pending' && $timediff < 86400)
-                                            <button data-target="#reqRefund-{{$item->ORD_ID}}" class="btn btn-warning" data-toggle="modal" title="Cancellation Request"><i class="fa fa-times"></i></button>
+                                            <button data-target="#reqCancel-{{$item->ORD_ID}}" class="btn btn-warning" data-toggle="modal" title="Cancellation Request"><i class="fa fa-times"></i></button>
                                         @endif
-                                        @if($status=='Completed')
-                                            <button data-target="#reqCancel-{{$item->ORD_ID}}"  class="btn btn-danger" data-toggle="modal" title="Refund Request"><i class="fa fa-exchange"></i></button>
-                                        @endif
+                                        {{--@if($status=='Completed')--}}
+                                            {{--<button data-target="#reqRefund-{{$item->ORD_ID}}"  class="btn btn-danger" data-toggle="modal" title="Refund Request"><i class="fa fa-exchange"></i></button>--}}
+                                        {{--@endif--}}
                                     </div>
                                     <a data-toggle="collapse" href="#order-{{$item->ORD_ID}}">
                                         <i class="fa fa-truck"></i>

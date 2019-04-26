@@ -6,8 +6,8 @@ Website: http://www.seantheme.com/color-admin-v4.0/frontend/e-commerce/
 */
 
 .btn.btn-theme {
-    background: #00acac;
-    border-color: #00acac;
+    background: #27B18F;
+    border-color: #27B18F;
     color: #fff;
 }
 .btn.btn-theme:hover,
@@ -26,30 +26,30 @@ Website: http://www.seantheme.com/color-admin-v4.0/frontend/e-commerce/
 .cart-item > li .price,
 .header-logo a span,
 a {
-    color: #00acac;
+    color: #27B18F;
 }
 .header-cart .total,
 .step.active .number:before {
-    background: #00acac;
+    background: #27B18F;
 }
 .header .dropdown-menu {
-    border-top-color: #00acac;
+    border-top-color: #27B18F;
 }
 .dropdown .arrow.top:after,
 .dropdown .arrow.top:before {
-    border-bottom-color: #00acac;
+    border-bottom-color: #27B18F;
 }
 a:hover,
 a:focus {
     /* color: #008a8a; */
 }
 .pace-progress {
-    background: #008a8a;
+    background: #27B18F;
 }
 .pace .pace-activity {
     border-top-color: #00acac;
     border-left-color: #00acac;
 }
 .header-logo .brand {
-    border-color: #4DCACA #31A3A3 #1D8888;
+    border-color: #4DCACA #31A3A3 #27B18F;
 }

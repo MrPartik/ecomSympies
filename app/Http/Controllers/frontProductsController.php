@@ -101,8 +101,10 @@ class frontProductsController extends Controller
 
     public function search(Request $request){
         $search = $request->get('search');
-        $price_from = $request->get('price_from');
-        $price_to = $request->get('price_to');
+        $price_from = ($request->get('price_from'))?
+            $request->get('price_from'):0;
+        $price_to = ($request->get('price_to'))?
+            $request->get('price_to'):5000;
 
         $Allprod = sympiesProvider::filterAvailable(r_product_info::with('rAffiliateInfo', 'rProductType')
             ->where('PROD_IS_APPROVED', '1')

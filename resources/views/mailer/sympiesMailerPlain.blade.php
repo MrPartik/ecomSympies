@@ -1,15 +1,6 @@
-Hello {{ $demo->receiver }},
-This is a demo email for testing purposes! Also, it's the HTML version.
-
-Demo object values:
-
-Demo One: {{ $demo->demo_one }}
-Demo Two: {{ $demo->demo_two }}
-
-Values passed by With method:
-
-testVarOne: {{ $testVarOne }}
-testVarOne: {{ $testVarOne }}
-
-Thank You,
-{{ $demo->sender }}
+<html>
+    <body>
+        <div style="padding:10px;background-color: black;color: white"><center>Sympies</center></div>
+        <p>Thank you for using sympies version 1, soon we release our new version of Sympies with fresh and new features and designs that make your mind blown away </p>
+    </body>
+</html>

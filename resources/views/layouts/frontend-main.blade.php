@@ -423,7 +423,9 @@
                                 }
                             }
                             ,error:function($data){
-                                swal("Error occured", $data, "error");
+                                $('div[id=success]').hide();
+                                $('div[id=danger]').show();
+                                // swal("Error occured", $data, "error");
 
                             }
                         });

@@ -11,7 +11,7 @@
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">Manage Users <small>...</small></h1>
+    <h1 class="page-header">Manage Affiliate <small>...</small></h1>
     <!-- end page-header -->
 
     <!-- begin row -->
