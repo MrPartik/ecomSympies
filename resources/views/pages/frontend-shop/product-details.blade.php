@@ -229,7 +229,18 @@
                                                         <div style="float: left; width: 50%">
                                                             <div class="panel-body panel-form">
                                                                 <form class="form-horizontal form-bordered">
-
+                                                                    <div class="form-group row">
+                                                                        <label class="col-md-4 col-form-label">Send Gift to:</label>
+                                                                        <div class="col-md-8">
+                                                                            <select class="form-control" id="recSympies" name="recSympies" style="width: 100%;" required >
+                                                                                <option value="0" disabled selected>Please Select Sympies User</option>
+                                                                                @foreach($sympiesUser as $item)
+                                                                                    <option value="{{$item->rac_accountid}}">{{$item->rac_username}}</option>
+                                                                                @endforeach
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <br>
                                                                     <div class="form-group row">
                                                                         <label class="col-md-4 col-form-label">Receiver's  Email</label>
                                                                         <div class="col-md-8">

@@ -407,12 +407,12 @@
                             url: "/loginSympiesAccount"
                             ,data:{
                                 _token:CSRF_TOKEN
-                                ,actor: $('input[id=username]').val()
+                                ,username: $('input[id=username]').val()
                                 ,password: $('input[id=password]').val()
                             }
                             ,type:'POST'
                             ,success:function($data){
-                                if($data.trim()=='true'){
+                                if(parseInt($data)){
                                     setTimeout(function(){
                                         location.reload();
                                     },500)

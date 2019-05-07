@@ -26,6 +26,10 @@ Route::group(['middleware' => ['authenticate']], function() {
         Route::post('/tax/actDeact','manageTax@actDeact');
         Route::resource('/currency','manageCurrency',['names'=>['index'=>'currency','create'=>'currency','edit'=>'currency']]);
 
+
+
+
+
     });
 
 
@@ -116,48 +120,8 @@ Route::get('/get/user-invoice/{id}',function($id){
 
 
 Route::resource('/','frontProductsController');
+Route::post('/loginSympiesAccount','sympiesUser@loginUser');
 
-
-Route::post('/loginSympiesAccount',function(\Illuminate\Http\Request $request){
-
-    $login = 'http://172.20.10.5/zax/getLogin.php';
-    $profile = 'http://172.20.10.5/zax/getProfileDetails.php';
-
-    $actor = $request->actor;
-    $password = $request->password;
-
-
-    $ch = curl_init();
-    curl_setopt($ch,CURLOPT_URL, $login);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, "username=$actor&&password=$password");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $login = curl_exec($ch);
-    curl_close($ch);
-
-    if($login=='true') {
-    $ch = curl_init();
-    curl_setopt($ch,CURLOPT_URL, $profile);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, "actor=$actor");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $result = json_decode(curl_exec($ch));
-    curl_close($ch);
-    $result = $result->profiledetails[0];
-        $account = Array(
-            "ID" => $result->rac_accountid,
-            "NAME" => $result->rac_username,
-            "CONTACT_NO" => $result->rac_pnumb,
-            "HOME_ADDRESS" => "",
-            "EMAIL" => $result->rac_email,
-        );
-        $get = Session::get('sympiesAccount');
-        Session::put('sympiesAccount', $account);
-    }
-
-    return $login;
-
-});
 
 Route::get('/logoutSympiesAccount/{id}',function($id){
 

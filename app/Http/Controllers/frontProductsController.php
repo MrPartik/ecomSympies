@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Providers\sympiesProvider;
+use App\r_account_credential;
 use App\t_order;
 use App\t_order_item;
 use App\t_product_variance;
@@ -191,11 +192,12 @@ class frontProductsController extends Controller
         $aff = r_affiliate_info::all();
         $cat = r_product_type::with('rProductType')->get();
 
+        $sympiesUser = r_account_credential::all();
 
         $Allprod = sympiesProvider::format($Allprod);
         $randProd = sympiesProvider::format($randProd);
         $getProd = sympiesProvider::format($getProd);
-        return view('pages.frontend-shop.product-details',compact('Allprod','aff','cat','randProd','getProd','getVar','id'));
+        return view('pages.frontend-shop.product-details',compact('Allprod','aff','cat','randProd','getProd','getVar','id','sympiesUser'));
     }
 
 
