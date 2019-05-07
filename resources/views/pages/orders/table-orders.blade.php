@@ -123,7 +123,7 @@
                                     </small><br>
                                 </td>
                                 <td style="background: {{$color}}"><center>{{$status}}</center></td>
-                                <td>{{ (new DateTime($item->created_at))->format('D M d, Y | h:i A') }}</td>
+                                <td data-sort="{{$item->created_at}}">{{ (new DateTime($item->created_at))->format('D M d, Y | h:i A') }}</td>
                                 <td>
                                     <center>
                                         <div class="btn-group">

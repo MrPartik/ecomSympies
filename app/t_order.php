@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int $ORD_ID
- * @property int $SYMPIES_ID
+ * @property int $ORD_TO_SYMPIES_ID
+ * @property int $ORD_FROM_SYMPIES_ID
  * @property string $ORD_SYMP_TRANS_CODE
  * @property string $ORD_TRANS_CODE
  * @property string $ORD_PAY_CODE
@@ -45,6 +46,6 @@ class t_order extends Model
     /**
      * @var array
      */
-    protected $fillable = ['SYMPIES_ID', 'ORD_SYMP_TRANS_CODE','ORD_PAY_CODE','ORD_STATUS', 'ORD_TRANS_CODE', 'ORD_FROM_NAME', 'ORD_TO_NAME', 'ORD_FROM_EMAIL', 'ORD_TO_EMAIL', 'ORD_FROM_CONTACT', 'ORD_TO_CONTACT', 'ORD_TO_ADDRESS', 'ORD_FUNDING', 'ORD_DISCOUNT', 'ORD_VOUCHER_CODE', 'ORD_COMPLETE', 'ORD_CANCELLED', 'ORD_DISPLAY_STATUS', 'created_at', 'updated_at'];
+    protected $fillable = ['ORD_TO_SYMPIES_ID','ORD_FROM_SYMPIES_ID', 'ORD_SYMP_TRANS_CODE','ORD_PAY_CODE','ORD_STATUS', 'ORD_TRANS_CODE', 'ORD_FROM_NAME', 'ORD_TO_NAME', 'ORD_FROM_EMAIL', 'ORD_TO_EMAIL', 'ORD_FROM_CONTACT', 'ORD_TO_CONTACT', 'ORD_TO_ADDRESS', 'ORD_FUNDING', 'ORD_DISCOUNT', 'ORD_VOUCHER_CODE', 'ORD_COMPLETE', 'ORD_CANCELLED', 'ORD_DISPLAY_STATUS', 'created_at', 'updated_at'];
 
 }

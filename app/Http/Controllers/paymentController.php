@@ -199,6 +199,7 @@ class paymentController extends Controller
             'prodName'=>$prodName,
             'prodDesc'=>$prodDesc,
             'prodImg'=>$request->prodIMG,
+            'sympiesTo'=>$request->get('recSympies'),
             'paypal_payment_id'=>$payment->getId(),
             'prod_note'=>$request->prodnote,
             'to_email'=>$request->to_email,
@@ -260,7 +261,8 @@ class paymentController extends Controller
                 $sympiesCred = Session::get('sympiesAccount');
 
                 $order = new t_order();
-                $order->SYMPIES_ID = $sympiesCred['ID'];
+                $order->ORD_FROM_SYMPIES_ID = $sympiesCred['ID'];
+                $order->ORD_TO_SYMPIES_ID = $paypal_details['sympiesTo'];
                 $order->ORD_SYMP_TRANS_CODE = $transcode;
                 $order->ORD_PAY_CODE = $payment_id;
                 $order->ORD_TRANS_CODE = $payment_info->id;

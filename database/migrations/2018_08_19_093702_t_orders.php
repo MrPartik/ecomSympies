@@ -17,7 +17,8 @@ class TOrders extends Migration
             $table->engine= "INNODB";
 
             $table->increments("ORD_ID");
-            $table->unsignedInteger("SYMPIES_ID")->nullable();
+            $table->unsignedInteger("ORD_FROM_SYMPIES_ID")->nullable();
+            $table->unsignedInteger("ORD_TO_SYMPIES_ID")->nullable();
             $table->text("ORD_SYMP_TRANS_CODE");
             $table->text("ORD_TRANS_CODE");
             $table->text("ORD_PAY_CODE");
