@@ -405,8 +405,8 @@
         });
 
         function updateCart(){
-            setTimeout(function() {
-                $qty = $('input[id=qty]').val();
+                setTimeout(function() {
+                    $qty = $('input[id=qty]').val();
                 $total = $('td[id=cart-price]').attr('val') * $qty;
                 if(!$percent) {
                     $computed = $total + $delivery + $fixed;

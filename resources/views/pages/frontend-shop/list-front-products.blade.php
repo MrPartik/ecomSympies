@@ -416,7 +416,7 @@
                 $btn = $(this);
                 $id = $($btn).attr('value');
                 $.ajax({
-                    url: '/getProd/Category/'+$id
+                    url:    '/getProd/Category/'+$id
                     ,type: 'get'
                     ,data: {_token:CSRF_TOKEN }
                     ,dataType:'json'

@@ -64,5 +64,6 @@ class Kernel extends HttpKernel
         'authenticate' => \App\Http\Middleware\Authenticate::class,
         'isAdmin' => isAdmin::class,
         'isSympiesUser' => isSympiesUser::class,
+
     ];
 }
